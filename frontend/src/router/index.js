@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import Login from "../components/Login.vue"
 import Form from "../components/Form.vue"
 import Home from "../components/Home.vue"
+import ComponiDieta from "../components/ComponiDieta.vue"
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: "/componi-dieta",
+    name: "ComponiDieta",
+    component: ComponiDieta
   }
 ]
 
