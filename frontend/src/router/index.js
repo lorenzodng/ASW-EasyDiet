@@ -35,3 +35,6 @@ const router = createRouter({
 })
 
 export default router
+
+
+//sarebbero da dividere le pagine dai componenti e modificare i path 
