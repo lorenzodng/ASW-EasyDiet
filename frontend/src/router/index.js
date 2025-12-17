@@ -1,8 +1,9 @@
 //rotte vue router
 
 import { createRouter, createWebHistory } from "vue-router"
-import Home from "../components/Home.vue"
 import Login from "../components/Login.vue"
+import Form from "../components/Form.vue"
+import Home from "../components/Home.vue"
 
 const routes = [
   {
@@ -11,9 +12,14 @@ const routes = [
     component: Login //componente mostrato
   },
   {
-    path: '/home', 
-    name: 'Home', 
-    component: Home 
+    path: "/form",
+    name: "Form",
+    component: Form
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home
   }
 ]
 
