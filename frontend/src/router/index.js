@@ -8,8 +8,12 @@ import ComponiDieta from "../components/ComponiDieta.vue"
 
 const routes = [
   {
-    path: '/', //percorso (url di default)
-    name: 'Login',  //nome assegnato alla rotta
+    path: "/", //all'apertura della web app 
+    redirect: "/login" //reindirizza automaticamente a /login
+  },
+  {
+    path: "/login", //percorso (url di default)
+    name: "Login",  //nome assegnato alla rotta
     component: Login //componente mostrato
   },
   {
@@ -18,8 +22,8 @@ const routes = [
     component: Form
   },
   {
-    path: '/home',
-    name: 'Home',
+    path: "/home",
+    name: "Home",
     component: Home
   },
   {

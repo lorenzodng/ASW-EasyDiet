@@ -14,7 +14,7 @@
     eta: "",
     peso: "",
     altezza: "",
-    livelloAttivita: "",
+    livelloAttivitaFisica: "",
     obiettivo: ""
   });
 
@@ -27,7 +27,8 @@
       !userInfo.eta ||
       !userInfo.peso ||
       !userInfo.altezza ||
-      !userInfo.livelloAttivita ||
+      !userInfo.livelloAttivitaFisica
+      ||
       !userInfo.obiettivo
     ) {
       alert("Compila tutti i campi");
@@ -91,7 +92,8 @@
 
       <div class="form-group">
         <label>Livello di attività fisica</label>
-        <select v-model="userInfo.livelloAttivita" required>
+        <select v-model="userInfo.livelloAttivitaFisica
+          " required>
           <option disabled value="">Seleziona</option>
           <option value="basso">Basso</option>
           <option value="moderato">Moderato</option>
