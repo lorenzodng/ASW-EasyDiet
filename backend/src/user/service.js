@@ -27,7 +27,7 @@ export const loginUser = async (userData) => {
         status: true,
         message: "User validated",
         hasProfileInfo: !!profile, //"!!" converte "profile" in un boolean
-        userId: foundUser._id
+        userId: foundUser._id.toString()
     };
 }
 

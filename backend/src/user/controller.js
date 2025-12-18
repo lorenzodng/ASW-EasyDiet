@@ -11,7 +11,9 @@ export const logincontroller = async (req, res) => {
         if (result.status) {
             res.send({
                 "status": true,
-                "message": result.message
+                "message": result.message,
+                "userId": result.userId,
+                "hasProfileInfo": result.hasProfileInfo
             });
         } else {
             res.send({
@@ -24,6 +26,8 @@ export const logincontroller = async (req, res) => {
     }
 }
 
+
+//salvataggio dei dati dell'utente del db
 export const saveUserInfoController = async (req, res) => {
     try {
         const profileInfo = req.body;
