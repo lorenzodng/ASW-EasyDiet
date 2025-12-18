@@ -24,7 +24,7 @@ const vaiAComponiDieta = () => {
     <NavBar />
     <div class="actions">
       <button @click="vaiAComponiDieta">
-        Componi Dieta
+       ➕  Componi Dieta
       </button>
     </div>
     <AreaDieta />
