@@ -1,11 +1,12 @@
 <script setup>
-defineProps({
+const props = defineProps({
   username: {
     type: String,
     required: true
   }
 });
 </script>
+
 
 <template>
   <header class="header">
@@ -14,7 +15,7 @@ defineProps({
     </div>
 
     <div class="user">
-      Ciao, <strong>{{ username }}</strong>
+      Ciao, <strong>{{ props.username }}</strong>
     </div>
   </header>
 </template>
