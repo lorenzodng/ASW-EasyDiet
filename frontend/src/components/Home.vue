@@ -1,13 +1,16 @@
 <!-- componente home -->
 
 <script setup>
-import HeaderUser from "@/components/HeaderUser.vue";
-import NavBar from "@/components/NavBar.vue"; 
+import NavBar from "./NavBar.vue"; 
 import AreaDieta from "./AreaDieta.vue";
 
 import { useRouter } from "vue-router";
+import HeaderHome from "./HeaderHome.vue";
 
 const router = useRouter();
+const user = JSON.parse(localStorage.getItem("user"));  //local storage per fissare il nome anche quando si ricarica la pagina 
+const username = user && user.nome ? user.nome : "Utente"; //se user esiste dammi un nome altrimenti dammi utente 
+
 
 const vaiAComponiDieta = () => {
   router.push({ name: "ComponiDieta" });
@@ -17,7 +20,7 @@ const vaiAComponiDieta = () => {
 
 <template>
   <div class="home-container">
-    <HeaderUser />
+    <HeaderHome :username="username"/>  <!--passo la variabile al componente-->
     <NavBar />
     <div class="actions">
       <button @click="vaiAComponiDieta">
