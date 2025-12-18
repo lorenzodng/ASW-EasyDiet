@@ -38,7 +38,7 @@
     try {
       const { data } = await axios.post("http://localhost:5000/user/setup", userInfo);
 
-      if (data.status) {
+      if (data.status) {//se il backend risponde 
         alert("Dati salvati con successo");
         router.push({ name: "Home" });
       } else {
