@@ -18,13 +18,16 @@ const logout = () => {
 
 <template>
   <div class="navbar">
-    <button class="hamburger" @click="toggleMenu">
+    <button class="hamburger" @click="Menu">
       ☰
     </button>
 
     
     <div v-if="isOpen" class="menu">
-      <router-link to="/form" @click="Menu">Info personali</router-link>
+      <router-link to="/home" @click="Menu">Home</router-link>
+      <router-link to="/informazioni-personali" @click="Menu">Info personali</router-link>
+      <router-link :to="{ name: 'ComponiDieta' }" @click="Menu">Componi Dieta</router-link>
+
 
       <button class="logout" @click="logout">Logout</button>
     </div>
