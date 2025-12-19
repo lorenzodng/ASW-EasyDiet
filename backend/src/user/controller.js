@@ -12,7 +12,7 @@ export const logincontroller = async (req, res) => {
             res.send({
                 "status": true,
                 "message": result.message,
-                "userId": result.userId,
+                "user": result.user,
                 "hasProfileInfo": result.hasProfileInfo
             });
         } else {
