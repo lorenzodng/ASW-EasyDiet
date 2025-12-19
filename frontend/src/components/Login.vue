@@ -2,10 +2,12 @@
 
 <script setup>
   import { reactive } from "vue";
-  import axios from "axios";
   import { useRouter } from "vue-router";
+  import { useUserStore } from '../stores/user'
+  import axios from "axios";
 
   const router = useRouter(); //utilizza vue-rotuer per passare a una nuova pagina dopo il login
+  const userStore = useUserStore() //utilizza lo store di pinia definito
 
   //oggetto di variabili reattive
   const user = reactive({
@@ -19,8 +21,9 @@
       const { data } = await axios.post("http://localhost:5000/login", user); //invia una post all'url del server (backend), specificando come corpo l'oggetto user
 
       if (data.status) {
-        localStorage.setItem("userId", data.userId); //salva nella memoria del browser "data.userId" sotto il nome del campo "userId"
+        userStore.setUser(data.user) //salva nella memoria dello store le informazioni dell'utente
         alert("Login effettuato con successo");
+
         if (data.hasProfileInfo) {
           router.push({ name: "Home" }); //passa al componente home
         } else {

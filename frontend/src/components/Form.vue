@@ -2,14 +2,16 @@
 
 <script setup>
   import { reactive } from "vue";
-  import axios from "axios";
   import { useRouter } from "vue-router";
+  import { useUserStore } from '../stores/user'
+  import axios from "axios";
 
   const router = useRouter();
+  const userStore = useUserStore()
 
   //oggetto di variabili reattive
   const userInfo = reactive({
-    userId: localStorage.getItem("userId"), //recupera dalla memoria del browser l'id dell'account dell'utente
+    userId: userStore.id,
     sesso: "",
     eta: "",
     peso: "",
@@ -91,8 +93,7 @@
 
       <div class="form-group">
         <label>Livello di attività fisica</label>
-        <select v-model="userInfo.livelloAttivitaFisica
-          " required>
+        <select v-model="userInfo.livelloAttivitaFisica" required>
           <option disabled value="">Seleziona</option>
           <option value="basso">Basso</option>
           <option value="moderato">Moderato</option>
