@@ -30,6 +30,11 @@ const routes = [
     path: "/componi-dieta",
     name: "ComponiDieta",
     component: ComponiDieta
+  },
+  {
+    path: "/informazioni-personali",
+    name: "InformazioniPersonali",
+    component: InformazioniPersonali
   }
 ]
 
