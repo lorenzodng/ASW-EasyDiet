@@ -5,6 +5,7 @@ import Login from "../components/Login.vue"
 import Form from "../components/Form.vue"
 import Home from "../components/Home.vue"
 import ComponiDieta from "../components/ComponiDieta.vue"
+import InformazioniPersonali from "../components/InformazioniPersonali.vue"
 
 const routes = [
   {

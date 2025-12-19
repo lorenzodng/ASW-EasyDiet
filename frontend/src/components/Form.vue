@@ -27,8 +27,7 @@
       !userInfo.eta ||
       !userInfo.peso ||
       !userInfo.altezza ||
-      !userInfo.livelloAttivitaFisica
-      ||
+      !userInfo.livelloAttivitaFisica ||
       !userInfo.obiettivo
     ) {
       alert("Compila tutti i campi");

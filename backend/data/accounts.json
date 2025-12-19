@@ -1,12 +1,24 @@
 [
   {
-    "name": "Mario",
+    "nome": "Mario",
     "email": "mario.rossi@gmail.com",
-    "password": "password1"
+    "password": "password1",
+    "ruolo": "utente"
   },
   {
-    "name": "Giulia",
+    "nome": "Giulia",
     "email": "giulia.verdi@gmail.com",
-    "password": "password2"
+    "password": "password2",
+    "ruolo": "utente"
+  },
+  {
+    "nome": "Marco",
+    "token": 123,
+    "ruolo": "admin"
+  },
+  {
+    "nome": "Maria",
+    "token": 456,
+    "ruolo": "admin"
   }
 ]
