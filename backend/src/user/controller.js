@@ -1,6 +1,8 @@
 //controller per raggiungere il servizio
 
 import * as service from "./service.js";
+import UserInfo from "./infoModel.js";
+
 
 //login
 export const logincontroller = async (req, res) => {
@@ -51,5 +53,22 @@ export const saveUserInfoController = async (req, res) => {
             message: "Errore nel salvataggio del profilo"
         });
     }
+}
+
+export const getUserInfoController = async (req, res) => {
+  try {
+    const userId = req.params.userId; //dal frontend
+
+    const info = await UserInfo.findOne({ userId });
+
+    if (!info) {
+      return res.status(404).json({ message: "Info non trovate" });
+    }
+
+    res.json(info);
+  } catch (err) {
+    res.status(500).json({ message: "Errore server" });
+  }
 };
+
 
