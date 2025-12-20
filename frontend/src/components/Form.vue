@@ -38,6 +38,7 @@
 
     try {
       const { data } = await axios.post("http://localhost:5000/user/setup", userInfo);
+      const { kcal } = await axios.post("http://localhost:5000/user-info/kcal", userInfo.id);
 
       if (data.status) {//se il backend risponde 
         alert("Dati salvati con successo");
@@ -49,6 +50,8 @@
       alert("Errore nel salvataggio dei dati");
       console.error(err);
     }
+
+    
   };
 </script>
 

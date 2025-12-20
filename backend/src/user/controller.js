@@ -28,7 +28,6 @@ export const logincontroller = async (req, res) => {
     }
 }
 
-
 //salvataggio dei dati dell'utente del db
 export const saveUserInfoController = async (req, res) => {
     try {
@@ -59,7 +58,7 @@ export const getUserInfoController = async (req, res) => {
   try {
     const userId = req.params.userId; //dal frontend
 
-    const info = await UserInfo.findOne({ userId });
+    const info = await getUserInfo(userId);
 
     if (!info) {
       return res.status(404).json({ message: "Info non trovate" });
@@ -69,6 +68,24 @@ export const getUserInfoController = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Errore server" });
   }
-};
+}
 
+export const kcalCalculator = async (userId) => {
+    try {
+        const info = await getUserInfo(userId);
+
+        if(info.obiettivo.equals("dimagrimento")){
+            const bmr = BMR(info.peso, info.sesso, info.altezza, info.eta);
+            const tdee = TDEE(bmr, info.livelloAttivitaFisica);
+
+        }else if(info.obiettivo.equals("mantenimento")){
+            
+
+        }else if(info.obiettivo.equals("aumento_peso")){
+
+        }
+    }catch {
+
+    }
+}
 

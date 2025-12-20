@@ -7,20 +7,16 @@ import { useUserStore } from "../stores/user"
 import { useRouter } from "vue-router"
 import HeaderHome from "./HeaderHome.vue"
 
-
-
 const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
 //console.log("USER ID:", userStore.id)
 const router = useRouter()
 const info = ref(null)
-const loading = ref(true)  //perchè quando il componente nasce sta caricando 
+const loading = ref(true) //perchè quando il componente nasce sta caricando 
 const error = ref(null)
 
 onMounted(async () => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/user-info/${userStore.id}`
-    )
+    const res = await axios.get(`http://localhost:5000/user-info/${userStore.id}`)
     info.value = res.data
   } catch (err) {
     error.value = "Impossibile caricare le informazioni personali"

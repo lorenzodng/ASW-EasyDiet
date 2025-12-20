@@ -52,3 +52,14 @@ export const saveUserInfo = async (profileInfo) => {
         return { status: false, message: err.message };
     }
 };
+
+//recupera le informazioni dell'utente
+export const getUserInfo = async (userId) => {
+  const info = await UserInfo.findOne({ userId });
+  if (!info) {
+    throw new Error("Info non trovate");
+  }
+  return info;
+};
+
+
