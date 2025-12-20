@@ -58,7 +58,7 @@ export const getUserInfoController = async (req, res) => {
   try {
     const userId = req.params.userId; //dal frontend
 
-    const info = await getUserInfo(userId);
+    const info = await UserInfo.findOne({ userId });
 
     if (!info) {
       return res.status(404).json({ message: "Info non trovate" });
