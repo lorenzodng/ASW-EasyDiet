@@ -4,10 +4,12 @@
 import { ref, onMounted } from "vue"
 import axios from "axios"
 import { useUserStore } from "../stores/user"
+import { useRouter } from "vue-router"
+
 
 const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
-console.log("USER ID:", userStore.id)
-
+//console.log("USER ID:", userStore.id)
+const router = useRouter()
 const info = ref(null)
 const loading = ref(true)  //perchè quando il componente nasce sta caricando 
 const error = ref(null)
@@ -24,6 +26,10 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const modifica =()=>{
+  router.push({name:"Form"})
+}
 </script>
 
 <template>
@@ -45,6 +51,11 @@ onMounted(async () => {
       <p><strong>Obiettivo:</strong> {{ info.obiettivo }}</p>
       <p><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
     </div>
+    <div class="actions">
+      <button @click="modifica">
+        ✏️ Modifica Informazioni 
+      </button>
+    </div>
   </div>
 </template>
 
@@ -53,5 +64,11 @@ onMounted(async () => {
   max-width: 600px;
   margin: auto;
   padding: 20px;
+}
+button {
+  margin-top: 20px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>

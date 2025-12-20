@@ -3,7 +3,6 @@
 <script setup>
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
-  import NavBar from "./NavBar.vue";
   import AreaDieta from "./AreaDieta.vue";
   import HeaderHome from "./HeaderHome.vue";
 
@@ -20,7 +19,6 @@
 <template>
   <div class="home-container">
     <HeaderHome :userName="userName" /> <!--passo la variabile al componente-->
-    <NavBar />
     <div class="actions">
       <button @click="vaiAComponiDieta">
         ➕ Componi Dieta
@@ -32,8 +30,9 @@
 
 <style scoped>
   .home-container {
-    min-height: 100vh;
-  }
+  width: 100%;
+  min-height: 100vh;
+}
 
   .actions {
     text-align: center;
