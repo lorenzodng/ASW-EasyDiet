@@ -5,6 +5,8 @@ import { ref, onMounted } from "vue"
 import axios from "axios"
 import { useUserStore } from "../stores/user"
 import { useRouter } from "vue-router"
+import HeaderHome from "./HeaderHome.vue"
+
 
 
 const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
@@ -33,6 +35,8 @@ const modifica =()=>{
 </script>
 
 <template>
+  <div>
+    <HeaderHome :userName="userStore.nome" />
   <div class="info-container">
     <h2>Informazioni personali</h2>
 
@@ -56,6 +60,7 @@ const modifica =()=>{
         ✏️ Modifica Informazioni 
       </button>
     </div>
+  </div>
   </div>
 </template>
 
