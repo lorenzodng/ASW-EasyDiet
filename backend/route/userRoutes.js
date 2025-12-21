@@ -1,4 +1,4 @@
-//rotte
+//rotte utenti
 
 import express from "express"
 import * as controller from "../src/user/controller.js";

@@ -1,8 +1,6 @@
-//controller per raggiungere il servizio
+//controller che gestisce le richieste sull'utente
 
 import * as service from "./service.js";
-import UserInfo from "./infoModel.js";
-import AccountInfo from "./accountModel.js";
 
 //login
 export const loginController = async (req, res) => {
@@ -26,9 +24,9 @@ export const loginController = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-}
+};
 
-//salvataggio dei dati dell'utente del db
+//salvataggio dei dati dell'utente
 export const saveUserProfileInfoController = async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -53,13 +51,14 @@ export const saveUserProfileInfoController = async (req, res) => {
             message: "Errore nel salvataggio del profilo"
         });
     }
-}
+};
 
+//recupero delle informazioni del'utente
 export const getUserProfileInfoController = async (req, res) => {
     try {
         const userId = req.params.userId;
 
-        const info = await UserInfo.findOne({ userId });
+        const info = await service.getUserProfileInfo(userId);
 
         if (!info) {
             return res.status(404).json({ message: "Info non trovate" });
@@ -69,4 +68,5 @@ export const getUserProfileInfoController = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: "Errore server" });
     }
-}
+};
+

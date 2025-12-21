@@ -1,4 +1,4 @@
-//struttura degli utenti nel db
+//struttura dell'account utente
 
 import mongoose from "mongoose";
 

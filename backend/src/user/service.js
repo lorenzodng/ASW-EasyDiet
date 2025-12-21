@@ -1,4 +1,4 @@
-//servizio principale
+//servizio che esegue le richieste sull'utente
 
 import UserAccount from "./accountModel.js";
 import UserInfo from "./infoModel.js";
@@ -32,6 +32,11 @@ export const loginUser = async (userData) => {
             nome: foundUser.nome
         }
     };
+};
+
+//recupera le informazioni personali
+export const getUserProfileInfo = async (userId) => {
+    return await UserInfo.findOne({ userId });
 };
 
 //salvataggio delle informazioni personali

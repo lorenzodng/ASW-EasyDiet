@@ -20,7 +20,7 @@
   });
 
   //metodo per salvare i dati del form
-  const submitData = async () => {
+  const saveInfo = async () => {
 
     //verifica dell'inserimenti di tutti i valori nei campi
     if (
@@ -49,15 +49,13 @@
       alert("Errore nel salvataggio dei dati");
       console.error(err);
     }
-
-
   };
 </script>
 
 <template>
   <div class="container">
     <h2>Completa il tuo profilo</h2>
-    <form @submit.prevent="submitData">
+    <form @submit.prevent="saveInfo">
 
       <div class="form-group">
         <label>Età</label>
