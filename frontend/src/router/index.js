@@ -6,16 +6,22 @@ import Form from "../components/Form.vue"
 import Home from "../components/Home.vue"
 import ComponiDieta from "../components/ComponiDieta.vue"
 import InformazioniPersonali from "../components/InformazioniPersonali.vue"
+import Welcome from "../components/Welcome.vue"
 
 const routes = [
   {
     path: "/", //all'apertura della web app 
-    redirect: "/login" //reindirizza automaticamente a /login
+    redirect: "/welcome" //reindirizza automaticamente a /login
   },
   {
     path: "/login", //percorso (url di default)
     name: "Login",  //nome assegnato alla rotta
     component: Login //componente mostrato
+  },
+  {
+    path: "/welcome",
+    name: "Welcome",
+    component: Welcome
   },
   {
     path: "/form",
