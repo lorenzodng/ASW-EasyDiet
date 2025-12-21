@@ -19,13 +19,11 @@
   const loginData = async () => {
     try {
       const { data } = await axios.post("http://localhost:5000/login", user); //invia una post all'url del server (backend), specificando come corpo l'oggetto user
-
       if (data.status) {
         userStore.setUser(data.user) //salva nella memoria dello store le informazioni dell'utente
         alert("Login effettuato con successo");
-
         if (data.hasProfileInfo) {
-          router.push({ name: "Home" }); //passa al componente home
+          router.push({ name: "Home" }); //passa al componente home passandogli il parametro id
         } else {
           router.push({ name: "Form" }); //passa al componente form utente
         }
@@ -68,4 +66,4 @@
 
 
 
-<!--completare con boddone per admin e login admi-->
+<!--completare con bottone per admin e login admin-->

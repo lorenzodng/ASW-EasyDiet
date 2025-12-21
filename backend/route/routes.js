@@ -5,10 +5,9 @@ import * as controller from "../src/user/controller.js";
 
 const router = express.Router();
 
-router.post('/login', controller.logincontroller); //rotta di login
-router.post('/user/setup', controller.saveUserInfoController); //rotta del form
-router.get('/user-info/:userId', controller.getUserInfoController); //rotta per visualizzare le informazioni personali
-router.get('/user-info/kcal', controller.kcalCalculator); //rotta per visualizzare le informazioni personali
+router.post('/login', controller.loginController); //rotta di login
+router.post('/users/:userId/profile', controller.saveUserProfileInfoController); //rotta per creare il profilo dal form
+router.get('/users/:userId/profile', controller.getUserProfileInfoController); //rotta per visualizzare le informazioni del profilo
 
 export default router;
 

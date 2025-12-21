@@ -7,12 +7,8 @@ export const useUserStore = defineStore('user', {
     }),
     actions: { //metodi sui dati
         setUser(user) {
-            this.id = user.id
-            this.nome = user.nome
-        },
-        clearUser() {
-            this.id = null
-            this.nome = null
+            this.id = user.id;
+            this.nome = user.nome;
         }
     }
 })

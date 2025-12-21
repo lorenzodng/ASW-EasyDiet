@@ -1,10 +1,22 @@
 <script setup>
-  import { reactive } from "vue";
-  import axios from "axios";
+  import { reactive, ref, onMounted } from "vue";
   import { useRouter } from "vue-router";
+  import { useUserStore } from '../stores/user'
+  import axios from "axios";
 
   const router = useRouter();
-  
+  const userStore = useUserStore();
+
+  const giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
+
+  //pasti per categoria
+  const pastiPerCategoria = reactive({
+    colazione: [],
+    pranzo: [],
+    merenda: [],
+    cena: []
+  });
+
 </script>
 
 <template>
@@ -14,6 +26,4 @@
 </template>
 
 
-<style scoped>
-
-</style>
+<style scoped></style>

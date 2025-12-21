@@ -3,12 +3,13 @@
 <script setup>
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
+  import { computed } from "vue";
   import AreaDieta from "./AreaDieta.vue";
   import HeaderHome from "./HeaderHome.vue";
 
   const router = useRouter();
   const userStore = useUserStore()
-  const userName = userStore.nome
+  const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
 
   const vaiAComponiDieta = () => {
     router.push({ name: "ComponiDieta" });
@@ -30,9 +31,9 @@
 
 <style scoped>
   .home-container {
-  width: 100%;
-  min-height: 100vh;
-}
+    width: 100%;
+    min-height: 100vh;
+  }
 
   .actions {
     text-align: center;

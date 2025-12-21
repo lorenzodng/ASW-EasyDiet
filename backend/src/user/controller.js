@@ -2,10 +2,10 @@
 
 import * as service from "./service.js";
 import UserInfo from "./infoModel.js";
-
+import AccountInfo from "./accountModel.js";
 
 //login
-export const logincontroller = async (req, res) => {
+export const loginController = async (req, res) => {
     var result = null;
     try {
         console.log(req.body);
@@ -29,10 +29,11 @@ export const logincontroller = async (req, res) => {
 }
 
 //salvataggio dei dati dell'utente del db
-export const saveUserInfoController = async (req, res) => {
+export const saveUserProfileInfoController = async (req, res) => {
     try {
+        const userId = req.params.userId;
         const profileInfo = req.body;
-        const result = await service.saveUserInfo(profileInfo);
+        const result = await service.saveUserProfileInfo(userId, profileInfo);
 
         if (result.status) {
             res.send({
@@ -54,38 +55,18 @@ export const saveUserInfoController = async (req, res) => {
     }
 }
 
-export const getUserInfoController = async (req, res) => {
-  try {
-    const userId = req.params.userId; //dal frontend
-
-    const info = await UserInfo.findOne({ userId });
-
-    if (!info) {
-      return res.status(404).json({ message: "Info non trovate" });
-    }
-
-    res.json(info);
-  } catch (err) {
-    res.status(500).json({ message: "Errore server" });
-  }
-}
-
-export const kcalCalculator = async (userId) => {
+export const getUserProfileInfoController = async (req, res) => {
     try {
-        const info = await getUserInfo(userId);
+        const userId = req.params.userId;
 
-        if(info.obiettivo.equals("dimagrimento")){
-            const bmr = BMR(info.peso, info.sesso, info.altezza, info.eta);
-            const tdee = TDEE(bmr, info.livelloAttivitaFisica);
+        const info = await UserInfo.findOne({ userId });
 
-        }else if(info.obiettivo.equals("mantenimento")){
-            
-
-        }else if(info.obiettivo.equals("aumento_peso")){
-
+        if (!info) {
+            return res.status(404).json({ message: "Info non trovate" });
         }
-    }catch {
 
+        res.json(info);
+    } catch (err) {
+        res.status(500).json({ message: "Errore server" });
     }
 }
-

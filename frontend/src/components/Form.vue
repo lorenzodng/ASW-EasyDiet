@@ -7,17 +7,16 @@
   import axios from "axios";
 
   const router = useRouter();
-  const userStore = useUserStore()
+  const userStore = useUserStore();
 
   //oggetto di variabili reattive
   const userInfo = reactive({
-    userId: userStore.id,
-    sesso: "",
     eta: "",
     peso: "",
+    sesso: "",
     altezza: "",
-    livelloAttivitaFisica: "",
-    obiettivo: ""
+    obiettivo: "",
+    livelloAttivitaFisica: ""
   });
 
   //metodo per salvare i dati del form
@@ -25,20 +24,20 @@
 
     //verifica dell'inserimenti di tutti i valori nei campi
     if (
-      !userInfo.sesso ||
       !userInfo.eta ||
       !userInfo.peso ||
+      !userInfo.sesso ||
       !userInfo.altezza ||
-      !userInfo.livelloAttivitaFisica ||
-      !userInfo.obiettivo
+      !userInfo.obiettivo ||
+      !userInfo.livelloAttivitaFisica
+
     ) {
       alert("Compila tutti i campi");
       return;
     }
 
     try {
-      const { data } = await axios.post("http://localhost:5000/user/setup", userInfo);
-      const { kcal } = await axios.post("http://localhost:5000/user-info/kcal", userInfo.id);
+      const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, userInfo)
 
       if (data.status) {//se il backend risponde 
         alert("Dati salvati con successo");
@@ -51,7 +50,7 @@
       console.error(err);
     }
 
-    
+
   };
 </script>
 
