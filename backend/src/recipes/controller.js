@@ -5,7 +5,7 @@ import * as service from "./service.js";
 //recupero delle ricette
 export const getRecipesController = async (req, res) => {
     try {
-        const recipes = await service.getAllRecipes();
+        const recipes = await service.getRecipes();
         res.json(recipes);
     } catch (err) {
         console.error(err);

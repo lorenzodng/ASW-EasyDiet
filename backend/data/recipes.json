@@ -321,7 +321,7 @@
             }
         ]
     },
-   {
+    {
         "nome": "Formaggio e cracker",
         "categoria": "merenda",
         "ingredienti": [
@@ -350,8 +350,8 @@
         ]
     },
     {
-        "nome": "",
-        "categoria": "Toast prosciutto e formaggio",
+        "nome": "Toast prosciutto e formaggio",
+        "categoria": "merenda",
         "ingredienti": [
             {
                 "nome": "pane",
@@ -421,7 +421,7 @@
         "ingredienti": [
             {
                 "nome": "petto di pollo",
-                "peso":150,
+                "peso": 150,
                 "kcal": 165
             },
             {
@@ -448,7 +448,7 @@
             }
         ]
     },
-     {
+    {
         "nome": "Hummus e verdure",
         "categoria": "cena",
         "ingredienti": [
