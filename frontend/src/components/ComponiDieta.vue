@@ -97,7 +97,6 @@
 
 <template>
   <div class="componi-dieta">
-
     <h1>Componi Dieta</h1>
 
     <!-- Giorno corrente -->
@@ -106,69 +105,110 @@
     </h2>
 
     <!-- Pasti -->
-    <!-- per ogni categoria di pasto -->
-    <div v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']" :key="meal" class="meal-block">
+    <div
+      v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']"
+      :key="meal"
+      class="meal-block"
+    >
       <h3>{{ meal }}</h3>
 
-      <div v-for="ricetta in mealsByType[meal]" :key="ricetta._id" class="recipe-option">
-        <!-- per ricetta in ogni categoria di pasto -->
+      <!-- Ricette del pasto -->
+      <div
+        v-for="ricetta in mealsByType[meal]"
+        :key="ricetta._id"
+        class="recipe-option"
+      >
+        <!-- Header ricetta -->
         <div class="recipe-header">
           <label>
-            <!-- permette una sola scelta per pasto (costruisce la selezione) -->
-            <input type="radio" :name="`${currentDay}-${meal}`" :value="ricetta" v-model="userDiet[currentDay][meal]" />
+            <input
+              type="radio"
+              :name="`${currentDay}-${meal}`"
+              :value="ricetta"
+              v-model="userDiet[currentDay][meal]"
+            />
             {{ ricetta.nome }}
           </label>
 
-          <!-- costruise il menu a scomparsa -->
-          <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
+          <button
+            class="toggle-btn"
+            @click="toggleRecipe(ricetta._id)"
+          >
             {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
           </button>
         </div>
 
-        <!-- riempie il menu con gli ingredienti -->
-        <div v-if="openRecipes.has(ricetta._id)" class="recipe-details">
+        <!-- Dettagli ricetta -->
+        <div
+          v-if="openRecipes.has(ricetta._id)"
+          class="recipe-details"
+        >
           <p><strong>Ingredienti:</strong></p>
+
           <ul>
-            <li v-for="(ing, i) in ricetta.ingredienti" :key="i">
+            <li
+              v-for="(ing, i) in ricetta.ingredienti"
+              :key="i"
+            >
               {{ ing.nome }} : {{ ing.peso }} g
             </li>
           </ul>
 
-          <!-- Note / Info -->
-          <div v-if="ricetta.info && ricetta.info.length">
+          <!-- NOTE (sempre visibili se info esiste) -->
+          <div
+            v-if="ricetta.info"
+            class="recipe-info"
+          >
             <strong>Note:</strong>
+
             <ul>
-              <li v-for="(infoObj, i) in ricetta.info" :key="i">
-                <span v-for="(value, key) in infoObj" :key="key"
-                  v-if="typeof value === 'string' && value.trim() !== ''">
-                  {{ value }}
-                </span>
+              <li>
+                {{ ricetta.info[0].descrizioneKcal }}
+              </li>
+
+              <li>
+                {{ ricetta.info[1].descrizioneTipoDieta }}
+              </li>
+
+              <li>
+                {{ ricetta.info[2].descrizioneIntolleranze }}
               </li>
             </ul>
           </div>
-
         </div>
       </div>
     </div>
 
     <!-- Navigazione giorni -->
     <div class="navigation">
-      <button @click="selectedDayIndex--" :disabled="selectedDayIndex === 0">
+      <button
+        @click="selectedDayIndex--"
+        :disabled="selectedDayIndex === 0"
+      >
         ← Giorno precedente
       </button>
 
-      <button @click="selectedDayIndex++" :disabled="selectedDayIndex === days.length - 1">
+      <button
+        @click="selectedDayIndex++"
+        :disabled="selectedDayIndex === days.length - 1"
+      >
         Giorno successivo →
       </button>
     </div>
 
     <!-- Salva -->
-    <button v-if="selectedDayIndex === days.length - 1" class="save-btn" @click="saveDiet">
+    <button
+      v-if="selectedDayIndex === days.length - 1"
+      class="save-btn"
+      @click="saveDiet"
+    >
       Salva dieta
     </button>
-
   </div>
 </template>
+
+
+
 
 <style scoped>
   .day-title {
@@ -201,6 +241,13 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .recipe-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+  }
+
 
   .toggle-btn {
     background: none;
