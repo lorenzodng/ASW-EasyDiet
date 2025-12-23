@@ -34,6 +34,8 @@
     try { //recupero profilo utente per le kcal
       const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
       kcalUser.value = resProfile.data.kcalTotali;
+      console.log("KCAL USER:", kcalUser.value);
+
 
       //resetta gli array per evitare duplicati in seguito al ricaricamentto della pagina
       mealsByType.colazione = [];
