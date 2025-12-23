@@ -1,64 +1,59 @@
-import mongoose from "mongoose";
-import mongoose from "mongoose";
-import { RecipeSchema } from "../recipes/infoModel.js";
+//struttura delle diete
 
+import mongoose from "mongoose";
+import { DietRecipeSchema } from "../recipes/liteInfoModel.js";
 
 const DietSchema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "accounts",
       required: true,
       unique: true
     },
 
-    kcalUser: {
-      type: Number,
-      required: true
-    },
-
     settimana: {
-      Lunedì: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      lunedì: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       },
-      Martedì: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      martedì: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       },
-      Mercoledì: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      mercoledì: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       },
-      Giovedì: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      giovedì: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       },
-      Venerdì: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      venerdì: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       },
-      Sabato: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      sabato: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       },
-      Domenica: {
-        colazione: RecipeSchema,
-        pranzo: RecipeSchema,
-        merenda: RecipeSchema,
-        cena: RecipeSchema
+      domenica: {
+        colazione: DietRecipeSchema,
+        pranzo: DietRecipeSchema,
+        merenda: DietRecipeSchema,
+        cena: DietRecipeSchema
       }
     },
 
@@ -70,5 +65,5 @@ const DietSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-const DietInfo = mongoose.model("diet", DietSchema);
+const DietInfo = mongoose.model("diets", DietSchema);
 export default DietInfo;

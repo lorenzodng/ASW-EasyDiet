@@ -3,8 +3,9 @@
 import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
-import userRouter from "../route/userRoutes.js"
+import usersRouter from "../route/usersRoutes.js"
 import recipesRouter from "../route/recipesRoutes.js"
+import dietsRouter from "../route/dietsRoutes.js"
 
 const uri = "mongodb+srv://easydiet:easydietpsw@dietdb.tfpxquz.mongodb.net/dietDb"; //url del db su mongodb atlas
 const app = express();
@@ -16,8 +17,9 @@ app.use(express.json());
 app.use(cors({
   origin: "http://localhost:5173"
 }));
-app.use(userRouter);
+app.use(usersRouter);
 app.use(recipesRouter);
+app.use(dietsRouter);
 
 //connette il server al db
 try {

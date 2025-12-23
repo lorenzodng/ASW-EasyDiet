@@ -5,8 +5,8 @@ import * as service from "./service.js";
 //salvataggio della dieta
 export const saveDietController = async (req, res) => {
     try {
-        const userId = req.body;
-        const result = await service.saveDiet(userId, dietInfo);
+        const dietData = req.body;
+        const result = await service.saveDiet(dietData);
 
         if (result.status) {
             res.send({
