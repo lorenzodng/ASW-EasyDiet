@@ -11,7 +11,7 @@
   const userDiet = reactive({}); //dieta costruita dall'utente per ogni giorno
   const selectedDayIndex = ref(0); //indice del giorno corrente  
   const currentDay = computed(() => days[selectedDayIndex.value]); //giorno corrente 
-  const openRecipes = ref(new Set()); //ricette aperte tramite menu
+  const openRecipes = ref(new Set()); //ricette aperte tramite menu, contiene solo gli id 
 
   //contiene tutte le ricette caricate dal db, ordinate per categoria
   const mealsByType = reactive({
@@ -31,7 +31,7 @@
   });
 
   onMounted(async () => {
-    try {
+    try { //recupero profilo utente per le kcal
       const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
       kcalUser.value = resProfile.data.kcalTotali;
 
@@ -86,9 +86,9 @@
   //menu a scomparsa per i dettagli della ricetta
   const toggleRecipe = (id) => {
     if (openRecipes.value.has(id)) { //se la ricetta è già aperta
-      openRecipes.value.delete(id); //chiude il menu
+      openRecipes.value.delete(id); //chiude il menu di quella ricetta
     } else { //altrimenti
-      openRecipes.value.add(id); //apre il menu
+      openRecipes.value.add(id); //apre il menu della ricetta 
     }
   };
 
@@ -98,27 +98,41 @@
 <template>
   <div class="componi-dieta">
     <h1>Componi Dieta</h1>
-
-    <!-- Giorno corrente -->
     <h2 class="day-title">
-      {{ currentDay }}
-    </h2>
+      {{ currentDay }}  
+    </h2> <!--cambia automaticamente quando cambia selectedDayIndex-->
 
-    <!-- Pasti -->
+    <!-- Navigazione giorni -->
+    <div class="navigation">
+      <button
+        @click="selectedDayIndex--"
+        :disabled="selectedDayIndex === 0"
+      > <!--torna al giorno precedente è disabilitato se si è già a lunedì-->
+        ← Giorno precedente
+      </button>
+
+      <button
+        @click="selectedDayIndex++"
+        :disabled="selectedDayIndex === days.length - 1"
+      > 
+        Giorno successivo →
+      </button>
+    </div>
+
+
     <div
       v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']"
       :key="meal"
       class="meal-block"
-    >
-      <h3>{{ meal }}</h3>
+    > <!--vue crea 4 blocchi, uno per ogni categoria -->
+      <h3>{{ meal }}</h3>  <!--mostra il nome del pasto corrente-->
 
-      <!-- Ricette del pasto -->
       <div
         v-for="ricetta in mealsByType[meal]"
         :key="ricetta._id"
         class="recipe-option"
-      >
-        <!-- Header ricetta -->
+      >  <!--prende solo le ricette per quella determinata categoria--> 
+        
         <div class="recipe-header">
           <label>
             <input
@@ -128,17 +142,17 @@
               v-model="userDiet[currentDay][meal]"
             />
             {{ ricetta.nome }}
-          </label>
+          </label> <!--con radio si ha una sola scelta per ogni gruppo, con :name="${currentDay}-${meal}" si crea un gruppo diverso
+          per ogni giorno e ogni pasto, con v-model="userDiet[currentDay][meal]" si salva automaticamente la ricetta-->
 
           <button
             class="toggle-btn"
             @click="toggleRecipe(ricetta._id)"
-          >
+          > <!--se l'id è nel set dettagli aperti se no dettagli chiusi-->
             {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
           </button>
         </div>
 
-        <!-- Dettagli ricetta -->
         <div
           v-if="openRecipes.has(ricetta._id)"
           class="recipe-details"
@@ -154,17 +168,16 @@
             </li>
           </ul>
 
-          <!-- NOTE (sempre visibili se info esiste) -->
           <div
             v-if="ricetta.info"
             class="recipe-info"
-          >
+          ><!--le note verranno mostrate solo se esiste info-->
             <strong>Note:</strong>
 
             <ul>
               <li>
                 {{ ricetta.info[0].descrizioneKcal }}
-              </li>
+              </li> <!--prima nota-->
 
               <li>
                 {{ ricetta.info[1].descrizioneTipoDieta }}
@@ -179,23 +192,7 @@
       </div>
     </div>
 
-    <!-- Navigazione giorni -->
-    <div class="navigation">
-      <button
-        @click="selectedDayIndex--"
-        :disabled="selectedDayIndex === 0"
-      >
-        ← Giorno precedente
-      </button>
-
-      <button
-        @click="selectedDayIndex++"
-        :disabled="selectedDayIndex === days.length - 1"
-      >
-        Giorno successivo →
-      </button>
-    </div>
-
+    
     <!-- Salva -->
     <button
       v-if="selectedDayIndex === days.length - 1"
