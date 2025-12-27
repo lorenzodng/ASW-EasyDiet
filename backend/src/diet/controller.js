@@ -1,6 +1,7 @@
 //controller che gestisce le richieste sulle diete
 
 import * as service from "./service.js";
+import DietInfo from "./infoModel.js";
 
 
 //salvataggio della dieta
@@ -31,7 +32,7 @@ export const saveDietController = async (req, res) => {
 
 //recupero della dieta dell'utente
 export const getDietInfoController = async (req, res) => {
-    try {
+  try {
     const { userId } = req.params;
 
     if (!userId) {
@@ -41,7 +42,7 @@ export const getDietInfoController = async (req, res) => {
       });
     }
 
-    const diet = await DietInfo.findOne({ userId });
+    const diet = await service.getDietByUserId(userId);
 
     if (!diet) {
       return res.status(404).json({
@@ -61,6 +62,5 @@ export const getDietInfoController = async (req, res) => {
       status: false,
       message: "Errore server nel recupero della dieta"
     });
-  }   
+  }
 };
-

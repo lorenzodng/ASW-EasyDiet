@@ -22,3 +22,14 @@ export const saveDiet = async (dietData) => {
         return { status: false, message: err.message };
     }
 };
+
+
+
+export const getDietByUserId = async (userId) => {
+  try {
+    return await DietInfo.findOne({ userId });
+  } catch (error) {
+    console.error("Errore service getDietByUserId:", error);
+    throw error;
+  }
+};
