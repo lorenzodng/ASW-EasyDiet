@@ -2,6 +2,7 @@
 
 import * as service from "./service.js";
 
+
 //salvataggio della dieta
 export const saveDietController = async (req, res) => {
     try {
@@ -27,3 +28,39 @@ export const saveDietController = async (req, res) => {
         });
     }
 };
+
+//recupero della dieta dell'utente
+export const getDietInfoController = async (req, res) => {
+    try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        status: false,
+        message: "UserId mancante"
+      });
+    }
+
+    const diet = await DietInfo.findOne({ userId });
+
+    if (!diet) {
+      return res.status(404).json({
+        status: false,
+        message: "Nessuna dieta trovata per questo utente"
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: diet
+    });
+
+  } catch (error) {
+    console.error("Errore recupero dieta:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Errore server nel recupero della dieta"
+    });
+  }   
+};
+
