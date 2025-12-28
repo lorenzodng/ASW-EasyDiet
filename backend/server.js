@@ -1,11 +1,12 @@
 //server
 
-import express from "express"
-import mongoose from "mongoose"
-import cors from "cors"
-import usersRouter from "../route/usersRoutes.js"
-import recipesRouter from "../route/recipesRoutes.js"
-import dietsRouter from "../route/dietsRoutes.js"
+import 'dotenv/config'; //libreria che legge le variabili nel file .env
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import usersRouter from "./route/usersRoutes.js";
+import recipesRouter from "./route/recipesRoutes.js";
+import dietsRouter from "./route/dietsRoutes.js";
 
 const uri = "mongodb+srv://easydiet:easydietpsw@dietdb.tfpxquz.mongodb.net/dietDb"; //url del db su mongodb atlas
 const app = express();
