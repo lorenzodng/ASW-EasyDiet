@@ -7,6 +7,7 @@ import Home from "../components/Home.vue"
 import ComponiDieta from "../components/ComponiDieta.vue"
 import InformazioniPersonali from "../components/InformazioniPersonali.vue"
 import Welcome from "../components/Welcome.vue"
+import TrackingPeso from "../components/TrackingPeso.vue"
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: "/informazioni-personali",
     name: "InformazioniPersonali",
     component: InformazioniPersonali
+  },
+  {
+    path: "/tracking-peso",
+    name: "TrackingPeso",
+    component: TrackingPeso
   }
 ]
 

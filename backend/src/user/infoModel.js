@@ -16,6 +16,14 @@ const InfoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    dataPeso: {
+        type: Date,
+        default: Date.now
+    },
+    obiettivoPeso:{
+        type: Number,
+        required: true
+    },
     sesso: {
         type: String,
         enum: ["maschio", "femmina"],

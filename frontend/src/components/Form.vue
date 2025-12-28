@@ -1,7 +1,7 @@
 <!-- componente form utente -->
 
 <script setup>
-  import { reactive } from "vue";
+  import { reactive, onMounted } from "vue";
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
   import axios from "axios";
@@ -16,8 +16,26 @@
     sesso: "",
     altezza: "",
     obiettivo: "",
-    livelloAttivitaFisica: ""
+    livelloAttivitaFisica: "",
+    obiettivoPeso: ""
   });
+
+  const loadUserInfo = async () => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:5000/users/${userStore.id}/profile`
+    );
+
+    if (data) {
+      // riempi il form con i dati salvati
+      Object.assign(userInfo, data);
+    }
+  } catch (err) {
+    // se non esistono dati va bene così (prima compilazione)
+    console.log("Nessun profilo esistente");
+  }
+};
+
 
   //metodo per salvare i dati del form
   const saveInfo = async () => {
@@ -29,7 +47,8 @@
       !userInfo.sesso ||
       !userInfo.altezza ||
       !userInfo.obiettivo ||
-      !userInfo.livelloAttivitaFisica
+      !userInfo.livelloAttivitaFisica||
+      !userInfo.obiettivoPeso
 
     ) {
       alert("Compila tutti i campi");
@@ -50,6 +69,10 @@
       console.error(err);
     }
   };
+
+  onMounted(() => {
+  loadUserInfo();
+});
 </script>
 
 <template>
@@ -65,6 +88,11 @@
       <div class="form-group">
         <label>Peso(kg)</label>
         <input type="number" v-model.number="userInfo.peso" required />
+      </div>
+
+      <div class="form-group">
+        <label>Peso che vuoi raggiungere(kg)</label>
+        <input type="number" v-model.number="userInfo.obiettivoPeso" required />
       </div>
 
       <div class="form-group">

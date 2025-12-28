@@ -27,6 +27,7 @@ const logout = () => {
       <router-link to="/home" @click="Menu">Home</router-link>
       <router-link to="/informazioni-personali" @click="Menu">Info personali</router-link>
       <router-link :to="{ name: 'ComponiDieta' }" @click="Menu">Componi Dieta</router-link>
+      <router-link :to="{ name: 'TrackingPeso' }" @click="Menu">I tuoi Progressi</router-link>
 
 
       <button class="logout" @click="logout">Logout</button>

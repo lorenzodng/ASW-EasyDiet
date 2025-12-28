@@ -48,6 +48,7 @@
         <p><strong>Altezza:</strong> {{ info.altezza }} cm</p>
         <p><strong>Sesso:</strong> {{ info.sesso }}</p>
         <p><strong>Obiettivo:</strong> {{ info.obiettivo }}</p>
+        <p><strong>Peso Oviettivo:</strong> {{ info.obiettivoPeso }}</p>
         <p><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
       </div>
       <div class="actions">

@@ -53,6 +53,7 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
 
         const kcal = kcalCalculator(profileInfo.eta, profileInfo.peso, profileInfo.sesso, profileInfo.altezza, profileInfo.livelloAttivitaFisica, profileInfo.obiettivo);
         foundUser.kcal = Math.round(kcal);
+        foundUser.dataPeso = new Date();
         await foundUser.save();
 
         return { status: true };
