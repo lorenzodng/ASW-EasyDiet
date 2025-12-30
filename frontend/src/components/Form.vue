@@ -20,23 +20,6 @@
     obiettivoPeso: ""
   });
 
-  const loadUserInfo = async () => {
-  try {
-    const { data } = await axios.get(
-      `http://localhost:5000/users/${userStore.id}/profile`
-    );
-
-    if (data) {
-      // riempi il form con i dati salvati
-      Object.assign(userInfo, data);
-    }
-  } catch (err) {
-    // se non esistono dati va bene così (prima compilazione)
-    console.log("Nessun profilo esistente");
-  }
-};
-
-
   //metodo per salvare i dati del form
   const saveInfo = async () => {
 
@@ -47,9 +30,8 @@
       !userInfo.sesso ||
       !userInfo.altezza ||
       !userInfo.obiettivo ||
-      !userInfo.livelloAttivitaFisica||
+      !userInfo.livelloAttivitaFisica ||
       !userInfo.obiettivoPeso
-
     ) {
       alert("Compila tutti i campi");
       return;
@@ -58,7 +40,7 @@
     try {
       const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, userInfo)
 
-      if (data.status) {//se il backend risponde 
+      if (data.status) { //se il backend risponde 
         alert("Dati salvati con successo");
         router.push({ name: "Home" });
       } else {
@@ -70,9 +52,6 @@
     }
   };
 
-  onMounted(() => {
-  loadUserInfo();
-});
 </script>
 
 <template>

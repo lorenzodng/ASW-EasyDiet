@@ -12,7 +12,7 @@ const allowedKeywords = [
   "ingrediente", "ingredienti", "settimana", "settimane", "peso",
   "pesi", "dimagrire", "ingrassare", "kg", "anni", "intolleranze",
   "intollerante", "intolleranza", "preferenza", "preferisco",
-  "allergia", "allergie"
+  "allergia", "allergie", "grammi", "g"
 ];
 
 const greetings = ["ciao", "salve", "buongiorno", "buonasera", "buon pomeriggio", "hey"];

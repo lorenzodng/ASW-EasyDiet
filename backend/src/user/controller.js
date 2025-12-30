@@ -70,3 +70,17 @@ export const getUserProfileInfoController = async (req, res) => {
     }
 };
 
+//notifica l'utente sull'aggiornamento del peso
+export const updateWeightController = async (req, res) => {
+    const { userId, nuovoPeso } = req.body;
+    try {
+        const result = await service.updateWeight(userId, nuovoPeso);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ status: false, message: "Errore server" });
+    }
+};
+
+
+

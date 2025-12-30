@@ -12,15 +12,19 @@ const InfoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    peso: {
-        type: Number,
-        required: true
-    },
+    pesi: [
+        {
+            type: new mongoose.Schema({
+                peso: { type: Number, required: true },
+                data: { type: Date, default: Date.now }
+            }, { _id: false })
+        }
+    ],
     dataPeso: {
         type: Date,
         default: Date.now
     },
-    obiettivoPeso:{
+    obiettivoPeso: {
         type: Number,
         required: true
     },

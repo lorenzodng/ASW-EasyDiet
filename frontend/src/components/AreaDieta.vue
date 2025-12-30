@@ -5,9 +5,7 @@
   import axios from "axios";
   import { useUserStore } from "../stores/user";
 
-  //👉 Il frontend NON parla direttamente con MongoDB, parla sempre col server Express tramite HTTP.
   const userStore = useUserStore();
-
   const diet = ref(null);
   const loading = ref(true);
   const error = ref("");
@@ -27,7 +25,6 @@
       const res = await axios.get(`http://localhost:5000/diets/${userStore.id}`);
       console.log("USER ID:", userStore.id);
 
-
       if (res.data.status) {
         diet.value = res.data.data;
       } else {
@@ -41,8 +38,6 @@
     }
   });
 </script>
-
-
 
 <template>
   <div class="area-dieta">
@@ -78,7 +73,6 @@
     </div>
   </div>
 </template>
-
 
 <style scoped>
   .area-dieta {

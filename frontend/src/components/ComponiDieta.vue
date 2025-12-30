@@ -23,10 +23,10 @@
 
   days.forEach((day) => { //per ogni elemento di "days"
     userDiet[day] = { //crea una coppia chiave-valore con chiave il giorno della settimana e valori le categorie di pasto
-      colazione: null,
-      pranzo: null,
-      merenda: null,
-      cena: null
+      colazione: { recipe: null, time: "" },
+      pranzo: { recipe: null, time: "" },
+      merenda: { recipe: null, time: "" },
+      cena: { recipe: null, time: "" }
     };
   });
 
@@ -163,6 +163,8 @@
 
       <h3>Target calorico: {{ getTargetKcal(mealCategory) }} kcal</h3>
 
+      <label>Orario:<input type="time" v-model="userDiet[currentDay][mealCategory].time" required /></label>
+
       <div v-for="ricetta in mealsByType[mealCategory]" :key="ricetta._id" class="recipe-option">
         <!--prende solo le ricette per quella determinata categoria-->
 
@@ -173,7 +175,7 @@
         <div class="recipe-header">
           <label>
             <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="ricetta"
-              v-model="userDiet[currentDay][mealCategory]" />
+              v-model="userDiet[currentDay][mealCategory].recipe" />
             {{ ricetta.nome }}
           </label>
 

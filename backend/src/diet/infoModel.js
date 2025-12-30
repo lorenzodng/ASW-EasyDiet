@@ -14,46 +14,136 @@ const DietSchema = new mongoose.Schema(
 
     settimana: {
       lunedì: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       },
+
       martedì: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       },
+
       mercoledì: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       },
+
       giovedì: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       },
+
       venerdì: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       },
+
       sabato: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       },
+
       domenica: {
-        colazione: DietRecipeSchema,
-        pranzo: DietRecipeSchema,
-        merenda: DietRecipeSchema,
-        cena: DietRecipeSchema
+        colazione: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        pranzo: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        merenda: {
+          recipe: DietRecipeSchema,
+          time: String
+        },
+        cena: {
+          recipe: DietRecipeSchema,
+          time: String
+        }
       }
     },
 

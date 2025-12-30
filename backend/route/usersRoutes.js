@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/login', controller.loginController); //rotta di login
 router.post('/users/:userId/profile', controller.saveUserProfileInfoController); //rotta per creare il profilo dal form
 router.get('/users/:userId/profile', controller.getUserProfileInfoController); //rotta per visualizzare le informazioni del profilo
+router.post('/users/:userId/update-weight', controller.updateWeightController); //rotta per aggiornare il peso dell'utente
 
 export default router;
 

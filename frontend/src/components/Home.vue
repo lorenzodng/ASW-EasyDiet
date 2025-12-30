@@ -7,6 +7,7 @@
   import AreaDieta from "./AreaDieta.vue";
   import HeaderHome from "./HeaderHome.vue";
   import LLMChat from "./LLMChat.vue";
+  import NotificationBanner from "../components/NotificationBanner.vue"
 
   const router = useRouter();
   const userStore = useUserStore()
@@ -27,6 +28,7 @@
   <div class="home-container">
     <HeaderHome :userName="userName" />
 
+    <!-- pulsante componi dieta -->
     <div class="actions">
       <button @click="vaiAComponiDieta">
         ➕ Componi Dieta
@@ -42,6 +44,9 @@
 
     <!-- sidebar chat -->
     <LLMChat v-show="chatOpen" @close="chatOpen = false" />
+
+    <!-- banner notifiche -->
+    <NotificationBanner v-if="!userStore.notificationsEnabled" />
   </div>
 </template>
 

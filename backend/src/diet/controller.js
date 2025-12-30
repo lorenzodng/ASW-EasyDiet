@@ -1,8 +1,6 @@
 //controller che gestisce le richieste sulle diete
 
 import * as service from "./service.js";
-import DietInfo from "./infoModel.js";
-
 
 //salvataggio della dieta
 export const saveDietController = async (req, res) => {

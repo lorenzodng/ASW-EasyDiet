@@ -2,6 +2,7 @@
 
 import UserAccount from "./accountModel.js";
 import UserInfo from "./infoModel.js";
+import { sendNotificationToUser } from "../notification/service.js";
 
 //login e verifica della presenza delle informazioni personali
 export const loginUser = async (userData) => {
@@ -36,25 +37,58 @@ export const loginUser = async (userData) => {
 
 //recupera le informazioni personali
 export const getUserProfileInfo = async (userId) => {
-    return await UserInfo.findOne({ userId });
+    const user = await UserInfo.findOne({ userId });
+
+    if (!user) return null; //se l'utente non esiste
+
+    let ultimoPeso = null;
+
+    if (user.pesi.length > 0) {
+        ultimoPeso = user.pesi[user.pesi.length - 1].peso; //prende l'ultimo elemento dell'array "pesi" e il suo valore
+    } else {
+        ultimoPeso = null;
+    }
+
+    return {
+        ...user.toObject(),
+        peso: ultimoPeso
+    };
+};
+
+//recupera tutti gli utenti
+export const getAllUsers = async () => {
+    return await UserInfo.find();
 };
 
 //salvataggio delle informazioni personali
 export const saveUserProfileInfo = async (userId, profileInfo) => {
     try {
-        let foundUser = await UserInfo.findOne({ userId: userId });
+        // cerca il profilo esistente
+        const existingProfile = await UserInfo.findOne({ userId });
 
-        if (foundUser) {
-            foundUser.set(profileInfo); //aggiorna i campi esistenti con i valori specificati dall'utente
+        if (existingProfile) {
+            existingProfile.eta = profileInfo.eta;
+            existingProfile.peso = profileInfo.peso;
+            existingProfile.altezza = profileInfo.altezza;
+            existingProfile.sesso = profileInfo.sesso;
+            existingProfile.obiettivo = profileInfo.obiettivo;
+            existingProfile.obiettivoPeso = profileInfo.obiettivoPeso;
+            existingProfile.livelloAttivitaFisica = profileInfo.livelloAttivitaFisica;
+            existingProfile.pesi.push({ peso: profileInfo.peso, data: new Date() });
+            // ricalcola kcal
+            existingProfile.kcal = Math.round(kcalCalculator(profileInfo.eta, profileInfo.peso, profileInfo.sesso, profileInfo.altezza, profileInfo.livelloAttivitaFisica, profileInfo.obiettivo));
+
+            await existingProfile.save();
         } else {
-            const newProfileInfo = { ...profileInfo, userId }; //aggiungo anche l'id tra le informazioni del profilo
-            foundUser = new UserInfo(newProfileInfo); //crea un nuovo profilo utente
+            const newProfile = {
+                ...profileInfo,
+                userId,
+                pesi: [{ peso: profileInfo.peso, data: new Date() }],
+                kcal: Math.round(kcalCalculator(profileInfo.eta, profileInfo.peso, profileInfo.sesso, profileInfo.altezza, profileInfo.livelloAttivitaFisica, profileInfo.obiettivo))
+            };
+            const newUser = new UserInfo(newProfile);
+            await newUser.save();
         }
-
-        const kcal = kcalCalculator(profileInfo.eta, profileInfo.peso, profileInfo.sesso, profileInfo.altezza, profileInfo.livelloAttivitaFisica, profileInfo.obiettivo);
-        foundUser.kcal = Math.round(kcal);
-        foundUser.dataPeso = new Date();
-        await foundUser.save();
 
         return { status: true };
     } catch (err) {
@@ -94,3 +128,25 @@ const TDEE = (bmr, livelloAttivitaFisica) => {
 
     return bmr * fattori[livelloAttivitaFisica];
 };
+
+//invia la notifica all''utente sull'andamento del peso
+export const updateWeight = async (userId, nuovoPeso) => {
+    const user = await UserInfo.findOne({ userId });
+    if (!user)
+        return { status: false, message: "Utente non trovato" };
+
+    //aggiunge il nuovo peso
+    user.pesi.push({ peso: nuovoPeso, data: new Date() });
+    await user.save();
+
+    //controlla se c'è stato calo di peso
+    let payload = { title: "Aggiornamento peso", body: "Il tuo peso è stato aggiornato." };
+    if (user.pesi.length > 1 && nuovoPeso < user.pesi[user.pesi.length - 2].peso) {
+        payload = { title: "Ottimo lavoro! 🎉", body: "Hai perso peso! Continua così!" };
+    }
+
+    await sendNotificationToUser(userId, payload);
+
+    return { status: true };
+};
+
