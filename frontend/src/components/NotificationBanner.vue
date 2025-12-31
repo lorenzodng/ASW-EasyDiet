@@ -38,7 +38,6 @@
                     console.log('Utente ha rifiutato le notifiche');
                     visible.value = false;
                 } else {
-                    // Errore tecnico
                     console.error('Errore registrazione notifiche:', err);
                     error.value = "Impossibile attivare le notifiche";
                 }
