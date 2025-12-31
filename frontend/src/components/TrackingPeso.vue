@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useUserStore } from "../stores/user";
+import HeaderHome from "./HeaderHome.vue"
 
 const userStore = useUserStore();
 
@@ -31,16 +32,18 @@ const loadUserInfo = async () => {
 const progress = computed(() => {
   if (!peso.value || !obiettivoPeso.value) return 0;
 
-  if (obiettivo.value === "mantenimento") return 100;
+  const min = Math.min(peso.value, obiettivoPeso.value);
+  const max = Math.max(peso.value, obiettivoPeso.value);
 
-  const percent = (peso.value / obiettivoPeso.value) * 100;
-  return Math.min(Math.max(percent, 0), 100);
+  const percent = (min / max) * 100;
+  return Math.round(percent);
 });
-
 onMounted(loadUserInfo);
 </script>
 
 <template>
+  <div>
+  <HeaderHome :userName="userStore.nome" />
   <div class="tracking-container">
     <h2>Tracking Peso</h2>
 
@@ -59,6 +62,7 @@ onMounted(loadUserInfo);
 
       <p class="percent">{{ Math.round(progress) }}%</p>
     </div>
+  </div>
   </div>
 </template>
 

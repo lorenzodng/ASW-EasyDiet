@@ -55,11 +55,11 @@
         <div v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']" :key="meal" class="meal-block">
           <h3>{{ meal }}</h3>
 
-          <div v-if="diet.settimana[day][meal]">
-            <p><strong>{{ diet.settimana[day][meal].nome }}</strong></p>
+          <div v-if="diet.settimana[day][meal].recipe">
+            <p><strong>{{ diet.settimana[day][meal].recipe.nome }}</strong></p>
 
             <ul>
-              <li v-for="(ing, i) in diet.settimana[day][meal].ingredienti" :key="i">
+              <li v-for="(ing, i) in diet.settimana[day][meal].recipe.ingredienti" :key="i">
                 {{ ing.nome }} – {{ ing.peso }} g
               </li>
             </ul>

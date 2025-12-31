@@ -54,58 +54,95 @@
           <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <button type="submit" class="login-button">Login</button>
 
       </form>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f2f8f3; // verde chiarissimo
+  padding: 20px;
+}
+
+.login-box {
+  width: 360px;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-box h2 {
+  text-align: center;
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+/* FORM */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.form-control {
+  height: 42px;
+  padding: 0 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+}
+
+/* BOTTONE LOGIN */
+.login-button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #66bb6a;
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+    transform: translateY(-2px);
   }
 
-  .login-box {
-    width: 350px;
-    padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
   }
+}
 
-  .login-box h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-  }
-
-  .form-group label {
-    margin-bottom: 5px;
-  }
-
-  .form-control {
-    height: 40px;
-    padding: 0 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  .btn-block {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-  }
 </style>
 
 
