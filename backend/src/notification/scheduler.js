@@ -17,7 +17,7 @@ export const startMealReminders = () => {
             for (let giorno of giorni) { //per ogni giorno
                 for (let categoriaPasto of categoriePasto) { //per ogni categoria di pasto
                     const pastoData = user.settimana[giorno][categoriaPasto]; //recupera il pasto 
-                    const [ora, minuto] = pastoData.orario.split(":").map(Number); //recupera l'ora e il minuto del pasto
+                    const [ora, minuto] = pastoData.time.split(":").map(Number); //recupera l'ora e il minuto del pasto
                     if (ora === currentHour && minuto === currentMinute) { //se l'orario del pasto coincide con quello attuale
                         let corpo;
                         if (categoriaPasto === "pranzo") {

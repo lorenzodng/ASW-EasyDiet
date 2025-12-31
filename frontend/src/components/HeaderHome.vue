@@ -1,22 +1,24 @@
 <script setup>
 import NavBar from './NavBar.vue';
+import logohome from "../assets/images/logo-homee.png"
 
   const props = defineProps({
     userName: {
       type: String,
-      required: true
+      required: true  
     }
   });
 </script>
 
 <template>
   <header class="header">
-    <div class="logo">
-      🍎 <span>EasyDiet</span> 🍎
-    </div>
+    <router-link to="/home" class="logo">
+      <img src="../assets/images/logo-homee.png" alt="EasyDiet logo" />
+    </router-link>
 
     <div class="user">
-      Ciao, <strong>{{ userName }}</strong>
+      Ciao <strong>{{ userName }}! Un passo alla volta verso il tuo benessere 💚
+</strong>
     </div>
     <NavBar/>
   </header>
@@ -28,7 +30,7 @@ import NavBar from './NavBar.vue';
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
+  padding: 4px 32px;
   background-color: #4CAF50;
   color: white;
   overflow: visible;
@@ -37,9 +39,21 @@ import NavBar from './NavBar.vue';
 
 
 .logo {
-  font-size: 22px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  img {
+    height: 80px;
+    width: auto;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
 }
+
 
 .right {
   display: flex;
@@ -48,6 +62,12 @@ import NavBar from './NavBar.vue';
 }
 
 .user {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 500;
+
+  strong {
+    font-size: 20px;
+    font-weight: 700;
+  }
 }
 </style>

@@ -7,7 +7,8 @@
   import AreaDieta from "./AreaDieta.vue";
   import HeaderHome from "./HeaderHome.vue";
   import LLMChat from "./LLMChat.vue";
-  import NotificationBanner from "../components/NotificationBanner.vue"
+  import NotificationBanner from "../components/NotificationBanner.vue";
+
 
   const router = useRouter();
   const userStore = useUserStore()
