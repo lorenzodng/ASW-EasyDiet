@@ -6,10 +6,12 @@ import HeaderHome from "./HeaderHome.vue"
 
 const userStore = useUserStore();
 
-const peso = ref(0);
+const pesi = ref([]);
 const obiettivoPeso = ref(0);
 const obiettivo = ref("");
 const loading = ref(true);
+
+
 
 // carica dati utente
 const loadUserInfo = async () => {
@@ -18,7 +20,7 @@ const loadUserInfo = async () => {
       `http://localhost:5000/users/${userStore.id}/profile`
     );
 
-    peso.value = data.peso;
+    pesi.value = data.pesi || [];
     obiettivoPeso.value = data.obiettivoPeso;
     obiettivo.value = data.obiettivo;
   } catch (err) {
@@ -29,14 +31,59 @@ const loadUserInfo = async () => {
 };
 
 // calcolo progresso
+//const pesoIniziale = pesi.value[0].peso
+
+const storicoPesi = computed(() => {
+  return [...pesi.value].sort(
+    (a, b) => new Date(b.data) - new Date(a.data)
+  );
+});
+
+
+const pesoIniziale = computed(() => {
+  return pesi.value.length ? pesi.value[0].peso : 0;
+});
+
+
+
+const pesoAttuale = computed(() => {
+  return pesi.value.length
+    ? pesi.value[pesi.value.length - 1].peso
+    : 0;
+});
+
 const progress = computed(() => {
-  if (!peso.value || !obiettivoPeso.value) return 0;
+  if (!pesi.value.length || !obiettivoPeso.value) return 0;
 
-  const min = Math.min(peso.value, obiettivoPeso.value);
-  const max = Math.max(peso.value, obiettivoPeso.value);
+  let percent = 0;
 
-  const percent = (min / max) * 100;
-  return Math.round(percent);
+  if (obiettivo.value === "dimagrimento") {
+  const totale = pesoIniziale.value - obiettivoPeso.value;
+  const fatto = pesoIniziale.value - pesoAttuale.value;
+  percent = (fatto / totale) * 100;
+}
+  if (obiettivo.value === "aumento_peso") {
+  const totale = obiettivoPeso.value - pesoIniziale.value;
+  const fatto = pesoAttuale.value - pesoIniziale.value;
+  percent = (fatto / totale) * 100;
+}
+if (obiettivo.value === "mantenimento") {
+  const tolleranza = 1; // kg
+  const maxDiff = 8;   // oltre questo sei fuori target
+
+  const diff = Math.abs(pesoAttuale.value - pesoIniziale.value);
+
+  if (diff <= tolleranza) {
+    percent = 100;
+  } else {
+    percent = 100 - ((diff - tolleranza) / maxDiff) * 100;
+  }
+}  // se ci si allontana di 2 kg siamo a 80% 4 kg a 40% maggiore di target kg a 0%
+
+
+
+  return Math.min(Math.max(Math.round(percent), 0), 100);
+
 });
 onMounted(loadUserInfo);
 </script>
@@ -50,7 +97,8 @@ onMounted(loadUserInfo);
     <p v-if="loading">Caricamento...</p>
 
     <div v-else>
-      <p><strong>Peso attuale:</strong> {{ peso }} kg</p>
+      <p><strong>Peso attuale:</strong> {{ pesoAttuale }} kg</p>
+
       <p><strong>Obiettivo:</strong> {{ obiettivoPeso }} kg</p>
 
       <div class="progress-bar">
@@ -61,12 +109,81 @@ onMounted(loadUserInfo);
       </div>
 
       <p class="percent">{{ Math.round(progress) }}%</p>
+      <div class="storico">
+  <h3>Storico pesi</h3>
+
+  <ul v-if="storicoPesi.length">
+    <li
+      v-for="(p, index) in storicoPesi"
+      :key="index"
+      :class="{ current: index === 0 }"
+    >
+      <span class="date">
+        {{ new Date(p.data).toLocaleDateString() }}
+      </span>
+      <span class="peso">
+        {{ p.peso }} kg
+      </span>
+    </li>
+  </ul>
+
+  <p v-else class="empty">
+    Nessun peso registrato
+  </p>
+</div>
+
     </div>
   </div>
   </div>
 </template>
 
 <style scoped>
+  .storico {
+  margin-top: 25px;
+  text-align: left;
+}
+
+.storico h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.storico ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.storico li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+  font-size: 14px;
+}
+
+.storico li.current {
+  background-color: #e8f5e9;
+  font-weight: bold;
+}
+
+.date {
+  color: #555;
+}
+
+.peso {
+  color: #2e7d32;
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
 .tracking-container {
   max-width: 400px;
   margin: auto;
