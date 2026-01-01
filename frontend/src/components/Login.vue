@@ -21,6 +21,7 @@
       const { data } = await axios.post("http://localhost:5000/login", user); //invia una post all'url del server (backend), specificando come corpo l'oggetto user
       if (data.status) {
         userStore.setUser(data.user) //salva nella memoria dello store le informazioni dell'utente
+        localStorage.setItem("token", data.token);
         alert("Login effettuato con successo");
         if (data.hasProfileInfo) {
           router.push({ name: "Home" }); //passa al componente home passandogli il parametro id
@@ -63,87 +64,87 @@
 
 <style scoped lang="scss">
   .login-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f2f8f3; // verde chiarissimo
-  padding: 20px;
-}
-
-.login-box {
-  width: 360px;
-  padding: 32px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.login-box h2 {
-  text-align: center;
-  color: #2e7d32;
-  margin-bottom: 8px;
-}
-
-/* FORM */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-
-  label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-  }
-}
-
-.form-control {
-  height: 42px;
-  padding: 0 12px;
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: #4caf50;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-  }
-}
-
-/* BOTTONE LOGIN */
-.login-button {
-  margin-top: 12px;
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: #4caf50;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #66bb6a;
-    box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
-    transform: translateY(-2px);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f2f8f3; // verde chiarissimo
+    padding: 20px;
   }
 
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+  .login-box {
+    width: 360px;
+    padding: 32px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
-}
+
+  .login-box h2 {
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 8px;
+  }
+
+  /* FORM */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+  }
+
+  .form-control {
+    height: 42px;
+    padding: 0 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+  }
+
+  /* BOTTONE LOGIN */
+  .login-button {
+    margin-top: 12px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #66bb6a;
+      box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+    }
+  }
 
 </style>
 
- 
-<!--completare con bottone per admin e login admin--> 
+
+<!--completare con bottone per admin e login admin-->

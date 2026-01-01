@@ -29,3 +29,15 @@ export const saveSubscriptionController = async (req, res) => {
         });
     }
 };
+
+//verifica l'eseistenza di una sottoscrizione dell'utente alle notifiche
+export const getStatusNotificationController = async (req, res) => {
+    const { userId } = req.params
+    try {
+        const isEnabled = await service.getStatusNotification(userId)
+        res.json({ notificationsEnabled: isEnabled })
+    } catch (err) {
+        console.error('Errore controller:', err)
+        res.status(500).json({ error: "Errore server" })
+    }
+}

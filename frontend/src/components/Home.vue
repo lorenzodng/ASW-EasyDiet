@@ -4,16 +4,31 @@
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
   import { ref, computed } from "vue";
+  import axios from "axios";
   import AreaDieta from "./AreaDieta.vue";
   import HeaderHome from "./HeaderHome.vue";
   import LLMChat from "./LLMChat.vue";
   import NotificationBanner from "../components/NotificationBanner.vue";
 
-
   const router = useRouter();
   const userStore = useUserStore()
   const chatOpen = ref(false);
   const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
+
+  const fetchUser = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const { data } = await axios.get('http://localhost:5000/users/user', {
+          headers: { Authorization: `Bearer ${token}` } //token da inviare al backend
+        });
+        userStore.setUser({ id: data.id, nome: data.nome });
+      } catch (err) {
+        console.error("Token non valido o scaduto", err);
+        router.push({ name: "Login" }); //reindirizza al login se il token non è valido o scaduto
+      }
+    };
+  };
 
   const vaiAComponiDieta = () => {
     router.push({ name: "ComponiDieta" });
@@ -23,6 +38,9 @@
     chatOpen.value = !chatOpen.value;
   };
 
+  onMounted(() => {
+    fetchUser();
+  });
 </script>
 
 <template>
@@ -41,13 +59,13 @@
       </button>
     </div>
 
-    <AreaDieta />
+    <AreaDieta v-if="userStore.id" /> <!-- parte solo se l'id dell'utente esiste -->
 
     <!-- sidebar chat -->
     <LLMChat v-show="chatOpen" @close="chatOpen = false" />
 
     <!-- banner notifiche -->
-    <NotificationBanner v-if="!userStore.notificationsEnabled" />
+    <NotificationBanner v-if="userStore.id" /> <!-- parte solo se l'id dell'utente esiste -->
   </div>
 </template>
 

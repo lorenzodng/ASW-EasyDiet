@@ -20,7 +20,7 @@
     "domenica"
   ];
 
-  onMounted(async () => {
+  const fetchDiet = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/diets/${userStore.id}`);
       console.log("USER ID:", userStore.id);
@@ -36,6 +36,10 @@
     } finally {
       loading.value = false;
     }
+  };
+
+  onMounted(() => {
+    fetchDiet();
   });
 </script>
 

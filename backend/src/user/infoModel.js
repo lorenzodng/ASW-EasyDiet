@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const InfoSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "accounts",
+        ref: "Account",
         required: true
     },
     eta: {
@@ -52,6 +52,6 @@ const InfoSchema = new mongoose.Schema({
     }
 }, { versionKey: false });
 
-const UserInfo = mongoose.model("users", InfoSchema);
+const UserInfo = mongoose.model("User", InfoSchema);
 
 export default UserInfo;

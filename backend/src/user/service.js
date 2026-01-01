@@ -1,5 +1,6 @@
 //servizio che esegue le richieste sull'utente
 
+import jwt from 'jsonwebtoken';
 import UserAccount from "./accountModel.js";
 import UserInfo from "./infoModel.js";
 import { sendNotificationToUser } from "../notification/service.js";
@@ -22,12 +23,21 @@ export const loginUser = async (userData) => {
         };
     }
 
+    //generazione token JWT
+    const token = jwt.sign({
+        id: foundUser._id,
+        nome: foundUser.nome
+    }, process.env.JWT_SECRET, { //il token dura 1h(dopo l'utente dovrà rifare il login per visualizzare i dati)
+        expiresIn: '1h'
+    });
+
     const profile = await UserInfo.findOne({ userId: foundUser._id }); //verifica la presenza dell'utente nella collezione "users"
 
     return {
         status: true,
         message: "User validated",
         hasProfileInfo: !!profile, //"!!" converte "profile" in un boolean
+        token,
         user: {
             id: foundUser._id.toString(),
             nome: foundUser.nome
@@ -150,3 +160,9 @@ export const updateWeight = async (userId, nuovoPeso) => {
     return { status: true };
 };
 
+//recupera l'id e il nome 
+export const getUserIdName = async (userId) => {
+    const user = await UserAccount.findById(userId).select('_id nome');
+    if (!user) throw new Error('Utente non trovato');
+    return { id: user._id.toString(), nome: user.nome };
+};

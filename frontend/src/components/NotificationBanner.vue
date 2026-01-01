@@ -1,7 +1,7 @@
 <!-- componente attivazione notifiche -->
 
 <script setup>
-    import { ref } from "vue"
+    import { ref, onMounted } from "vue"
     import { useUserStore } from '../stores/user'
     import axios from "axios"
 
@@ -10,7 +10,21 @@
     const loading = ref(false) //indica se la procedura di iscrizione alle notifiche è in corso
     const error = ref(null) //contiene eventuali messaggi di errore
     const success = ref(false) //indica se la sottoscrizione è avvenuta con successo
-    const visible = ref(true) //definisce l'apparizione del banner delle notifiche
+    const visible = ref(false) //definisce l'apparizione del banner delle notifiche
+
+    //verifica se l'utente ha già attivato le notifiche
+    const checkNotifications = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/status-notification/${userStore.id}`);
+            console.log(res.data);
+            if (!res.data.notificationsEnabled) {
+                visible.value = true
+            }
+        } catch (err) {
+            console.error('Errore verifica notifiche backend:', err)
+            visible.value = true //mostra il banner
+        }
+    };
 
     const subscribeUser = async () => {
         if ('serviceWorker' in navigator) { //se il browser support il service worker (navigator è un componente globale del browser)
@@ -19,20 +33,21 @@
                 error.value = null
 
                 //registra il service worker nel browser dell'utente
-                const registration = await navigator.serviceWorker.register('/service-worker.js')
+                const registration = await navigator.serviceWorker.register('./service-worker.js')
                 console.log('Service Worker registrato', registration)
                 //crea la sottoscrizione dell'utente alle notifiche utilizzando una chiave VAPID 
                 const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyConverter(publicKey) })
 
                 //esegue la sottoscrizione
-                await axios.post('/subscribe-notification', {
-                    userId: userStore.userId,
+                await axios.post('http://localhost:5000/subscribe-notification', {
+                    userId: userStore.id,
                     subscription
                 });
 
                 success.value = true
-                visible.value = false //chiude il banner
-                userStore.notificationsEnabled = true //l'utente ha abilitato le notifiche
+                setTimeout(() => {
+                    visible.value = false;
+                }, 1000);
             } catch (err) {
                 if (err.name === 'NotAllowedError') {
                     console.log('Utente ha rifiutato le notifiche');
@@ -42,7 +57,7 @@
                     error.value = "Impossibile attivare le notifiche";
                 }
             } finally {
-                loading.value = false
+                loading.value = false;
             }
         } else {
             error.value = "Service Worker non supportato dal browser"
@@ -51,11 +66,18 @@
 
     //funzione che converte la chiave VAPID in formato "Base64" nel formato "Uint8Array" (necesario per renderla utilizzabile dal browser)
     const keyConverter = (base64String) => {
+        if (!base64String) {
+            throw new Error("VAPID public key undefined!");
+        }
         const padding = '='.repeat((4 - base64String.length % 4) % 4)
         const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/')
         const rawData = window.atob(base64)
         return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)))
     }
+
+    onMounted(() => {
+        checkNotifications();
+    });
 </script>
 
 <template>

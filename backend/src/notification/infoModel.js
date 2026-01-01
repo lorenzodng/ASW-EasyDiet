@@ -4,13 +4,16 @@ import mongoose from "mongoose"
 
 const subscriptionSchema = new mongoose.Schema({
     userId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Account",
+        required: true,
+        unique: true
     },
+
     subscription: {
         type: Object,
         required: true
     }
 })
 
-export default mongoose.model("notification_subscription", subscriptionSchema)
+export default mongoose.model("Notification", subscriptionSchema)

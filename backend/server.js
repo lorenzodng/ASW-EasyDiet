@@ -11,7 +11,7 @@ import dietsRouter from "./route/dietsRoutes.js";
 import notificationsRouter from "./route/notificationRoutes.js";
 import { startMealReminders } from "./src/notification/scheduler.js";
 
-const publicKey = process.env.VITE_VAPID_PUBLIC_KEY; // opzionale se serve
+const publicKey = process.env.VAPID_PUBLIC_KEY;
 const privateKey = process.env.VAPID_PRIVATE_KEY;
 
 //configura il server all'invio delle notifiche

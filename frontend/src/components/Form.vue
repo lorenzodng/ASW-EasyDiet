@@ -20,9 +20,25 @@
     obiettivoPeso: ""
   });
 
+  const fetchUser = async () => {
+    if (!userStore.id) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const { data } = await axios.get('http://localhost:5000/users/user', {
+            headers: { Authorization: `Bearer ${token}` } //token da inviare al backend
+          });
+          userStore.setUser({ id: data.id, nome: data.nome });
+        } catch (err) {
+          console.error("Token non valido o scaduto", err);
+          router.push({ name: "Login" }); //reindirizza al login se il token non è valido o scaduto
+        }
+      };
+    }
+  }
+
   //metodo per salvare i dati del form
   const saveInfo = async () => {
-
     //verifica dell'inserimenti di tutti i valori nei campi
     if (
       !userInfo.eta ||
@@ -52,6 +68,9 @@
     }
   };
 
+  onMounted(() => {
+    fetchUser();
+  });
 </script>
 
 <template>
@@ -107,7 +126,11 @@
           <option value="intenso">Intenso</option>
         </select>
       </div>
-      <button type="submit">Continua</button>
+
+      <button type="submit"
+        :disabled="!userInfo.eta || !userInfo.peso || !userInfo.sesso || !userInfo.altezza || !userInfo.obiettivo || !userInfo.livelloAttivitaFisica || !userInfo.obiettivoPeso">
+        Continua
+      </button>
 
     </form>
   </div>

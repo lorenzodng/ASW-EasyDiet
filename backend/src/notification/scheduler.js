@@ -1,6 +1,7 @@
 import cron from "node-cron";
 import * as notificationService from "./service.js";
 import * as userService from "../user/service.js";
+import * as dietService from "../diet/service.js";
 
 //invia promemoria sui pasti dell'utente
 export const startMealReminders = () => {
@@ -14,10 +15,12 @@ export const startMealReminders = () => {
         const users = await userService.getAllUsers(); //recupera tutti gli utenti
 
         for (let user of users) { //per ogni utente
+            const dieta = await dietService.getDietByUserId(user.userId); //recupera la dieta
+            if (!dieta || !dieta.settimana) continue; //se l'utente non ha ancora nessuna dieta, passa al prossimo utente
             for (let giorno of giorni) { //per ogni giorno
                 for (let categoriaPasto of categoriePasto) { //per ogni categoria di pasto
-                    const pastoData = user.settimana[giorno][categoriaPasto]; //recupera il pasto 
-                    const [ora, minuto] = pastoData.time.split(":").map(Number); //recupera l'ora e il minuto del pasto
+                    const pasto = dieta.settimana[giorno][categoriaPasto]; //recupera il pasto 
+                    const [ora, minuto] = pasto.time.split(":").map(Number); //recupera l'ora e il minuto del pasto
                     if (ora === currentHour && minuto === currentMinute) { //se l'orario del pasto coincide con quello attuale
                         let corpo;
                         if (categoriaPasto === "pranzo") {

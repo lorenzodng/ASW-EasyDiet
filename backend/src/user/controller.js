@@ -13,7 +13,8 @@ export const loginController = async (req, res) => {
                 "status": true,
                 "message": result.message,
                 "user": result.user,
-                "hasProfileInfo": result.hasProfileInfo
+                "hasProfileInfo": result.hasProfileInfo,
+                "token": result.token
             });
         } else {
             res.send({
@@ -23,6 +24,7 @@ export const loginController = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
+        res.status(500).send({ status: false, message: 'Server error' });
     }
 };
 
@@ -79,6 +81,18 @@ export const updateWeightController = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ status: false, message: "Errore server" });
+    }
+};
+
+//recupera l'id e il nome tramite il token jwt
+export const getUserIdNameController = async (req, res) => {
+    try {
+        const userId = req.user.id; //recupera l'id e il nome che arriva dal middleware
+        const userData = await service.getUserIdName(userId);
+        res.json(userData);
+    } catch (err) {
+        console.error('Errore getUserController:', err);
+        res.status(500).json({ message: 'Errore server' });
     }
 };
 

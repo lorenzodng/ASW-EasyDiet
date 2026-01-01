@@ -30,29 +30,44 @@
     };
   });
 
-  onMounted(async () => {
-    try { //recupero profilo utente per le kcal
+  const fetchUser = async () => {
+    if (!userStore.id) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const { data } = await axios.get('http://localhost:5000/users/user', {
+            headers: { Authorization: `Bearer ${token}` } //token da inviare al backend
+          });
+          userStore.setUser({ id: data.id, nome: data.nome });
+        } catch (err) {
+          console.error("Token non valido o scaduto", err);
+          router.push({ name: "Login" }); //reindirizza al login se il token non è valido o scaduto
+        }
+      };
+    }
+  }
+
+  const getKcal = async () => {
+    try {
       const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
       kcalUser.value = resProfile.data.kcal;
       console.log("KCAL USER:", kcalUser.value);
+    } catch (error) {
+      console.error("Errore caricamento ricette:", error);
+    }
+  }
 
-      //resetta gli array per evitare duplicati in seguito al ricaricamentto della pagina
-      mealsByType.colazione = [];
-      mealsByType.pranzo = [];
-      mealsByType.merenda = [];
-      mealsByType.cena = [];
-
+  const getRecipes = async () => {
+    try {
       const res = await axios.get("http://localhost:5000/recipes");
-
       res.data.forEach((ricetta) => { //per ogni ricetta recuperata
         const ricettaScalata = scaleRecipe(ricetta, ricetta.categoria);
         mealsByType[ricetta.categoria].push(ricettaScalata); //inserisce quella ricetta nell'array giusto in base alla sua categoria
       });
-
     } catch (error) {
       console.error("Errore caricamento ricette:", error);
     }
-  });
+  }
 
   //mostra il target calorico dell'utente in base alla categoria di pasto
   const getTargetKcal = (categoria) => {
@@ -148,6 +163,14 @@
     }
   };
 
+  onMounted(() => {
+    const init = async () => {
+      await fetchUser();
+      await getKcal();
+      await getRecipes();
+    };
+    init();
+  });
 </script>
 
 <template>

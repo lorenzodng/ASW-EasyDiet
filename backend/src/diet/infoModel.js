@@ -7,7 +7,7 @@ const DietSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "accounts",
+      ref: "Account",
       required: true,
       unique: true
     },
@@ -155,5 +155,5 @@ const DietSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-const DietInfo = mongoose.model("diets", DietSchema);
+const DietInfo = mongoose.model("Diet", DietSchema);
 export default DietInfo;
