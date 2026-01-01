@@ -8,6 +8,7 @@ import ComponiDieta from "../components/ComponiDieta.vue"
 import InformazioniPersonali from "../components/InformazioniPersonali.vue"
 import Welcome from "../components/Welcome.vue"
 import TrackingPeso from "../components/TrackingPeso.vue"
+import AdminLogin from "../admin/components/AdminLogin.vue"
 
 const routes = [
   {
@@ -48,7 +49,12 @@ const routes = [
     path: "/tracking-peso",
     name: "TrackingPeso",
     component: TrackingPeso
+  },
+  { path: "/admin/login", 
+    name: "AdminLogin", 
+    component: AdminLogin 
   }
+
 ]
 
 const router = createRouter({

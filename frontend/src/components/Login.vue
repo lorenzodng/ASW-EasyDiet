@@ -35,6 +35,12 @@
       alert("Errore: " + err);
     }
   };
+
+  const goToAdmin = () => {
+  alert("CLICK ADMIN");
+  router.push({ name: "AdminLogin" });
+};
+
 </script>
 
 <template>
@@ -43,21 +49,24 @@
       <h2>Login</h2>
       <form @submit.prevent="loginData">
 
-        <!-- email -->
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" type="email" v-model="user.email" class="form-control" placeholder="Email">
-        </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input id="email" type="email" v-model="user.email" class="form-control" placeholder="Email">
+  </div>
 
-        <!-- password -->
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
-        </div>
 
-        <button type="submit" class="login-button">Login</button>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
+  </div>
 
-      </form>
+  <button type="submit" class="login-button">Login</button>
+</form>
+
+<p class="admin-link">
+  Sei un amministratore?
+  <span @click="goToAdmin">Accedi qui</span>
+</p>
     </div>
   </div>
 </template>
@@ -118,7 +127,7 @@
     }
   }
 
-  /* BOTTONE LOGIN */
+  
   .login-button {
     margin-top: 12px;
     width: 100%;
@@ -143,8 +152,26 @@
       box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
     }
   }
+  .admin-link {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  color: #555;
+
+  span {
+    color: #2e7d32;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #4caf50;
+      text-decoration: underline;
+    }
+  }
+}
+
 
 </style>
 
-
-<!--completare con bottone per admin e login admin-->
