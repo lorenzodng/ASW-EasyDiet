@@ -20,23 +20,6 @@
     obiettivoPeso: ""
   });
 
-  const fetchUser = async () => {
-    if (!userStore.id) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const { data } = await axios.get('http://localhost:5000/users/user', {
-            headers: { Authorization: `Bearer ${token}` } //token da inviare al backend
-          });
-          userStore.setUser({ id: data.id, nome: data.nome });
-        } catch (err) {
-          console.error("Token non valido o scaduto", err);
-          router.push({ name: "Login" }); //reindirizza al login se il token non è valido o scaduto
-        }
-      };
-    }
-  }
-
   //metodo per salvare i dati del form
   const saveInfo = async () => {
     //verifica dell'inserimenti di tutti i valori nei campi
@@ -69,7 +52,7 @@
   };
 
   onMounted(() => {
-    fetchUser();
+    userStore.fetchUser(router);
   });
 </script>
 

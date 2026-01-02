@@ -1,4 +1,5 @@
 import AdminAccount from "./infoModel.js";
+import UserAccount from "../user/accountModel.js"
 
 export const loginAdmin = async ({ token }) => {
   if (!token) {
@@ -28,4 +29,13 @@ export const loginAdmin = async ({ token }) => {
       ruolo: admin.ruolo
     }
   };
+};
+
+export const getAllUsers = async () => {
+  const users = await UserAccount.find(
+    { ruolo: "utente" },
+    { password: 0 } // escludiamo la password dal risultato 
+  );
+
+  return users;
 };

@@ -20,10 +20,6 @@ const InfoSchema = new mongoose.Schema({
             }, { _id: false })
         }
     ],
-    dataPeso: {
-        type: Date,
-        default: Date.now
-    },
     obiettivoPeso: {
         type: Number,
         required: true

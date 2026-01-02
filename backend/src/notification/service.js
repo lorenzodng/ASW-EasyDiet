@@ -6,11 +6,18 @@ import Notification from "./infoModel.js";
 //salva la sottoscrizione dell'utente alle notifiche
 export const saveSubscription = async ({ userId, subscription }) => {
     try {
-        const saved = await Notification.create({
-            userId,
-            subscription
-        });
 
+        const options = {
+            upsert: true, //se non esiste un documento, lo crea
+            new: true, //aggiorna il documento e lo restituisce (in saved)
+            setDefaultsOnInsert: true //applica i valori di default alla creazione del documento
+        };
+
+        const saved = await Notification.findOneAndUpdate(
+            { userId },
+            { subscription },
+            options
+        );
         return { status: true, id: saved._id };
     } catch (err) {
         console.error("Errore nel service delle notifiche:", err);
@@ -36,10 +43,39 @@ export const sendNotificationToUser = async (userId, payload) => {
 //verifica l'eseistenza di una sottoscrizione dell'utente alle notifiche
 export const getStatusNotification = async (userId) => {
     try {
-        const subscription = await Notification.findOne({ userId })
-        return !!subscription //restituisce true se esiste, false altrimenti
+        let notification = await Notification.findOne({ userId });
+
+        if (!notification) {
+            //se non esiste, restituisce valori di default
+            return {
+                notificationsEnabled: false,
+                notificationsBanner: true
+            };
+        }
+
+        return {
+            notificationsEnabled: notification.notificationsEnabled,
+            notificationsBanner: notification.notificationsBanner
+        };
     } catch (err) {
-        console.error('Errore service:', err)
-        throw err
+        console.error('Errore service getStatusNotification:', err);
+        throw err;
     }
+};
+//aggiorna il documento delle notifiche
+export const setStatusNotification = async (userId, updates) => {
+    let notification = await Notification.findOne({ userId });
+
+    if (notification) {   // aggiorna i campi forniti
+        Object.keys(updates).forEach(key => { notification[key] = updates[key] });
+        await notification.save();
+    } else {  // crea un nuovo documento
+        notification = new Notification({
+            userId,
+            ...updates
+        });
+        await notification.save();
+    }
+
+    return notification;
 };

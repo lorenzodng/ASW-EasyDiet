@@ -34,10 +34,23 @@ export const saveSubscriptionController = async (req, res) => {
 export const getStatusNotificationController = async (req, res) => {
     const { userId } = req.params
     try {
-        const isEnabled = await service.getStatusNotification(userId)
-        res.json({ notificationsEnabled: isEnabled })
+        const status = await service.getStatusNotification(userId);
+        res.json(status);
     } catch (err) {
         console.error('Errore controller:', err)
         res.status(500).json({ error: "Errore server" })
     }
 }
+
+//aggiorna lo stato delle notifiche
+export const setStatusNotificationController = async (req, res) => {
+    const { userId } = req.params;
+    const updates = req.body;
+    try {
+        await service.setStatusNotification(userId, updates);
+        res.json({ status: true, message: "Stato notifiche aggiornato" });
+    } catch (err) {
+        console.error("Errore nel controller dismissBanner:", err);
+        res.status(500).json({ status: false, message: "Errore server" });
+    }
+};

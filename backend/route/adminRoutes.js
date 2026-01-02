@@ -8,7 +8,7 @@ const router = express.Router();
 console.log("ADMIN ROUTES CARICATE");
 
 router.post('/admin/login', controller.adminController); //rotta di login
-
+router.get('/admin/users', controller.getUsersController); //rotta per rcuperare gli utenti
 export default router;
 
 

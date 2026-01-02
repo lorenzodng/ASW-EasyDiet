@@ -12,7 +12,19 @@ const subscriptionSchema = new mongoose.Schema({
 
     subscription: {
         type: Object,
-        required: true
+        required: false
+    },
+
+    //per sapere se il banner deve comparire
+    notificationsBanner: {
+        type: Boolean,
+        default: true
+    },
+
+    //per sapere se l'utente ha attivato le notifiche
+    notificationsEnabled: {
+        type: Boolean,
+        default: false
     }
 })
 

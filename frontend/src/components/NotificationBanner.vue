@@ -17,17 +17,28 @@
         try {
             const res = await axios.get(`http://localhost:5000/status-notification/${userStore.id}`);
             console.log(res.data);
-            if (!res.data.notificationsEnabled) {
+            if (!res.data.notificationsEnabled && res.data.notificationsBanner) {
                 visible.value = true
             }
         } catch (err) {
             console.error('Errore verifica notifiche backend:', err)
             visible.value = true //mostra il banner
         }
-    };
+    }
+
+    //evita l'apparizione del banner
+    const dismissBanner = async () => {
+        visible.value = false;
+
+        try {
+            await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, { notificationBanner: false });
+        } catch (err) {
+            console.error("Impossibile salvare lo stato: banner chiuso", err);
+        }
+    }
 
     const subscribeUser = async () => {
-        if ('serviceWorker' in navigator) { //se il browser support il service worker (navigator è un componente globale del browser)
+        if ('serviceWorker' in navigator) { //se il browser supporta il service worker (navigator è un componente globale del browser)
             try {
                 loading.value = true
                 error.value = null
@@ -43,6 +54,9 @@
                     userId: userStore.id,
                     subscription
                 });
+
+                //aggiorna lo stato nel backend: notifiche abilitate + banner non più visibile
+                await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, { notificationsEnabled: true, notificationBanner: false });
 
                 success.value = true
                 setTimeout(() => {
@@ -77,7 +91,7 @@
 
     onMounted(() => {
         checkNotifications();
-    });
+    })
 </script>
 
 <template>
@@ -91,7 +105,7 @@
             <button v-if="!success" @click="subscribeUser" :disabled="loading">
                 Attiva notifiche
             </button>
-            <button @click="visible = false">Chiudi</button>
+            <button @click="dismissBanner">Chiudi</button>
         </div>
     </div>
 </template>

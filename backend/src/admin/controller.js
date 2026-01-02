@@ -26,3 +26,22 @@ export const adminController = async (req, res) => {
     });
   }
 };
+
+
+export const getUsersController = async (req, res) => {
+  try {
+    const users = await service.getAllUsers();
+
+    res.json({
+      status: true,
+      users: users
+    });
+  } catch (error) {
+    console.error("Errore recupero utenti:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+
+};

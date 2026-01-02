@@ -10,6 +10,9 @@ import Welcome from "../components/Welcome.vue"
 import TrackingPeso from "../components/TrackingPeso.vue"
 import AdminLogin from "../admin/components/AdminLogin.vue"
 import AdminHome from "../admin/components/AdminHome.vue"
+import GestioneDiete from "../admin/components/GestioneDiete.vue";
+import GestioneRicette from "../admin/components/GestioneRicette.vue";
+import GestioneUtenti from "../admin/components/GestioneUtenti.vue";
 
 const routes = [
   {
@@ -51,14 +54,33 @@ const routes = [
     name: "TrackingPeso",
     component: TrackingPeso
   },
-  { path: "/admin/login", 
-    name: "AdminLogin", 
-    component: AdminLogin 
+  {
+    path: "/admin/login",
+    name: "AdminLogin",
+    component: AdminLogin
   },
   {
-    path: "/admin/home", 
-    name: "AdminHome", 
-    component: AdminHome 
+    path: "/admin/home",
+    name: "AdminHome",
+    component: AdminHome
+  },
+  {
+    path: "/admin/users",
+    name: "GestioneUtenti",
+    component: GestioneUtenti
+  },
+
+  {
+    path: "/admin/diete",
+    name: "GestioneDiete",
+    component: GestioneDiete
+
+  },
+
+  {
+    path: "/admin/ricette",
+    name: "GestioneRicette",
+    component: GestioneRicette
   }
 
 ]

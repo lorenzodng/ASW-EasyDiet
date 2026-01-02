@@ -30,23 +30,6 @@
     };
   });
 
-  const fetchUser = async () => {
-    if (!userStore.id) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const { data } = await axios.get('http://localhost:5000/users/user', {
-            headers: { Authorization: `Bearer ${token}` } //token da inviare al backend
-          });
-          userStore.setUser({ id: data.id, nome: data.nome });
-        } catch (err) {
-          console.error("Token non valido o scaduto", err);
-          router.push({ name: "Login" }); //reindirizza al login se il token non è valido o scaduto
-        }
-      };
-    }
-  }
-
   const getKcal = async () => {
     try {
       const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
@@ -165,7 +148,7 @@
 
   onMounted(() => {
     const init = async () => {
-      await fetchUser();
+      await userStore.fetchUser(router);
       await getKcal();
       await getRecipes();
     };
