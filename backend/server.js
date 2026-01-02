@@ -9,6 +9,7 @@ import usersRouter from "./route/usersRoutes.js";
 import recipesRouter from "./route/recipesRoutes.js";
 import dietsRouter from "./route/dietsRoutes.js";
 import notificationsRouter from "./route/notificationRoutes.js";
+import adminRouter from "./route/adminRoutes.js";
 import { startMealReminders } from "./src/notification/scheduler.js";
 
 const publicKey = process.env.VAPID_PUBLIC_KEY;
@@ -35,6 +36,7 @@ app.use(usersRouter);
 app.use(recipesRouter);
 app.use(dietsRouter);
 app.use(notificationsRouter);
+app.use(adminRouter);
 
 //connette il server al db
 try {

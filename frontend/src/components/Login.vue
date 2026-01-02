@@ -37,7 +37,7 @@
   };
 
   const goToAdmin = () => {
-  alert("CLICK ADMIN");
+  //alert("CLICK ADMIN");
   router.push({ name: "AdminLogin" });
 };
 
