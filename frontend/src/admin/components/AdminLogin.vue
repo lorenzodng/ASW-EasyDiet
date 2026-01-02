@@ -18,11 +18,11 @@ const loginAdmin = async () => {
       "http://localhost:5000/admin/login",
       { token: adminToken.value }
     );
-
+//se il backend conferma 
     if (data.status) {
       localStorage.setItem("adminToken", adminToken.value);
       alert("Accesso admin effettuato");
-      router.push({ name: "AdminHome" }); // o Area Dieta
+      router.push({ name: "AdminHome" }); // 
     } else {
       error.value = "Token non valido";
     }

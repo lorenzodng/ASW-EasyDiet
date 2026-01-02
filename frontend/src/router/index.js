@@ -9,6 +9,7 @@ import InformazioniPersonali from "../components/InformazioniPersonali.vue"
 import Welcome from "../components/Welcome.vue"
 import TrackingPeso from "../components/TrackingPeso.vue"
 import AdminLogin from "../admin/components/AdminLogin.vue"
+import AdminHome from "../admin/components/AdminHome.vue"
 
 const routes = [
   {
@@ -53,6 +54,11 @@ const routes = [
   { path: "/admin/login", 
     name: "AdminLogin", 
     component: AdminLogin 
+  },
+  {
+    path: "/admin/home", 
+    name: "AdminHome", 
+    component: AdminHome 
   }
 
 ]
