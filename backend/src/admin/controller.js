@@ -72,3 +72,32 @@ export const createUserController = async (req, res) => {
     });
   }
 };
+
+
+
+export const updateemailUserController = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { email } = req.body;
+
+    const result = await service.updateUserEmail(userId, email);
+
+    if (result.status) {
+      res.json({
+        status: true,
+        user: result.user
+      });
+    } else {
+      res.json({
+        status: false,
+        message: result.message
+      });
+    }
+  } catch (error) {
+    console.error("Errore update user:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};

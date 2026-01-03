@@ -7,7 +7,10 @@ const UserAccountSchema = new mongoose.Schema({
   email: String,
   password: String,
   ruolo: {
-    type: String
+    type: String,
+    enum: ["utente", "admin"],
+    default: "utente"
+
   }
 }, { versionKey: false });
 

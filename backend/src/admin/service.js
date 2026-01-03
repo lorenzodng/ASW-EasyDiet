@@ -81,3 +81,43 @@ export const createUser = async (userData) => { //userdata viene dal frontend
   };
 };
 //senza inviare la password 
+
+
+
+export const updateUserEmail = async (userId, email) => {
+  if (!email) {
+    return {
+      status: false,
+      message: "Email mancante"
+    };
+  }
+
+  //controlla duplicati
+  const existing = await UserAccount.findOne({ email });
+  if (existing) {
+    return {
+      status: false,
+      message: "Email già in uso"
+    };
+  }
+
+  // aggiornamento
+  const updatedUser = await UserAccount.findByIdAndUpdate(  //metodo di mongoose 
+    userId,
+    { email },
+    { new: true } // ritorna il documento aggiornato, quindi restituiesce dopo l'update
+  ).select("nome email"); // NON restituiamo password, per filtrare i campi 
+
+  if (!updatedUser) {
+    return {
+      status: false,
+      message: "Utente non trovato"
+    };
+  }
+
+  // 4️⃣ ritorna dati puliti
+  return {
+    status: true,
+    user: updatedUser
+  };
+};
