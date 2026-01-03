@@ -3,21 +3,29 @@
 import webpush from "web-push";
 import Notification from "./infoModel.js";
 
-//salva la sottoscrizione dell'utente alle notifiche
-export const saveSubscription = async ({ userId, subscription }) => {
+//salva/aggiorna la sottoscrizione dell'utente alle notifiche
+export const saveSubscription = async ({ userId, subscription, notificationsEnabled }) => {
     try {
-
         const options = {
             upsert: true, //se non esiste un documento, lo crea
             new: true, //aggiorna il documento e lo restituisce (in saved)
             setDefaultsOnInsert: true //applica i valori di default alla creazione del documento
         };
 
+        const data = { notificationsEnabled };
+
+        //se l'utente accetta, viene aggiunto il campo "subscription"
+        if (subscription) {
+            data.subscription = subscription;
+        }
+
+        //salva/aggiorna la sottoscrizione
         const saved = await Notification.findOneAndUpdate(
             { userId },
-            { subscription },
+            data,
             options
         );
+
         return { status: true, id: saved._id };
     } catch (err) {
         console.error("Errore nel service delle notifiche:", err);
@@ -59,22 +67,4 @@ export const getStatusNotification = async (userId) => {
         console.error('Errore service getStatusNotification:', err);
         throw err;
     }
-};
-
-//aggiorna il documento delle notifiche
-export const setStatusNotification = async (userId, updates) => {
-    let notification = await Notification.findOne({ userId });
-
-    if (notification) {   //aggiorna i campi forniti
-        Object.keys(updates).forEach(key => { notification[key] = updates[key] });
-        await notification.save();
-    } else {  //crea un nuovo documento
-        notification = new Notification({
-            userId,
-            ...updates
-        });
-        await notification.save();
-    }
-
-    return notification;
 };

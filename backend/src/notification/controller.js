@@ -2,12 +2,13 @@
 
 import * as service from "./service.js";
 
-//salva la sottoscrizione dell'utente alle notifiche
+//salva/aggiorna la sottoscrizione dell'utente alle notifiche
 export const saveSubscriptionController = async (req, res) => {
     try {
-        const subscriptionData = req.body;
+        const { userId } = req.params;
+        const { subscription, notificationsEnabled } = req.body;
 
-        const result = await service.saveSubscription(subscriptionData);
+        const result = await service.saveSubscription({ userId, subscription, notificationsEnabled });
 
         if (result.status) {
             res.status(201).json({
@@ -39,18 +40,5 @@ export const getStatusNotificationController = async (req, res) => {
     } catch (err) {
         console.error('Errore controller:', err)
         res.status(500).json({ error: "Errore server" })
-    }
-}
-
-//aggiorna lo stato delle notifiche
-export const setStatusNotificationController = async (req, res) => {
-    const { userId } = req.params;
-    const updates = req.body;
-    try {
-        await service.setStatusNotification(userId, updates);
-        res.json({ status: true, message: "Stato notifiche aggiornato" });
-    } catch (err) {
-        console.error("Errore nel controller dismissBanner:", err);
-        res.status(500).json({ status: false, message: "Errore server" });
     }
 };

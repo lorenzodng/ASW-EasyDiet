@@ -73,6 +73,12 @@ export const getAllUsers = async () => {
 //salvataggio delle informazioni personali
 export const saveUserProfileInfo = async (userId, profileInfo) => {
     try {
+        const { peso } = profileInfo;
+
+        if (typeof peso !== "number" || isNaN(peso) || peso <= 0 || peso > 500) {
+            return { status: false, message: "Peso inserito non valido" };
+        }
+
         // cerca il profilo esistente
         const existingProfile = await UserInfo.findOne({ userId });
 
@@ -140,7 +146,7 @@ const TDEE = (bmr, livelloAttivitaFisica) => {
 };
 
 //invia la notifica all''utente sull'andamento del peso
-export const updateWeight = async (userId, nuovoPeso) => {
+export const notifyWeight = async (userId, nuovoPeso) => {
     const user = await UserInfo.findOne({ userId });
     if (!user)
         return { status: false, message: "Utente non trovato" };

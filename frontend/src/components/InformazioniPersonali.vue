@@ -39,6 +39,8 @@
       if (data.status) {
         info.value = { ...editInfo.value }; // aggiorni i dati 
         isEditing.value = false;
+      } else {
+        alert("Errore: " + data.message);
       }
     } catch (err) {
       alert("Errore nel salvataggio");

@@ -39,7 +39,7 @@
     try {
       const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, userInfo)
 
-      if (data.status) { //se il backend risponde 
+      if (data.status) {
         alert("Dati salvati con successo");
         router.push({ name: "Home" });
       } else {

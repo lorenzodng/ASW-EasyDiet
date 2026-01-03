@@ -42,18 +42,13 @@
                 //crea la sottoscrizione dell'utente alle notifiche utilizzando una chiave VAPID 
                 const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyConverter(publicKey) })
 
-                //esegue la sottoscrizione
-                await axios.post('http://localhost:5000/subscribe-notification', {
-                    userId: userStore.id,
-                    subscription
-                });
-
-                await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, { notificationsEnabled: true });
+                //esegue la sottoscrizione creando il documento
+                await axios.post(`http://localhost:5000/subscribe-notification/${userStore.id}`, { subscription, notificationsEnabled: true });
 
                 success.value = true
                 setTimeout(() => {
                     visible.value = false;
-                }, 1500);
+                }, 1000);
             } catch (err) {
                 if (err.name === 'NotAllowedError') {
                     console.log('Utente ha rifiutato le notifiche');
@@ -82,11 +77,12 @@
     }
 
     //evita l'apparizione del banner
-    const dismissBanner = () => {
+    const dismissBanner = async () => {
         visible.value = false;
         localStorage.setItem("notificationBannerDismissed", "true");
         try {
-            await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, {notificationsEnabled: false});
+            //crea il documento
+            await axios.post(`http://localhost:5000/subscribe-notification/${userStore.id}`, { notificationsEnabled: false });
         } catch (err) {
             console.error("Errore nel backend per dismiss banner:", err);
         }
@@ -108,7 +104,7 @@
             <button v-if="!success" @click="subscribeUser" :disabled="loading">
                 Attiva notifiche
             </button>
-            <button @click="dismissBanner">Chiudi</button>
+            <button v-if="!success" @click="dismissBanner">Chiudi</button>
         </div>
     </div>
 </template>
