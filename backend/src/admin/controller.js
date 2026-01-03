@@ -27,7 +27,6 @@ export const adminController = async (req, res) => {
   }
 };
 
-
 export const getUsersController = async (req, res) => {
   try {
     const users = await service.getAllUsers();
@@ -96,6 +95,47 @@ export const updateemailUserController = async (req, res) => {
   } catch (error) {
     console.error("Errore update user:", error);
     res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};
+
+export const deleteUserController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await service.deleteUserService(id);
+
+    if (!result.status) {
+      return res.status(404).json(result);
+    }
+
+    return res.json(result);
+  } catch (error) {
+    console.error("Errore delete user:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+
+};
+
+export const getUserInfoController = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const result = await service.getUserInfoService(userId);
+
+    if (!result.status) {
+      return res.status(404).json(result);
+    }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Errore controller getUserInfo:", error);
+    return res.status(500).json({
       status: false,
       message: "Errore server"
     });

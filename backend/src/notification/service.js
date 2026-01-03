@@ -49,27 +49,26 @@ export const getStatusNotification = async (userId) => {
             //se non esiste, restituisce valori di default
             return {
                 notificationsEnabled: false,
-                notificationsBanner: true
             };
         }
 
         return {
             notificationsEnabled: notification.notificationsEnabled,
-            notificationsBanner: notification.notificationsBanner
         };
     } catch (err) {
         console.error('Errore service getStatusNotification:', err);
         throw err;
     }
 };
+
 //aggiorna il documento delle notifiche
 export const setStatusNotification = async (userId, updates) => {
     let notification = await Notification.findOne({ userId });
 
-    if (notification) {   // aggiorna i campi forniti
+    if (notification) {   //aggiorna i campi forniti
         Object.keys(updates).forEach(key => { notification[key] = updates[key] });
         await notification.save();
-    } else {  // crea un nuovo documento
+    } else {  //crea un nuovo documento
         notification = new Notification({
             userId,
             ...updates

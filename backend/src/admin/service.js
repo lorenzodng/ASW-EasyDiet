@@ -1,5 +1,8 @@
 import AdminAccount from "./infoModel.js";
 import UserAccount from "../user/accountModel.js"
+import User from "../user/infoModel.js";
+import Diet from "../diet/infoModel.js";
+import Notification from "../notification/infoModel.js";
 
 export const loginAdmin = async ({ token }) => {
   if (!token) {
@@ -119,5 +122,63 @@ export const updateUserEmail = async (userId, email) => {
   return {
     status: true,
     user: updatedUser
+  };
+};
+
+
+
+export const deleteUserService = async (userId) => {
+  // controllo ID
+  if (!userId) {
+    return {
+      status: false,
+      message: "ID utente mancante"
+    };
+  }
+
+  // verifica esistenza account
+  const userAccount = await UserAccount.findById(userId);
+  if (!userAccount) {
+    return {
+      status: false,
+      message: "Utente non trovato"
+    };
+  }
+
+  // elimina dati collegati
+  await Notification.deleteMany({ userId });
+  await Diet.deleteMany({ userId });
+  await User.findOneAndDelete({ userId });
+
+  // elimina account
+  await UserAccount.findByIdAndDelete(userId);
+
+  return {
+    status: true,
+    message: "Utente e dati associati eliminati con successo"
+  };
+};
+
+
+export const getUserInfoService = async (userId) => {
+  if (!userId) {
+    return {
+      status: false,
+      message: "ID utente mancante"
+    };
+  }
+
+  const info = await User.findOne({ userId });
+
+  if (!info) {
+    return {
+      status: false,
+      message: "Nessuna informazione personale trovata"
+    };
+  }
+
+  return {
+    status: true,
+    info
   };
 };

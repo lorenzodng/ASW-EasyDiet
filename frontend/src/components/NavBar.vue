@@ -12,6 +12,7 @@ const Menu = () => {
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("userId");
+  localStorage.removeItem("notificationBannerDismissed");
   router.push({ name: "Login" });
 };
 </script>

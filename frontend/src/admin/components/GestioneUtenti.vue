@@ -17,6 +17,11 @@ const newUser = ref({
   password: ""
 });
 
+const showUserModal = ref(false);
+const selectedUser = ref(null);
+const userInfo = ref(null);
+const loadingInfo = ref(false);
+
 const toggleForm = () => {
   showForm.value = !showForm.value;
 };
@@ -78,9 +83,64 @@ const saveUser = async (user) => {
   }
 };
 
-const deleteUser = (user) => {
-  console.log("Elimina utente:", user);
+//const deleteUser = (user) => {
+  //console.log("Elimina utente:", user);
+//};
+
+const deleteUser = async (user) => {
+  const conferma = confirm(
+    `Sei sicuro di eliminare l'utente ${user.nome}?`
+  ); //mostra un popup per confermare  o annullare 
+
+  if (!conferma) return;
+
+  try {
+    const { data } = await axios.delete(
+      `http://localhost:5000/admin/users/${user._id}`
+    );
+
+    if (data.status) {
+      //ricarico lista utenti
+      const res = await axios.get("http://localhost:5000/admin/users");
+      users.value = res.data.users;
+    } else {
+      error.value = data.message || "Errore eliminazione";
+    }
+  } catch (err) {
+    error.value = "Errore di connessione";
+  }
 };
+
+const openUserModal = async (user) => {
+  selectedUser.value = user;
+  showUserModal.value = true;
+  loadingInfo.value = true;
+  userInfo.value = null;
+
+  try {
+    const { data } = await axios.get(
+      `http://localhost:5000/admin/users/${user._id}/info`
+    );
+
+    if (data.status) {
+      userInfo.value = data.info;
+    } else {
+      userInfo.value = null;
+    }
+  } catch (err) {
+    error.value = "Errore nel caricamento informazioni utente";
+  } finally {
+    loadingInfo.value = false;
+  }
+};
+
+const closeUserModal = () => {
+  showUserModal.value = false;
+  selectedUser.value = null;
+  userInfo.value = null;
+};
+
+
 
 // 🔹 CARICAMENTO INIZIALE
 onMounted(async () => {
@@ -101,68 +161,119 @@ onMounted(async () => {
 
 
 <template>
-  <div class="header">
-    <div class="admin-page">
-      <h1>Gestione Utenti</h1>
+  <div class="admin-page">
+    <!-- TITOLO -->
+    <h1>Gestione Utenti</h1>
 
-      <button class="add-btn" @click="toggleForm">
-        ➕ Aggiungi utente
-      </button>
+    <!-- CONTENITORE ORIZZONTALE -->
+    <div class="header">
+      
+      <!-- SINISTRA: pulsante + form -->
+      <div>
+        <button class="add-btn" @click="toggleForm">
+          ➕ Aggiungi utente
+        </button>
 
-      <form v-if="showForm" class="user-form" @submit.prevent="submitUser">
-        <input type="text" placeholder="Nome" v-model="newUser.nome" required />
-        <input type="email" placeholder="Email" v-model="newUser.email" required />
-        <input type="password" placeholder="Password" v-model="newUser.password" required />
-        <button type="submit">Crea utente</button>
-      </form>
+        <form v-if="showForm" class="user-form" @submit.prevent="submitUser">
+          <input type="text" placeholder="Nome" v-model="newUser.nome" required />
+          <input type="email" placeholder="Email" v-model="newUser.email" required />
+          <input type="password" placeholder="Password" v-model="newUser.password" required />
+          <button type="submit">Crea utente</button>
+        </form>
+      </div>
+
+      <!-- DESTRA: tabella -->
+      <div style="flex: 1">
+        <p v-if="loading" class="info">Caricamento utenti...</p>
+        <p v-if="error" class="error">{{ error }}</p>
+
+        <table v-if="!loading && !error" class="users-table">
+          <thead>
+            <tr>
+              <th>Nome Utente</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="user in users" :key="user._id">
+              <td>{{ user.nome }}</td>
+
+              <td>
+                <p v-if="isEditing !== user._id">{{ user.email }}</p>
+                <div v-else>
+                  <input type="email" v-model="editEmail" />
+                </div>
+              </td>
+
+              <td class="actions">
+                <template v-if="isEditing !== user._id">
+                  <button @click="openUserModal(user)">👁️</button>
+                  <button class="iconaedit" @click="editUser(user)">✏️</button>
+                  <button class="iconadelete" @click="deleteUser(user)">🗑️</button>
+                </template>
+
+                <template v-else>
+                  <button class="iconasave" @click="saveUser(user)" :disabled="saving">
+                    💾
+                  </button>
+                  <button class="iconacancel" @click="cancelEdit">
+                    ❌
+                  </button>
+                </template>
+              </td>
+            </tr>
+
+            <tr v-if="users.length === 0">
+              <td colspan="3" class="empty">Nessun utente trovato</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- MODALE INFO UTENTE -->
+<div
+  v-if="showUserModal"
+  class="modal-overlay"
+  @click.self="closeUserModal"
+>
+  <div class="modal">
+    <h2>Informazioni personali</h2>
+
+    <div v-if="loadingInfo">
+      <p>Caricamento informazioni...</p>
     </div>
 
-    <p v-if="loading" class="info">Caricamento utenti...</p>
-    <p v-if="error" class="error">{{ error }}</p>
+    <div v-else-if="userInfo">
+      <p><strong>Età:</strong> {{ userInfo.eta }}</p>
+      <p><strong>Sesso:</strong> {{ userInfo.sesso }}</p>
+      <p><strong>Altezza:</strong> {{ userInfo.altezza }} cm</p>
+      <p><strong>Obiettivo:</strong> {{ userInfo.obiettivo }}</p>
+      <p><strong>Livello attività:</strong> {{ userInfo.livelloAttivitaFisica }}</p>
+      <p><strong>Obiettivo peso:</strong> {{ userInfo.obiettivoPeso }} kg</p>
+      <p><strong>Kcal giornaliere:</strong> {{ userInfo.kcal }}</p>
 
-    <table v-if="!loading && !error" class="users-table">
-      <thead>
-        <tr>
-          <th>Nome Utente</th>
-          <th>Email</th>
-          <th></th>
-        </tr>
-      </thead>
+      <h3>Storico pesi</h3>
 
-      <tbody>
-        <tr v-for="user in users" :key="user._id">
-          <td>{{ user.nome }}</td>
+      <ul v-if="userInfo.pesi?.length">
+        <li v-for="(p, index) in userInfo.pesi" :key="index">
+          {{ p.peso }} kg — {{ new Date(p.data).toLocaleDateString() }}
+        </li>
+      </ul>
 
-          <td>
-            <!-- 🔴 FIX QUI -->
-            <p v-if="isEditing !== user._id">{{ user.email }}</p>
-            <div v-else>
-              <input type="email" v-model="editEmail" />
-            </div>
-          </td>
+      <p v-else>Nessun peso registrato</p>
+    </div>
 
-          <td class="actions">
-            <template v-if="isEditing !== user._id">
-              <button class="iconaedit" @click="editUser(user)">✏️</button>
-              <button class="iconadelete" @click="deleteUser(user)">🗑️</button>
-            </template>
+    <div v-else>
+      <p>Nessuna informazione personale disponibile</p>
+    </div>
 
-            <template v-else>
-              <button class="iconasave" @click="saveUser(user)" :disabled="saving">
-                💾
-              </button>
-              <button class="iconacancel" @click="cancelEdit">
-                ❌
-              </button>
-            </template>
-          </td>
-        </tr>
+    <button @click="closeUserModal">Chiudi</button>
+  </div>
+</div>
 
-        <tr v-if="users.length === 0">
-          <td colspan="3" class="empty">Nessun utente trovato</td>
-        </tr>
-      </tbody>
-    </table>
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -323,4 +434,52 @@ onMounted(async () => {
     font-style: italic;
   }
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  h2 {
+    margin-bottom: 16px;
+    color: #2e7d32;
+  }
+
+  h3 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 8px 14px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #66bb6a;
+    }
+  }
+}
+
 </style>

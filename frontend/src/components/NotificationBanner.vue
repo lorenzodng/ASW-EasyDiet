@@ -14,29 +14,22 @@
 
     //verifica se l'utente ha già attivato le notifiche
     const checkNotifications = async () => {
+        if (localStorage.getItem("notificationBannerDismissed")) {
+            return;
+        }
+
         try {
             const res = await axios.get(`http://localhost:5000/status-notification/${userStore.id}`);
-            console.log(res.data);
-            if (!res.data.notificationsEnabled && res.data.notificationsBanner) {
-                visible.value = true
+
+            if (!res.data.notificationsEnabled) {
+                visible.value = true;
             }
         } catch (err) {
-            console.error('Errore verifica notifiche backend:', err)
-            visible.value = true //mostra il banner
+            visible.value = true;
         }
     }
 
-    //evita l'apparizione del banner
-    const dismissBanner = async () => {
-        visible.value = false;
-
-        try {
-            await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, { notificationBanner: false });
-        } catch (err) {
-            console.error("Impossibile salvare lo stato: banner chiuso", err);
-        }
-    }
-
+    //sottoscrive l'utente alle notifiche
     const subscribeUser = async () => {
         if ('serviceWorker' in navigator) { //se il browser supporta il service worker (navigator è un componente globale del browser)
             try {
@@ -55,13 +48,12 @@
                     subscription
                 });
 
-                //aggiorna lo stato nel backend: notifiche abilitate + banner non più visibile
-                await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, { notificationsEnabled: true, notificationBanner: false });
+                await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, { notificationsEnabled: true });
 
                 success.value = true
                 setTimeout(() => {
                     visible.value = false;
-                }, 1000);
+                }, 1500);
             } catch (err) {
                 if (err.name === 'NotAllowedError') {
                     console.log('Utente ha rifiutato le notifiche');
@@ -87,6 +79,17 @@
         const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/')
         const rawData = window.atob(base64)
         return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)))
+    }
+
+    //evita l'apparizione del banner
+    const dismissBanner = () => {
+        visible.value = false;
+        localStorage.setItem("notificationBannerDismissed", "true");
+        try {
+            await axios.post(`http://localhost:5000/status-notification/${userStore.id}`, {notificationsEnabled: false});
+        } catch (err) {
+            console.error("Errore nel backend per dismiss banner:", err);
+        }
     }
 
     onMounted(() => {
