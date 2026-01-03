@@ -45,3 +45,30 @@ export const getUsersController = async (req, res) => {
   }
 
 };
+
+
+
+export const createUserController = async (req, res) => {
+  try {
+    const result = await service.createUser(req.body);
+
+    if (result.status) {
+      res.json({
+        status: true,
+        user: result.user
+      });
+    } else {
+      res.json({
+        status: false,
+        message: result.message
+      });
+    }
+
+  } catch (error) {
+    console.error("Errore creazione utente:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};

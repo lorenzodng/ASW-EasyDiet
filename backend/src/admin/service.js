@@ -39,3 +39,45 @@ export const getAllUsers = async () => {
 
   return users;
 };
+
+
+export const createUser = async (userData) => { //userdata viene dal frontend
+  const nome = userData.nome;
+  const email = userData.email;
+  const password = userData.password;
+
+  // controllo dei campi
+  if (!nome || !email || !password) {
+    return {
+      status: false,
+      message: "Dati mancanti"
+    };
+  }
+
+  // controllo duplicazione e-mail
+  const doubleemail = await UserAccount.findOne({ email });
+  if (doubleemail) {
+    return {
+      status: false,
+      message: "Email già registrata"
+    };
+  }
+
+  const newUser = new UserAccount({
+    nome,
+    email,
+    password
+  });
+
+  await newUser.save();
+
+  return {
+    status: true,
+    user: {
+      _id: newUser._id,
+      nome: newUser.nome,
+      email: newUser.email
+    }
+  };
+};
+//senza inviare la password 
