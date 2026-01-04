@@ -85,7 +85,7 @@
                     <h3>Ingredienti</h3>
                     <ul>
                         <p v-for="(ing, index) in recipeDetail.ingredienti" :key="index">
-                           - {{ ing.nome }} : {{ ing.peso }}g – {{ ing.kcal }} kcal
+                           - {{ ing.nome }} : {{ ing.peso }}g  ({{ ing.kcal }} kcal)
                         </p>
                     </ul>
 
