@@ -99,9 +99,19 @@
         <p><strong>Peso attuale:</strong> {{ pesoAttuale }} kg</p>
 
         <p><strong>Obiettivo:</strong> {{ obiettivoPeso }} kg</p>
+        <div class="progress-bar-container">
+          <div class="progress-bar">
+            <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+          </div>
 
-        <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+          <!-- coriandoli attorno alla barra, senza toccare la barra -->
+          <div class="confetti-container" v-if="progress >= 100">
+            <div v-for="n in 30" :key="n" class="confetti" :style="{
+              left: Math.random() * 120 - 10 + '%', // -10% a 110%
+              top: Math.random() * 60 - 20 + 'px',   // -20px a 40px
+              backgroundColor: ['#f44336', '#e91e63', '#ffeb3b', '#4caf50', '#2196f3', '#ff9800'][Math.floor(Math.random() * 6)]
+            }"></div>
+          </div>
         </div>
 
         <p class="percent">{{ Math.round(progress) }}%</p>
@@ -183,19 +193,62 @@
     text-align: center;
   }
 
+  .progress-bar-container {
+    position: relative;
+    margin: 15px 0;
+  }
+
   .progress-bar {
     width: 100%;
     height: 20px;
     background-color: #eee;
     border-radius: 10px;
     overflow: hidden;
-    margin: 15px 0;
   }
 
   .progress-fill {
     height: 100%;
     background-color: #4caf50;
+    border-radius: 10px;
     transition: width 0.4s ease;
+  }
+
+  .confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    pointer-events: none;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: fall 2s forwards;
+    opacity: 1;
+  }
+
+  /* serve a dire al browser come cambiano le proprietà di un elemento nel tempo */
+  @keyframes fall {
+    0% {
+      /* all’inizio dell’animazione (0%), il coriandolo è nella sua posizione originale */
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+
+    50% {
+      /* a metà animazione, il coriandolo cambia posizione */
+      transform: translateY(20px) rotate(180deg);
+    }
+
+    100% {
+      /* alla fine dell'animazione, il coriandolo cambia posizione */
+      transform: translateY(40px) rotate(360deg);
+      opacity: 0;
+    }
   }
 
   .percent {

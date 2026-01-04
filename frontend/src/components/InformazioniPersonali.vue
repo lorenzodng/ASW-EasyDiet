@@ -46,6 +46,7 @@
       alert("Errore nel salvataggio");
     }
   };
+
   const annulla = () => {
     isEditing.value = false;
     editInfo.value = null;

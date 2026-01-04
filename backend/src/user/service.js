@@ -79,10 +79,11 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
             return { status: false, message: "Peso inserito non valido" };
         }
 
-        // cerca il profilo esistente
+        //cerca il profilo esistente
         const existingProfile = await UserInfo.findOne({ userId });
 
-        if (existingProfile) {
+        if (existingProfile) { //se il profilo esiste
+
             existingProfile.eta = profileInfo.eta;
             existingProfile.peso = profileInfo.peso;
             existingProfile.altezza = profileInfo.altezza;
@@ -90,13 +91,14 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
             existingProfile.obiettivo = profileInfo.obiettivo;
             existingProfile.obiettivoPeso = profileInfo.obiettivoPeso;
             existingProfile.livelloAttivitaFisica = profileInfo.livelloAttivitaFisica;
+            await notifyWeight(existingProfile, peso);
             existingProfile.pesi.push({ peso: profileInfo.peso, data: new Date() });
-            // ricalcola kcal
+
             existingProfile.kcal = Math.round(kcalCalculator(profileInfo.eta, profileInfo.peso, profileInfo.sesso, profileInfo.altezza, profileInfo.livelloAttivitaFisica, profileInfo.obiettivo));
 
             await existingProfile.save();
         } else {
-            const newProfile = {
+            const newProfile = { //se il profilo non esiste
                 ...profileInfo,
                 userId,
                 pesi: [{ peso: profileInfo.peso, data: new Date() }],
@@ -145,26 +147,66 @@ const TDEE = (bmr, livelloAttivitaFisica) => {
     return bmr * fattori[livelloAttivitaFisica];
 };
 
-//invia la notifica all''utente sull'andamento del peso
-export const notifyWeight = async (userId, nuovoPeso) => {
-    const user = await UserInfo.findOne({ userId });
-    if (!user)
-        return { status: false, message: "Utente non trovato" };
+//invia la notifica all'utente sull'andamento del peso
+export const notifyWeight = async (user, nuovoPeso) => {
+    const pesoPrecedente = user.pesi[user.pesi.length - 1].peso;
+    const obiettivo = user.obiettivo;
+    const obiettivoPeso = user.obiettivoPeso;
 
-    //aggiunge il nuovo peso
-    user.pesi.push({ peso: nuovoPeso, data: new Date() });
-    await user.save();
+    let payload;
 
-    //controlla se c'è stato calo di peso
-    let payload = { title: "Aggiornamento peso", body: "Il tuo peso è stato aggiornato." };
-    if (user.pesi.length > 1 && nuovoPeso < user.pesi[user.pesi.length - 2].peso) {
-        payload = { title: "Ottimo lavoro! 🎉", body: "Hai perso peso! Continua così!" };
+    if (obiettivo === "dimagrimento") {
+        if (nuovoPeso <= obiettivoPeso) {
+            payload = {
+                title: "🎯 Obiettivo raggiunto!",
+                body: `Hai raggiunto il tuo peso target di ${obiettivoPeso} kg! Complimenti!`
+            }
+        } else if (nuovoPeso < pesoPrecedente) {
+            payload = {
+                title: "Ottimo lavoro! 🎉",
+                body: "Hai perso peso! Continua così!"
+            };
+        } else if (nuovoPeso > pesoPrecedente) {
+            payload = {
+                title: "Aggiornamento peso",
+                body: "Sei aumentato di peso, cerca di seguire il tuo piano alimentare!"
+            };
+        } else {
+            return;
+        }
+    } else if (obiettivo === "aumento_peso") {
+        if (nuovoPeso >= obiettivoPeso) {
+            payload = {
+                title: "🎯 Obiettivo raggiunto!",
+                body: `Hai raggiunto il tuo peso target di ${obiettivoPeso} kg! Complimenti!`
+            };
+        } else if (nuovoPeso > pesoPrecedente) {
+            payload = {
+                title: "Ottimo lavoro! 💪",
+                body: "Hai guadagnato peso, stai raggiungendo il tuo obiettivo!"
+            };
+        } else if (nuovoPeso < pesoPrecedente) {
+            payload = {
+                title: "Aggiornamento peso",
+                body: "Hai perso peso, cerca di seguire il tuo piano alimentare!"
+            };
+        } else {
+            return;
+        }
+    } else if (obiettivo === "mantenimento") {
+        if (nuovoPeso !== pesoPrecedente) {
+            payload = {
+                title: "Aggiornamento peso",
+                body: "Il tuo peso è cambiato. Cerca di mantenerlo stabile seguendo il tuo piano alimentare!"
+            };
+        } else {
+            return;
+        }
     }
 
-    await sendNotificationToUser(userId, payload);
-
-    return { status: true };
+    await sendNotificationToUser(user.userId, payload);
 };
+
 
 //recupera l'id e il nome 
 export const getUserIdName = async (userId) => {
