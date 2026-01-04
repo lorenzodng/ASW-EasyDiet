@@ -7,31 +7,16 @@
     const error = ref("");
 
     const showRecipeModal = ref(false);
-    const selectedRecipe = ref(null);
+
     const recipeDetail = ref(null);
-    const loadingDetail = ref(false);
+  
 
 
-    const openRecipeModal = async (recipe) => {
-        selectedRecipe.value = recipe;
-        showRecipeModal.value = true;
-        loadingDetail.value = true;
-        recipeDetail.value = null;
+    const openRecipeModal = (recipe) => {
+  recipeDetail.value = recipe; // ✅ già completa
+  showRecipeModal.value = true;
+};
 
-        try {
-            const { data } = await axios.get(
-                `http://localhost:5000/recipes/${recipe._id}`
-            );
-
-            if (data.status) {
-                recipeDetail.value = data.recipe;
-            }
-        } catch {
-            error.value = "Errore nel caricamento della ricetta";
-        } finally {
-            loadingDetail.value = false;
-        }
-    };
 
     const closeRecipeModal = () => {
         showRecipeModal.value = false;
@@ -41,19 +26,16 @@
 
     // 🔹 caricamento iniziale
     onMounted(async () => {
-        try {
-            const { data } = await axios.get("http://localhost:5000/recipes");
-            console.log("RISPOSTA API:", data);
+    try {
+        const { data } = await axios.get("http://localhost:5000/recipes");
+        recipes.value = data; // ← QUI
+    } catch {
+        error.value = "Errore di connessione";
+    } finally {
+        loading.value = false;
+    }
+});
 
-            if (data.status) {
-                recipes.value = data.recipes;
-            }
-        } catch {
-            error.value = "Errore di connessione";
-        } finally {
-            loading.value = false;
-        }
-    });
 </script>
 
 <template>
@@ -102,21 +84,20 @@
 
                     <h3>Ingredienti</h3>
                     <ul>
-                        <li v-for="(ing, index) in recipeDetail.ingredienti" :key="index">
-                            {{ ing.nome }} – {{ ing.peso }}g – {{ ing.kcal }} kcal
-                        </li>
+                        <p v-for="(ing, index) in recipeDetail.ingredienti" :key="index">
+                           - {{ ing.nome }} : {{ ing.peso }}g – {{ ing.kcal }} kcal
+                        </p>
                     </ul>
 
-                    <h3>Info</h3>
-                    <p v-if="recipeDetail.info?.descrizioneKcal">
-                        {{ recipeDetail.info.descrizioneKcal }}
-                    </p>
-                    <p v-if="recipeDetail.info?.descrizioneTipoDieta">
-                        {{ recipeDetail.info.descrizioneTipoDieta }}
-                    </p>
-                    <p v-if="recipeDetail.info?.descrizioneIntolleranze">
-                        {{ recipeDetail.info.descrizioneIntolleranze }}
-                    </p>
+                   <h3>Info</h3>
+
+<p v-if="recipeDetail.info?.[1]">
+  {{ recipeDetail.info[1].descrizioneTipoDieta }}
+</p>
+<p v-if="recipeDetail.info?.[2]">
+  {{ recipeDetail.info[2].descrizioneIntolleranze }}
+</p>
+
                 </div>
 
                 <button @click="closeRecipeModal">Chiudi</button>
