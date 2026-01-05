@@ -141,3 +141,30 @@ export const getUserInfoController = async (req, res) => {
     });
   }
 };
+
+
+//recipe 
+export const createRecipeController = async (req, res) => {
+  try {
+    const result = await service.createRecipe(req.body);
+
+    if (result.status) {
+      res.json({
+        status: true,
+        recipe: result.recipe
+      });
+    } else {
+      res.json({
+        status: false,
+        message: result.message
+      });
+    }
+
+  } catch (error) {
+    console.error("Errore creazione ricetta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};

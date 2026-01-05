@@ -3,6 +3,7 @@ import UserAccount from "../user/accountModel.js"
 import User from "../user/infoModel.js";
 import Diet from "../diet/infoModel.js";
 import Notification from "../notification/infoModel.js";
+import Recipe from "../recipes/infoModel.js";
 
 export const loginAdmin = async ({ token }) => {
   if (!token) {
@@ -180,5 +181,49 @@ export const getUserInfoService = async (userId) => {
   return {
     status: true,
     info
+  };
+};
+
+
+//recipe 
+export const createRecipe = async (recipeData) => {
+  const {
+    nome,
+    categoria,
+    ingredienti,
+    kcal,
+    info
+  } = recipeData;
+
+  // controllo campi obbligatori
+  if (!nome || !categoria || !ingredienti || ingredienti.length === 0 || !kcal) {
+    return {
+      status: false,
+      message: "Dati mancanti"
+    };
+  }
+
+  // (opzionale) controllo duplicato nome
+  const existingRecipe = await Recipe.findOne({ nome });
+  if (existingRecipe) {
+    return {
+      status: false,
+      message: "Ricetta già esistente"
+    };
+  }
+
+  const newRecipe = new Recipe({
+    nome,
+    categoria,
+    ingredienti,
+    kcal,
+    info
+  });
+
+  await newRecipe.save();
+
+  return {
+    status: true,
+    recipe: newRecipe
   };
 };
