@@ -168,3 +168,33 @@ export const createRecipeController = async (req, res) => {
     });
   }
 };
+
+
+
+
+export const deleteRecipeController = async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+
+    const result = await service.deleteRecipe(recipeId);
+
+    if (result.status) {
+      res.json({
+        status: true,
+        message: "Ricetta eliminata con successo"
+      });
+    } else {
+      res.json({
+        status: false,
+        message: result.message
+      });
+    }
+
+  } catch (error) {
+    console.error("Errore eliminazione ricetta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};

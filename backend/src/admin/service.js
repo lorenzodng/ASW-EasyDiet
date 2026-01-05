@@ -227,3 +227,28 @@ export const createRecipe = async (recipeData) => {
     recipe: newRecipe
   };
 };
+
+
+export const deleteRecipe = async (recipeId) => {
+  if (!recipeId) {
+    return {
+      status: false,
+      message: "ID ricetta mancante"
+    };
+  }
+
+  const recipe = await Recipe.findById(recipeId);
+
+  if (!recipe) {
+    return {
+      status: false,
+      message: "Ricetta non trovata"
+    };
+  }
+
+  await Recipe.findByIdAndDelete(recipeId);
+
+  return {
+    status: true
+  };
+};

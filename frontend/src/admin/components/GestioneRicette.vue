@@ -2,6 +2,8 @@
     import axios from "axios";
     import { ref, onMounted } from "vue";
 
+    import EliminazioneRicetta from "./EliminazioneRicetta.vue";
+
     const recipes = ref([]);
     const loading = ref(true);
     const error = ref("");
@@ -57,7 +59,7 @@ const saveRecipe = async () => {
     );
 
     // aggiunge subito la ricetta alla tabella
-    recipes.value.push(data);
+     await loadRecipes();
 
     // reset form
     newRecipe.value = {
@@ -79,17 +81,24 @@ const saveRecipe = async () => {
   }
 };
 
-    // 🔹 caricamento iniziale
-    onMounted(async () => {
-    try {
-        const { data } = await axios.get("http://localhost:5000/recipes");
-        recipes.value = data; // ← QUI
-    } catch {
-        error.value = "Errore di connessione";
-    } finally {
-        loading.value = false;
-    }
-});
+   const loadRecipes = async () => {
+  try {
+    loading.value = true;
+    const { data } = await axios.get("http://localhost:5000/recipes");
+    recipes.value = data;
+  } catch {
+    error.value = "Errore di connessione";
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleRecipeDeleted = async () => {
+  await loadRecipes();
+};
+
+onMounted(loadRecipes);
+
 
 </script>
 
@@ -183,7 +192,10 @@ const saveRecipe = async () => {
                     <td>{{ recipe.categoria }}</td>
                     <td>
                         <button @click="openRecipeModal(recipe)">👁️</button>
-                    </td>
+                            <EliminazioneRicetta  :recipeId="recipe._id"
+  @deleted="handleRecipeDeleted"
+/>
+</td>
                 </tr>
             </tbody>
         </table>

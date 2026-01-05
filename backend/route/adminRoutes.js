@@ -17,6 +17,8 @@ router.get("/admin/users/:id/info", controller.getUserInfoController); //per rec
 
 //recipe 
 router.post("/admin/recipes", controller.createRecipeController); //rotta per creare le ricette
+router.delete("/recipes/:id", controller.deleteRecipeController);  //rotta per eliminare le ricette
+
 
 export default router;
 
