@@ -3,6 +3,8 @@
     import { ref, onMounted } from "vue";
 
     import EliminazioneRicetta from "./EliminazioneRicetta.vue";
+    import ModificaRicetta from "./ModificaRicetta.vue";
+
 
     const recipes = ref([]);
     const loading = ref(true);
@@ -54,7 +56,7 @@ const addIngredient = () => {
 const saveRecipe = async () => {
   try {
     const { data } = await axios.post(
-      "http://localhost:5000/recipes",
+      "http://localhost:5000/admin/recipes",
       newRecipe.value
     );
 
@@ -93,9 +95,7 @@ const saveRecipe = async () => {
   }
 };
 
-const handleRecipeDeleted = async () => {
-  await loadRecipes();
-};
+
 
 onMounted(loadRecipes);
 
@@ -192,8 +192,12 @@ onMounted(loadRecipes);
                     <td>{{ recipe.categoria }}</td>
                     <td>
                         <button @click="openRecipeModal(recipe)">👁️</button>
+                        <ModificaRicetta
+    :recipe="recipe" 
+    @updated="loadRecipes"
+  /><!--in questo caso inviamo tutta la ricetta perchè deve essere compilato un form e dovrei altrimenti fare una get nel figlio con id -->
                             <EliminazioneRicetta  :recipeId="recipe._id"
-  @deleted="handleRecipeDeleted"
+  @deleted="loadRecipes"
 />
 </td>
                 </tr>
@@ -204,7 +208,7 @@ onMounted(loadRecipes);
             Nessuna ricetta trovata
         </p>
 
-        <!-- MODALE DETTAGLIO -->
+       
         <div v-if="showRecipeModal" class="modal-overlay" @click.self="closeRecipeModal">
             <div class="modal">
                 <h2>{{ recipeDetail?.nome }}</h2>
@@ -251,14 +255,14 @@ onMounted(loadRecipes);
   }
 }
 
-/* ERRORI */
+
 .error {
   color: #d32f2f;
   font-size: 14px;
   margin-bottom: 12px;
 }
 
-/* BOTTONI */
+
 button {
   padding: 8px 14px;
   border-radius: 6px;
@@ -289,7 +293,6 @@ button[type="button"] {
   }
 }
 
-/* FORM */
 .recipe-form {
   background: #ffffff;
   padding: 20px;
@@ -321,7 +324,7 @@ button[type="button"] {
   }
 }
 
-/* INGREDIENTI FORM */
+
 .ingredient-row {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -329,7 +332,7 @@ button[type="button"] {
   margin-bottom: 8px;
 }
 
-/* TABELLA */
+
 .recipes-table {
   width: 100%;
   border-collapse: collapse;
@@ -363,7 +366,7 @@ button[type="button"] {
   }
 }
 
-/* MODALE */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -400,7 +403,6 @@ button[type="button"] {
   }
 }
 
-/* INGREDIENTI MODALE */
 .ingredient-list p {
   font-size: 14px;
   padding-left: 8px;

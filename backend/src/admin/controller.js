@@ -198,3 +198,26 @@ export const deleteRecipeController = async (req, res) => {
     });
   }
 };
+
+
+export const updateRecipeController = async (req, res) => {
+  try {
+    const result = await service.updateRecipe(
+      req.params.id,
+      req.body
+    );
+
+    if (!result.status) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+
+  } catch (error) {
+    console.error("Errore modifica ricetta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};

@@ -252,3 +252,28 @@ export const deleteRecipe = async (recipeId) => {
     status: true
   };
 };
+
+
+export const updateRecipe = async (id, data) => {
+  const recipe = await Recipe.findById(id);
+
+  if (!recipe) {
+    return {
+      status: false,
+      message: "Ricetta non trovata"
+    };
+  }
+
+  recipe.nome = data.nome;
+  recipe.categoria = data.categoria;
+  recipe.ingredienti = data.ingredienti;
+  recipe.kcal = data.kcal;
+  recipe.info = data.info;
+
+  await recipe.save();
+
+  return {
+    status: true,
+    recipe
+  };
+};

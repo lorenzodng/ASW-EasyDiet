@@ -30,11 +30,11 @@ const RecipeSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    info: {
+    info: [{
         descrizioneKcal: String,
         descrizioneTipoDieta: String,
         descrizioneIntolleranze: String
-    }
+    }]
 }, { versionKey: false });
 
 const RecipeInfo = mongoose.model("recipes", RecipeSchema);
