@@ -221,3 +221,30 @@ export const updateRecipeController = async (req, res) => {
     });
   }
 };
+
+
+//diets
+export const createDietController = async (req, res) => {
+  try {
+    const result = await service.createDiet(req.body);
+
+    if (result.status) {
+      res.json({
+        status: true,
+        recipe: result.diet
+      });
+    } else {
+      res.json({
+        status: false,
+        message: result.message
+      });
+    }
+
+  } catch (error) {
+    console.error("Errore creazione dieta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};

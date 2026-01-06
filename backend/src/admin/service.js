@@ -5,6 +5,7 @@ import Diet from "../diet/infoModel.js";
 import Notification from "../notification/infoModel.js";
 import Recipe from "../recipes/infoModel.js";
 
+
 export const loginAdmin = async ({ token }) => {
   if (!token) {
     return {
@@ -276,4 +277,51 @@ export const updateRecipe = async (id, data) => {
     status: true,
     recipe
   };
+};
+
+
+
+export const createDiet = async (dietData) => {
+  try {
+    const { userId, settimana } = dietData;
+
+    // controlli minimi
+    if (!userId || !settimana) {
+      return {
+        status: false,
+        message: "Dati mancanti"
+      };
+    }
+
+    // controllo: una dieta per utente
+    const existingDiet = await Diet.findOne({ userId });
+
+    if (existingDiet) {
+      return {
+        status: false,
+        message: "Questo utente ha già una dieta"
+      };
+    }
+
+    // creazione nuova dieta
+    const newDiet = new Diet({
+      userId,
+      settimana
+    });
+
+    // salvataggio su MongoDB
+    await newDiet.save();
+
+    return {
+      status: true,
+      diet: newDiet
+    };
+
+  } catch (error) {
+    console.error("Errore service dieta:", error);
+    return {
+      status: false,
+      message: "Errore durante la creazione della dieta"
+    };
+  }
 };
