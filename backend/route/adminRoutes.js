@@ -24,7 +24,7 @@ router.put("/recipes/:id", controller.updateRecipeController);  //rotta per modi
 
 //diet
 router.post("/admin/diet", controller.createDietController); //rotta per creare le ricette
-router.delete("/diet/:id", controller.deleteDietController);  //rotta per eliminare le ricette
+router.delete("/diet/user/:userId", controller.deleteDietController);  //rotta per eliminare le ricette
 router.put("/diet/:id", controller.updateDietController);  //rotta per modificare una ricetta 
 
 
