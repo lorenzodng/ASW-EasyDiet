@@ -279,7 +279,7 @@ export const updateRecipe = async (id, data) => {
   };
 };
 
-
+//diet
 
 export const createDiet = async (dietData) => {
   try {
@@ -324,4 +324,50 @@ export const createDiet = async (dietData) => {
       message: "Errore durante la creazione della dieta"
     };
   }
+};
+
+
+export const deleteDiet = async (dietId) => {
+  if (!dietId) {
+    return {
+      status: false,
+      message: "ID dieta mancante"
+    };
+  }
+
+  const diet = await Diet.findById(dietId);
+
+  if (!diet) {
+    return {
+      status: false,
+      message: "Dieta non trovata"
+    };
+  }
+
+  await Diet.findByIdAndDelete(dietId);
+
+  return {
+    status: true
+  };
+};
+
+
+export const updateDiet = async (id, data) => {
+  const diet = await Diet.findById(id);
+
+  if (!diet) {
+    return {
+      status: false,
+      message: "Dieta non trovata"
+    };
+  }
+
+  diet.settimana = data.settimana;
+
+  await diet.save();
+
+  return {
+    status: true,
+    diet
+  };
 };

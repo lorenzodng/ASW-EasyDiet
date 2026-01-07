@@ -248,3 +248,53 @@ export const createDietController = async (req, res) => {
     });
   }
 };
+
+export const deleteDietController = async (req, res) => {
+  try {
+    const dietId = req.params.id;
+
+    const result = await service.deleteDiet(dietId);
+
+    if (result.status) {
+      res.json({
+        status: true,
+        message: "Dieta eliminata con successo"
+      });
+    } else {
+      res.json({
+        status: false,
+        message: result.message
+      });
+    }
+
+  } catch (error) {
+    console.error("Errore eliminazione dieta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};
+
+
+export const updateDietController = async (req, res) => {
+  try {
+    const result = await service.updateDiet(
+      req.params.id,
+      req.body
+    );
+
+    if (!result.status) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+
+  } catch (error) {
+    console.error("Errore modifica dieta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};
