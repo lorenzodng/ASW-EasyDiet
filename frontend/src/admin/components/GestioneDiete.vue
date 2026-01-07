@@ -3,7 +3,6 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 import VisualizzaDieta from "./VisualizzaDieta.vue";
-import ModificaDieta from "./ModificaDieta.vue";
 import EliminazioneDieta from "./EliminazioneDieta.vue";
 
 const users = ref([]);
@@ -43,6 +42,7 @@ onMounted(loadUsers);
           <th>Email</th>
           <th>Obiettivo</th>
           <th>Kcal</th>
+          <th></th>
         </tr>
       </thead>
 
@@ -53,10 +53,6 @@ onMounted(loadUsers);
           <td>{{ u.kcal }}</td>
           <td class="actions">
             <VisualizzaDieta :userId="u.userId._id" />
-            <ModificaDieta
-              :userId="u.userId._id"
-              @updated="loadUsers"
-            />
             <EliminazioneDieta
               :userId="u.userId._id"
               @deleted="loadUsers"
