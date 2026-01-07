@@ -1,6 +1,28 @@
+<script setup>
+import { useRouter } from "vue-router";
+
+const props = defineProps({
+  userId: {
+    type: String,
+    required: true
+  }
+});
+
+const router = useRouter();
+
+const goToEditDiet = () => {
+  router.push({
+    name: "ComponiDieta",
+    query: {
+      mode: "edit",
+      userId: props.userId
+    }
+  });
+};
+</script>
+
 <template>
-    <div class="admin-page">
-        <h1>Gestione Utenti</h1>
-        <p>Sezione in costruzione</p>
-    </div>
+  <button @click="goToEditDiet">
+    ✏️
+  </button>
 </template>
