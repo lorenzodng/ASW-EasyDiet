@@ -141,6 +141,20 @@ export const getUserInfoController = async (req, res) => {
     });
   }
 };
+export const getUsersInfoController = async (req, res) => 
+  { try { 
+    const users = await service.getAllUsersInfo(); 
+    res.json({ 
+      status: true, 
+      users: users });
+     } catch (error) { 
+      console.error("Errore recupero informazioni:", error); 
+      res.status(500).json({ 
+        status: false, 
+        message: "Errore server" 
+      }); 
+    } 
+  };
 
 
 //recipe 
@@ -291,7 +305,7 @@ export const updateDietController = async (req, res) => {
     res.json(result);
 
   } catch (error) {
-    console.error("Errore modifica dieta:", error);
+    console.error("Errore modifica Dieta:", error);
     res.status(500).json({
       status: false,
       message: "Errore server"

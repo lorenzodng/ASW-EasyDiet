@@ -15,6 +15,7 @@ router.post('/admin/users', controller.createUserController); //rotta per creare
 router.put("/admin/users/:id", controller.updateemailUserController); //rotta per modificare la mail 
 router.delete("/admin/users/:id", controller.deleteUserController);//eliminare l'utente 
 router.get("/admin/users/:id/info", controller.getUserInfoController); //per recuperare le informazioni personali 
+router.get('/admin/users/info', controller.getUsersInfoController); //rotta per rcuperare le informazioni degli utenti
 
 //recipe 
 router.post("/admin/recipes", controller.createRecipeController); //rotta per creare le ricette

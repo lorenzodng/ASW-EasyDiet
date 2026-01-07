@@ -46,6 +46,16 @@ export const getAllUsers = async () => {
 };
 
 
+
+export const getAllUsersInfo = async () => {
+  const usersInfo = await User.find()
+    .populate("userId") //abbiamo così i dati di account senza dover fare 2 get
+
+  return usersInfo;
+};
+
+
+
 export const createUser = async (userData) => { //userdata viene dal frontend
   const nome = userData.nome;
   const email = userData.email;
