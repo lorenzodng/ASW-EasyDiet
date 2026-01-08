@@ -146,6 +146,12 @@
     }
   };
 
+  const getRecipeImage = (imageName) => {
+  return imageName ? `/images/recipes/${imageName}` : '';
+};
+
+
+
   onMounted(() => {
     const init = async () => {
       await userStore.fetchUser(router);
@@ -179,17 +185,28 @@
         con :value="ricetta" si specifica l'elemento collegato a v-model, 
         con v-model="userDiet[currentDay][meal]" si salva automaticamente la ricetta per il giorno (currentDay) e per la categoria indicata (mealCategory) -->
         <div class="recipe-header">
-          <label>
-            <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="ricetta"
-              v-model="userDiet[currentDay][mealCategory].recipe" />
-            {{ ricetta.nome }}
-          </label>
+  <label class="recipe-label">
+    <input
+      type="radio"
+      :name="`${currentDay}-${mealCategory}`"
+      :value="ricetta"
+      v-model="userDiet[currentDay][mealCategory].recipe"
+    />
 
-          <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
-            <!--se l'id è nel set dettagli aperti se no dettagli chiusi-->
-            {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
-          </button>
-        </div>
+    <img
+  class="recipe-img"
+  :src="getRecipeImage(ricetta.immagine)"
+  :alt="ricetta.nome"
+/>
+
+
+    {{ ricetta.nome }}
+  </label>
+
+  <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
+    {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
+  </button>
+</div>
 
         <div v-if="openRecipes.has(ricetta._id)" class="recipe-details">
           <p><strong>Ingredienti:</strong></p>
@@ -297,5 +314,19 @@
     background-color: #f9f9f9;
     border-radius: 6px;
   }
+
+.recipe-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.recipe-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
 
 </style>

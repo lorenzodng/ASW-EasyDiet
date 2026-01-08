@@ -58,6 +58,7 @@ import logo from "../assets/images/logo-easydiet.png"
     gap: 8px;
     text-align: center;
     padding: 20px;
+    background-color: #e8f5e9; // verde chiarissimo
   }
 
   .logo {
