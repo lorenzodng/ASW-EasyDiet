@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from "vue";
+    import logo from "../../assets/images/logo-easydiet.png"
 
 const users = ref([]);
 const loading = ref(true);
@@ -50,7 +51,7 @@ const submitUser = async () => {
   }
 };
 
-// 🔹 MODIFICA EMAIL
+//MODIFICA EMAIL
 const editUser = (user) => {
   isEditing.value = user._id;
   editEmail.value = user.email;
@@ -142,7 +143,7 @@ const closeUserModal = () => {
 
 
 
-// 🔹 CARICAMENTO INIZIALE
+// CARICAMENTO INIZIALE
 onMounted(async () => {
   try {
     const { data } = await axios.get("http://localhost:5000/admin/users");
@@ -162,17 +163,20 @@ onMounted(async () => {
 
 <template>
   <div class="admin-page">
-    <!-- TITOLO -->
-    <h1>Gestione Utenti</h1>
+    <header class="admin-header">
+    <div class="admin-topbar">
+      <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
 
-    <!-- CONTENITORE ORIZZONTALE -->
-    <div class="header">
-      
-      <!-- SINISTRA: pulsante + form -->
-      <div>
-        <button class="add-btn" @click="toggleForm">
+      <div class="admin-titles">
+        <h1>Gestione Utenti</h1>
+      </div>
+    </div>
+  </header>
+    <button class="add" @click="toggleForm">
           ➕ Aggiungi utente
         </button>
+        <div>
+        
 
         <form v-if="showForm" class="user-form" @submit.prevent="submitUser">
           <input type="text" placeholder="Nome" v-model="newUser.nome" required />
@@ -181,6 +185,10 @@ onMounted(async () => {
           <button type="submit">Crea utente</button>
         </form>
       </div>
+
+    <!-- CONTENITORE ORIZZONTALE -->
+    <div class="header">
+      
 
       <!-- DESTRA: tabella -->
       <div style="flex: 1">
@@ -203,22 +211,22 @@ onMounted(async () => {
               <td>
                 <p v-if="isEditing !== user._id">{{ user.email }}</p>
                 <div v-else>
-                  <input type="email" v-model="editEmail" />
+                  <input type="email" v-model="editEmail" class="edit-input" />
                 </div>
               </td>
 
               <td class="actions">
                 <template v-if="isEditing !== user._id">
-                  <button @click="openUserModal(user)">👁️</button>
-                  <button class="iconaedit" @click="editUser(user)">✏️</button>
-                  <button class="iconadelete" @click="deleteUser(user)">🗑️</button>
+                  <button class="icon" data-label="Visualizza" @click="openUserModal(user)">👁️</button>
+                  <button class="icon" data-label="Modifica" @click="editUser(user)">✏️</button>
+                  <button class="icon" data-label="Elimina" @click="deleteUser(user)">🗑️</button>
                 </template>
 
                 <template v-else>
-                  <button class="iconasave" @click="saveUser(user)" :disabled="saving">
+                  <button class="icon" data-label="Salva" @click="saveUser(user)" :disabled="saving">
                     💾
                   </button>
-                  <button class="iconacancel" @click="cancelEdit">
+                  <button class="icon" data-label="Annulla" @click="cancelEdit">
                     ❌
                   </button>
                 </template>
@@ -243,7 +251,7 @@ onMounted(async () => {
       <p>Caricamento informazioni...</p>
     </div>
 
-    <div v-else-if="userInfo">
+    <div v-else-if="userInfo" class="user-info">
       <p><strong>Età:</strong> {{ userInfo.eta }}</p>
       <p><strong>Sesso:</strong> {{ userInfo.sesso }}</p>
       <p><strong>Altezza:</strong> {{ userInfo.altezza }} cm</p>
@@ -254,11 +262,17 @@ onMounted(async () => {
 
       <h3>Storico pesi</h3>
 
-      <ul v-if="userInfo.pesi?.length">
-        <li v-for="(p, index) in userInfo.pesi" :key="index">
-          {{ p.peso }} kg — {{ new Date(p.data).toLocaleDateString() }}
-        </li>
-      </ul>
+      <ul v-if="userInfo.pesi?.length" class="weight-list">
+  <li v-for="(p, index) in userInfo.pesi.sort(
+    (a, b) => new Date(b.data) - new Date(a.data)
+  )" :key="index">
+    <span class="weight">{{ p.peso }} kg</span>
+    <span class="date">
+      {{ new Date(p.data).toLocaleDateString() }}
+    </span>
+  </li>
+</ul>
+
 
       <p v-else>Nessun peso registrato</p>
     </div>
@@ -293,19 +307,56 @@ onMounted(async () => {
     color: #2e7d32;
   }
 }
+.admin-header {
+        text-align: center;
+        margin-bottom: 40px;
 
-.user-form {
-  margin-top: 16px;
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+    }
+.admin-topbar {
+  position: relative;
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 24px 32px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.admin-logo {
+  height: 90px;
+  cursor: pointer;
+}
+
+.admin-titles {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #2e7d32;
+    margin: 0;
+  }
+}
+.user-form {
+ margin: 32px auto 40px;   //  centra orizzontalmente
+  display: flex;
+  flex-direction: column;  // INPUT UNO SOTTO L’ALTRO
+  gap: 14px;
+  max-width: 400px;
 
   input {
-    padding: 10px 12px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 14px;
-    min-width: 200px;
+    
 
     &:focus {
       outline: none;
@@ -329,18 +380,18 @@ onMounted(async () => {
 }
 
 
-.add-btn {
+.add {
   padding: 10px 16px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
+  background-color: #ffffff;
+  color: #0a0000;
+  border: 2px solid transparent;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: border-color 0.3s ease;
 
   &:hover {
-    background-color: #66bb6a;
+    border-color: #4caf50;
   }
 }
 
@@ -387,7 +438,7 @@ onMounted(async () => {
     gap: 10px;
   }
 
-  .iconaedit {
+  .icon {
     border: none;
     background: none;
     cursor: pointer;
@@ -398,33 +449,27 @@ onMounted(async () => {
       transform: scale(1.2);
     }
 
-    &.edit {
-      color: #1976d2;
-    }
-
-    &.delete {
-      color: #d32f2f;
-    }
+    &::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2dd372;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
   }
 
-  .iconadelete {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 18px;
-    transition: transform 0.2s;
+  &:hover::after {
+    opacity: 1;
+  }
 
-    &:hover {
-      transform: scale(1.2);
-    }
-
-    &.edit {
-      color: #1976d2;
-    }
-
-    &.delete {
-      color: #d32f2f;
-    }
   }
 
   .empty {
@@ -433,6 +478,21 @@ onMounted(async () => {
     color: #777;
     font-style: italic;
   }
+
+  .edit-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  background: #f9fff9;
+
+  &:focus {
+    outline: none;
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  }
+}
+
 }
 
 .modal-overlay {
@@ -465,6 +525,8 @@ onMounted(async () => {
   h3 {
     margin-top: 16px;
     margin-bottom: 8px;
+    color: #2e7d32;
+    text-align: center;
   }
 
   button {
@@ -480,6 +542,48 @@ onMounted(async () => {
       background-color: #66bb6a;
     }
   }
+}
+
+.user-info {
+  text-align: left;
+  margin-top: 12px;
+
+  p {
+    margin: 6px 0;
+    font-size: 16px;
+    color: #333333;
+  }
+
+  strong {
+    color: #38973d;
+  }
+}
+
+.weight-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.weight-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  background: #f2f8f3;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.weight {
+  font-weight: 600;
+  color: #555;
+}
+
+.date {
+  font-size: 13px;
+  color: #555;
 }
 
 </style>
