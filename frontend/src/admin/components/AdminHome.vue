@@ -1,5 +1,6 @@
 <script setup>
-    import { useRouter } from "vue-router";
+    import { useRouter } from "vue-router"
+    import logo from "../../assets/images/logo-easydiet.png"
 
     const router = useRouter();
 
@@ -11,21 +12,27 @@
 <template>
     <div class="admin-container">
         <header class="admin-header">
-            <h1>Area Amministratore</h1>
-            <p>Gestione sistema EasyDiet</p>
-        </header>
+  <div class="admin-topbar">
+    <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
+    <div class="admin-titles">
+      <h1>Dashboard Amministratore</h1>
+      <p>Gestione sistema EasyDiet</p>
+    </div>
+  </div>
+</header>
+
 
         <div class="admin-actions">
             <button @click="goTo('GestioneUtenti')">
-                👤 Gestione Utenti
+                👥 Gestione Utenti
             </button>
 
             <button @click="goTo('GestioneDiete')">
-                🥗 Gestione Diete
+                🍎 Gestione Diete
             </button>
 
             <button @click="goTo('GestioneRicette')">
-                🍽️ Gestione Ricette
+                📖 Gestione Ricette
             </button>
         </div>
     </div>
@@ -36,6 +43,10 @@
         min-height: 100vh;
         background: #f2f8f3;
         padding: 30px;
+        font-family: 'Inter', sans-serif;
+
+
+
     }
 
     .admin-header {
@@ -54,28 +65,64 @@
     }
 
     .admin-actions {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        max-width: 700px;
-        margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 500px;
+  margin: 0 auto;
 
-        button {
-            padding: 20px;
-            font-size: 16px;
-            font-weight: 600;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+  button {
+    width: 100%;
+    padding: 26px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-            &:hover {
-                background-color: #66bb6a;
-                transform: translateY(-3px);
-                box-shadow: 0 8px 15px rgba(76, 175, 80, 0.4);
-            }
-        }
+    &:hover {
+      background-color: #66bb6a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
     }
+  }
+}
+
+.admin-topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 24px 32px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.admin-logo {
+  height: 110px; // LOGO PIÙ GRANDE
+  cursor: pointer;
+}
+
+.admin-titles {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+
+  h1 {
+    font-size: 30px; // TITOLO PIÙ GRANDE
+    font-weight: 800;
+    color: #2e7d32;
+    margin: 0;
+  }
+
+  p {
+    font-size: 15px;
+    color: #555;
+    margin: 4px 0 0;
+  }
+}
 </style>

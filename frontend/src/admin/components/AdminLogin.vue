@@ -37,11 +37,11 @@ const loginAdmin = async () => {
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2>Accesso Amministratore</h2>
+      <h2>Login</h2>
 
       <form @submit.prevent="loginAdmin">
         <div class="form-group">
-          <label for="token">Token Admin</label>
+          <label for="token">Token</label>
           <input
             id="token"
             type="password"
@@ -93,6 +93,8 @@ const loginAdmin = async () => {
   flex-direction: column;
   gap: 6px;
   margin-bottom: 12px;
+  text-align: left;
+
 
   label {
     font-size: 14px;

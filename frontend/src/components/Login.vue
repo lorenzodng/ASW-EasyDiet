@@ -60,7 +60,7 @@
     <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
   </div>
 
-  <button type="submit" class="login-button">Login</button>
+  <button type="submit" class="login-button">Accedi</button>
 </form>
 
 <p class="admin-link">
@@ -104,6 +104,7 @@
     flex-direction: column;
     gap: 6px;
     margin-bottom: 12px;
+    text-align: left;
 
     label {
       font-size: 14px;
