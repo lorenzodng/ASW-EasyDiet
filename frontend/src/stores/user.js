@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios';
+import axios from 'axios'; //per chiamare il backend
 
 export const useUserStore = defineStore('user', {
 
@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', {
 
     //metodi sui dati
     actions: {
-        setUser(user) {
+        setUser(user) {  //per aggiornare lo stato
             this.id = user.id;
             this.nome = user.nome;
         },
@@ -23,15 +23,15 @@ export const useUserStore = defineStore('user', {
             if (!token)
                 return;
             try {
-                const { data } = await axios.get('http://localhost:5000/users/user', { headers: { Authorization: `Bearer ${token}` } });
+                const { data } = await axios.get('http://localhost:5000/users/user', { headers: { Authorization: `Bearer ${token}` } }); //invia il token all'header
                 this.setUser({ id: data.id, nome: data.nome });
             } catch (err) {
                 console.error("Token non valido o scaduto", err);
                 this.id = null;
                 this.nome = null;
                 localStorage.removeItem('token');
-                router?.push({ name: 'Login' });
+                router?.push({ name: 'Login' });  //logout forzato e redirect al login
             }
-        }
+        }//Recupera i dati dell’utente autenticato a partire dal token
     }
 })
