@@ -4,6 +4,7 @@
 
     import EliminazioneRicetta from "./EliminazioneRicetta.vue";
     import ModificaRicetta from "./ModificaRicetta.vue";
+    import logo from "../../assets/images/logo-easydiet.png"
 
 
     const recipes = ref([]);
@@ -19,6 +20,7 @@
     const newRecipe = ref({
   nome: "",
   categoria: "",
+  immagine: "",
   ingredienti: [
     { nome: "", peso: "", kcal: "" }
   ],
@@ -67,6 +69,7 @@ const saveRecipe = async () => {
     newRecipe.value = {
       nome: "",
       categoria: "",
+      immagine: "",
       ingredienti: [{ nome: "", peso: "", kcal: "" }],
       kcal: "",
       info: {
@@ -103,9 +106,16 @@ onMounted(loadRecipes);
 </script>
 
 <template>
-    <div class="admin-page">
-        <h1>Gestione Ricette</h1>
+ <div class="admin-page">
+    <header class="admin-header">
+    <div class="admin-topbar">
+      <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
 
+      <div class="admin-titles">
+        <h1>Gestione Ricette</h1>
+      </div>
+    </div>
+  </header>
         <p v-if="loading">Caricamento ricette...</p>
         <p v-if="error" class="error">{{ error }}</p>
         <button @click="showForm = !showForm">
@@ -122,6 +132,12 @@ onMounted(loadRecipes);
   placeholder="Nome ricetta"
   required
 />
+<input
+  v-model="newRecipe.immagine"
+  placeholder="URL immagine (es. /images/pasta.jpg)"
+  required
+/>
+
 
 
   <select v-model="newRecipe.categoria" required>
@@ -190,8 +206,8 @@ onMounted(loadRecipes);
                 <tr v-for="recipe in recipes" :key="recipe._id">
                     <td>{{ recipe.nome }}</td>
                     <td>{{ recipe.categoria }}</td>
-                    <td>
-                        <button @click="openRecipeModal(recipe)">👁️</button>
+                    <td class="actions">
+                        <button class="icon" data-label="Visualizza" @click="openRecipeModal(recipe)">👁️</button>
                         <ModificaRicetta
     :recipe="recipe" 
     @updated="loadRecipes"
@@ -208,72 +224,120 @@ onMounted(loadRecipes);
             Nessuna ricetta trovata
         </p>
 
-       
-        <div v-if="showRecipeModal" class="modal-overlay" @click.self="closeRecipeModal">
-            <div class="modal">
-                <h2>{{ recipeDetail?.nome }}</h2>
+       <div
+  v-if="showRecipeModal"
+  class="modal-overlay"
+  @click.self="closeRecipeModal"
+>
+  <div class="modal">
+    <h2>{{ recipeDetail?.nome }}</h2>
 
-                
+    <div v-if="loading">
+      <p>Caricamento ricetta...</p>
+    </div>
 
-                <div v-if="recipeDetail">
-                    <p><strong>Categoria:</strong> {{ recipeDetail.categoria }}</p>
-                    <p><strong>Kcal totali:</strong> {{ recipeDetail.kcal }}</p>
+    <div v-else-if="recipeDetail">
+      <p><strong>Categoria:</strong> {{ recipeDetail.categoria }}</p>
+      <p><strong>Kcal totali:</strong> {{ recipeDetail.kcal }}</p>
 
-                    <h3>Ingredienti</h3>
-                    <div class="ingredient-list">
-                        <p v-for="(ing, index) in recipeDetail.ingredienti" :key="index">
-                           - {{ ing.nome }} : {{ ing.peso }}g  ({{ ing.kcal }} kcal)
-                        </p>
-                    </div>
+      <h3>Ingredienti</h3>
 
-                   <h3>Info</h3>
+      <ul class="ingredient-list">
+        <li
+          v-for="(ing, index) in recipeDetail.ingredienti"
+          :key="index"
+        >
+          <span>{{ ing.nome }}: </span>
+          <span>{{ ing.peso }}g </span>
+          <span>({{ ing.kcal }} kcal)</span>
+        </li>
+      </ul>
 
-<p v-if="recipeDetail.info?.[1]"> {{ recipeDetail.info[1].descrizioneTipoDieta }} </p> 
-<p v-if="recipeDetail.info?.[2]"> {{ recipeDetail.info[2].descrizioneIntolleranze }} </p>
+      <h3>Note</h3>
 
-                </div>
+      <p v-if="recipeDetail.info?.[0]?.descrizioneKcal">
+        {{ recipeDetail.info[0].descrizioneKcal }}
+      </p>
 
-                <button @click="closeRecipeModal">Chiudi</button>
-            </div>
-        </div>
+      <p v-if="recipeDetail.info?.[1]?.descrizioneTipoDieta">
+        {{ recipeDetail.info[1].descrizioneTipoDieta }}
+      </p>
+
+      <p v-if="recipeDetail.info?.[2]?.descrizioneIntolleranze">
+        {{ recipeDetail.info[2].descrizioneIntolleranze }}
+      </p>
+    </div>
+
+    <div v-else>
+      <p>Nessuna informazione disponibile</p>
+    </div>
+
+    <button @click="closeRecipeModal">Chiudi</button>
+  </div>
+</div>
+
+        
     </div>
 </template>
 
 
 <style scoped lang="scss">
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .admin-page {
   padding: 32px;
 
   h1 {
     color: #2e7d32;
-    margin-bottom: 24px;
-  }
-
-  > button {
-    margin-right: 8px;
-    margin-bottom: 16px;
   }
 }
+.admin-header {
+        text-align: center;
+        margin-bottom: 40px;
 
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+    }
+.admin-topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 24px 32px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.admin-logo {
+  height: 90px;
+  cursor: pointer;
+}
+
+.admin-titles {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #2e7d32;
+    margin: 0;
+  }
+}
 
 .error {
   color: #d32f2f;
   font-size: 14px;
   margin-bottom: 12px;
-}
-
-
-button {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s, transform 0.2s;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
 }
 
 button[type="submit"] {
@@ -294,9 +358,9 @@ button[type="button"] {
 }
 
 .recipe-form {
-  background: #ffffff;
+   background: #ffffff;
   padding: 20px;
-  margin-bottom: 32px;
+  margin: 16px auto 32px; // ⬅️ CENTRATO + spazio sopra
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   max-width: 600px;
@@ -359,11 +423,6 @@ button[type="button"] {
       background-color: #f1f8f4;
     }
   }
-
-  button {
-    background: none;
-    font-size: 18px;
-  }
 }
 
 
@@ -381,30 +440,95 @@ button[type="button"] {
   background: #ffffff;
   padding: 24px;
   border-radius: 12px;
-  width: 450px;
+  width: 400px;                 // come utenti
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 
   h2 {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     color: #2e7d32;
+    text-align: center;         // ⬅️ centrato
   }
 
   h3 {
     margin-top: 16px;
     margin-bottom: 8px;
-    color: #388e3c;
+    color: #2e7d32;             // stesso verde
+    text-align: center;
   }
 
   p {
     font-size: 14px;
     margin-bottom: 6px;
+    color: #333;
   }
+
+  button {
+    margin-top: 16px;
+    padding: 8px 14px;
+    background-color: #4caf50;  // ⬅️ VERDE come utenti
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #66bb6a;
+    }
+  }
+}
+
+.modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .ingredient-list p {
   font-size: 14px;
   padding-left: 8px;
 }
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px;
+
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+
+  &::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2e7d32;
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
 </style>

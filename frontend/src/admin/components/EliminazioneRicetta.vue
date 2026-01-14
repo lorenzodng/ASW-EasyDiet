@@ -34,20 +34,45 @@ const deleteRecipe = async () => {
 </script>
 
 <template>
-  <button class="delete" @click="deleteRecipe">
+  <button class="icon" data-label="Elimina" @click="deleteRecipe">
     🗑️
   </button>
 </template>
 
-<style scoped>
-.delete {
+<style scoped lang="scss">
+.icon {
+  position: relative;
   background: none;
   border: none;
-  cursor: pointer;
   font-size: 18px;
+  cursor: pointer;
+  padding: 6px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+
+  &::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2e7d32;
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
 }
 
-.delete:hover {
-  transform: scale(1.1);
-}
 </style>

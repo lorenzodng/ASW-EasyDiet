@@ -85,19 +85,6 @@ onMounted(loadUsers);
   margin-bottom: 12px;
 }
 
-button {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s, transform 0.2s;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
-}
-
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -129,10 +116,6 @@ button {
 .actions {
   display: flex;
   gap: 8px;
-
-  button {
-    background: none;
-    font-size: 18px;
-  }
 }
+
 </style>

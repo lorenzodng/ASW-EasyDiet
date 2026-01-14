@@ -12,6 +12,10 @@ const RecipeSchema = new mongoose.Schema({
         enum: ["colazione", "pranzo", "merenda", "cena"],
         required: true
     },
+    immagine:{
+        type: String,
+        required: true
+    },
     ingredienti: [{
         nome: {
             type: String,

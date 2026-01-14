@@ -82,11 +82,14 @@ const loginAdmin = async () => {
   gap: 16px;
 }
 
-.login-box h2 {
-  text-align: center;
-  color: #2e7d32;
-  margin-bottom: 8px;
+.login-box {
+  h2 {
+    text-align: center;
+    color: #2e7d32;
+     margin-bottom: 8px;
+  }
 }
+
 
 .form-group {
   display: flex;

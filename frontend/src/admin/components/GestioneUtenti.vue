@@ -455,7 +455,7 @@ onMounted(async () => {
     bottom: 130%;
     left: 50%;
     transform: translateX(-50%);
-    background: #2dd372;
+    background: #2e7d32;
     color: #fff;
     padding: 4px 8px;
     border-radius: 6px;
