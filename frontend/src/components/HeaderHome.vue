@@ -1,6 +1,5 @@
 <script setup>
 import NavBar from './NavBar.vue';
-import logohome from "../assets/images/logo-homee.png"
 
   const props = defineProps({
     userName: {
@@ -13,29 +12,33 @@ import logohome from "../assets/images/logo-homee.png"
 <template>
   <header class="header">
     <router-link to="/home" class="logo">
-      <img src="../assets/images/logo-homee.png" alt="EasyDiet logo" />
+      <img src="../assets/images/logo-easydiet.png" alt="EasyDiet logo" />
     </router-link>
 
     <div class="user">
-      Ciao <strong>{{ userName }}! Un passo alla volta verso il tuo benessere 💚
-</strong>
-    </div>
+  <span class="welcome">
+    Benvenuto su EasyDiet,
+    <strong>{{ userName }}</strong>
+  </span>
+  <span class="tagline">
+    Nutrizione semplice, risultati reali
+  </span>
+</div>
+<div class="nav">
     <NavBar/>
+</div>
   </header>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 4px 32px;
-  background-color: #4CAF50;
+  background-color: #0cb00f;
   color: white;
-  overflow: visible;
-  box-sizing: border-box;
 }
+
 
 
 .logo {
@@ -44,7 +47,7 @@ import logohome from "../assets/images/logo-homee.png"
   cursor: pointer;
 
   img {
-    height: 80px;
+    height: 110px;
     width: auto;
     transition: transform 0.3s ease;
   }
@@ -55,19 +58,38 @@ import logohome from "../assets/images/logo-homee.png"
 }
 
 
-.right {
+.nav {
+  margin-left: auto;
+  margin-right: 40px;   // ⬅️ tira la navbar verso sinistra
   display: flex;
   align-items: center;
-  gap: 20px;
 }
+
 
 .user {
-  font-size: 18px;
-  font-weight: 500;
+  margin-left: 430px;   // ⬅️ aumenta per spostare a destra
+  margin-right: auto;  // mantiene lo spazio verso la navbar
+  text-align: center;
 
-  strong {
-    font-size: 20px;
-    font-weight: 700;
-  }
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
+
+
+.welcome {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.welcome strong {
+  font-weight: 600;
+}
+
+
+.tagline {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
 </style>
