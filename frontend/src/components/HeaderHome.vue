@@ -60,14 +60,14 @@ import NavBar from './NavBar.vue';
 
 .nav {
   margin-left: auto;
-  margin-right: 40px;   // ⬅️ tira la navbar verso sinistra
+  margin-right: 35px;   // tira la navbar verso sinistra
   display: flex;
   align-items: center;
 }
 
 
 .user {
-  margin-left: 430px;   // ⬅️ aumenta per spostare a destra
+  margin-left: 430px;   // aumenta per spostare a destra
   margin-right: auto;  // mantiene lo spazio verso la navbar
   text-align: center;
 

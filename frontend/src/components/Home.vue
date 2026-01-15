@@ -73,4 +73,3 @@
   }
 </style>
 
-<!--magari aggiungere un più nel bottone e verificare come mette i componenti-->

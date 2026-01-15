@@ -75,12 +75,12 @@ const logout = () => {
 .menu {
   position: absolute;
   top: calc(100% + 12px);
-  right: 0;
+  left: 50%;                     // ⬅️ centro orizzontale
+  transform: translateX(-50%);   // ⬅️ vero centraggio
 
   background: #ffffff;
   border-radius: 14px;
   padding: 12px;
-
   min-width: 220px;
 
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
@@ -90,6 +90,7 @@ const logout = () => {
 
   z-index: 100;
 }
+
 //router link
 .menu a {
   text-decoration: none;
