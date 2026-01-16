@@ -33,13 +33,13 @@
 
     <!-- pulsante componi dieta -->
     <div class="actions">
-      <button @click="vaiAComponiDieta">
+      <button class="componi-btn" @click="vaiAComponiDieta">
         ➕ Componi Dieta
       </button>
 
       <!-- pulsante chat laterale -->
-      <button @click="toggleChat">
-        💬 Chat LLM
+      <button class="chat-btn" @click="toggleChat">
+        🤖 
       </button>
     </div>
 
@@ -53,23 +53,56 @@
   </div>
 </template>
 
-<style scoped>
-  .home-container {
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-  }
+<style scoped lang="scss">
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
 
-  .actions {
-    text-align: center;
-    margin: 20px 0;
-  }
+.actions {
+  text-align: center;
+  margin: 20px 0;
+} //per centrare componi dieta 
 
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 0 5px;
+/* bottone componi dieta */
+.componi-btn {
+  background: white;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: #0cb00f;
+    box-shadow: 0 0 0 3px rgba(12, 176, 15, 0.15);
   }
+}
+
+/* bottone chat floating */
+.chat-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+
+  background-color: #0cb00f;
+  color: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+
+  &:hover {
+    background-color: #09940c;
+  }
+}
 </style>
 
