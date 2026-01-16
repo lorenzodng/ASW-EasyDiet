@@ -9,8 +9,8 @@
   const diet = ref(null);
   const loading = ref(true);
   const error = ref("");
-
-  const days = [
+  const currentDayIndex = ref(0);
+   const days = [
     "lunedì",
     "martedì",
     "mercoledì",
@@ -20,6 +20,21 @@
     "domenica"
   ];
 
+
+const nextDay = () => {
+  if (currentDayIndex.value < days.length - 1) {
+    currentDayIndex.value++;
+  }
+};
+
+const prevDay = () => {
+  if (currentDayIndex.value > 0) {
+    currentDayIndex.value--;
+  }
+};
+
+
+ 
   const fetchDiet = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/diets/${userStore.id}`);
@@ -46,24 +61,60 @@
 <template>
   <div class="area-dieta">
 
+    <!-- LOADING -->
     <p v-if="loading">Caricamento dieta...</p>
 
-
+    <!-- ERROR -->
     <p v-else-if="error">{{ error }}</p>
 
+    <!-- CONTENUTO -->
+    <div v-else class="day-navigation">
 
-    <div v-else>
-      <div v-for="day in days" :key="day" class="day-block">
-        <h2>{{ day }}</h2>
+      <!-- BOTTONI DI NAVIGAZIONE -->
+      <div class="nav-buttons">
+        <button
+          @click="prevDay"
+          :disabled="currentDayIndex === 0"
+        >
+          ◀
+        </button>
 
-        <div v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']" :key="meal" class="meal-block">
-          <h3>{{ meal }}</h3>
+        <button
+          @click="nextDay"
+          :disabled="currentDayIndex === days.length - 1"
+        >
+          ▶
+        </button>
+      </div>
 
-          <div v-if="diet.settimana[day][meal].recipe">
-            <p><strong>{{ diet.settimana[day][meal].recipe.nome }}</strong></p>
+      <!-- GIORNO CORRENTE -->
+      <div class="day-block">
+        <h2>{{ days[currentDayIndex] }}</h2>
+
+        <div
+          v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']"
+          :key="meal"
+          class="meal-block"
+        >
+          <span class="meal-badge" :class="meal">
+  {{ meal }}
+</span>
+
+
+          <div
+            v-if="diet.settimana[days[currentDayIndex]][meal].recipe"
+          >
+            <p>
+              <strong>
+                {{ diet.settimana[days[currentDayIndex]][meal].recipe.nome }}
+              </strong>
+            </p>
 
             <ul>
-              <li v-for="(ing, i) in diet.settimana[day][meal].recipe.ingredienti" :key="i">
+              <li
+                v-for="(ing, i) in diet.settimana[days[currentDayIndex]][meal].recipe.ingredienti"
+                :key="i"
+              >
                 {{ ing.nome }} – {{ ing.peso }} g
               </li>
             </ul>
@@ -74,76 +125,130 @@
           </p>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
-<style scoped>
+
+<style scoped lang="scss">
   .area-dieta {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 24px;
-  }
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
 
-  .area-dieta h1 {
-    text-align: center;
-    margin-bottom: 32px;
-  }
+/* CARD GIORNO */
+.day-block {
+  margin-bottom: 32px;
+  padding: 24px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f9fbff, #f1f4f9);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 
-  /* BLOCCO GIORNO */
-  .day-block {
-    margin-bottom: 32px;
-    padding: 20px;
-    border-radius: 12px;
-    background-color: #f7f9fc;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
-
-  .day-block h2 {
+  h2 {
+    margin-bottom: 20px;
     text-transform: capitalize;
-    margin-bottom: 16px;
+    font-size: 22px;
     color: #2c3e50;
+    border-bottom: 1px solid #e0e6ef;
+    padding-bottom: 8px;
+  }
+}
+
+/* LISTA PASTI */
+.meal-block {
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: left;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   }
 
-  /* BLOCCO PASTO */
-  .meal-block {
-    margin-bottom: 16px;
-    padding: 12px 16px;
-    border-left: 4px solid #4caf50;
-    background-color: #ffffff;
-    border-radius: 8px;
-  }
+ .meal-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px; // ovale
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+  width: fit-content;
+}
+.meal-badge.colazione {
+  background-color: #fbc02d; // giallo
+}
 
-  .meal-block h3 {
-    text-transform: capitalize;
-    margin-bottom: 8px;
-    color: #333;
-  }
+.meal-badge.pranzo {
+  background-color: #4caf50; // verde
+}
 
-  /* RICETTA */
-  .meal-block p {
+.meal-badge.merenda {
+  background-color: #ff9800; // arancione
+}
+
+.meal-badge.cena {
+  background-color: #3f51b5; // blu/viola
+}
+
+
+  p {
     margin: 4px 0;
   }
 
-  .meal-block ul {
+  ul {
     margin: 8px 0 0 16px;
-    padding: 0;
-  }
 
-  .meal-block li {
-    font-size: 14px;
-    margin-bottom: 4px;
+    li {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
   }
 
   /* STATO VUOTO */
   .empty {
     font-style: italic;
-    color: #999;
+    color: #888;
   }
+}
+.day-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  /* LOADING / ERROR */
-  .area-dieta p {
-    text-align: center;
-    font-size: 16px;
+/* HEADER NAVIGAZIONE */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  button {
+    padding: 8px 14px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #43a047;
+    }
   }
+}
 </style>
