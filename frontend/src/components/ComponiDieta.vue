@@ -1,165 +1,165 @@
 <script setup>
-  import { reactive, ref, onMounted, computed } from "vue";
-  import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user';
-  import axios from "axios";
+import { reactive, ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from '../stores/user';
+import axios from "axios";
 
-  const router = useRouter();
-  const userStore = useUserStore();
-  const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
-  const kcalUser = ref(0); //kcal dell'utente
-  const userDiet = reactive({}); //dieta costruita dall'utente per ogni giorno
-  const selectedDayIndex = ref(0); //indice del giorno corrente  
-  const currentDay = computed(() => days[selectedDayIndex.value]); //giorno corrente 
-  const openRecipes = ref(new Set()); //ricette aperte tramite menu, contiene solo gli id 
+const router = useRouter();
+const userStore = useUserStore();
+const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+const kcalUser = ref(0); //kcal dell'utente
+const userDiet = reactive({}); //dieta costruita dall'utente per ogni giorno
+const selectedDayIndex = ref(0); //indice del giorno corrente  
+const currentDay = computed(() => days[selectedDayIndex.value]); //giorno corrente 
+const openRecipes = ref(new Set()); //ricette aperte tramite menu, contiene solo gli id 
 
-  //contiene tutte le ricette caricate dal db, ordinate per categoria
-  const mealsByType = reactive({
-    colazione: [],
-    pranzo: [],
-    merenda: [],
-    cena: []
-  });
+//contiene tutte le ricette caricate dal db, ordinate per categoria
+const mealsByType = reactive({
+  colazione: [],
+  pranzo: [],
+  merenda: [],
+  cena: []
+});
 
-  days.forEach((day) => { //per ogni elemento di "days"
-    userDiet[day] = { //crea una coppia chiave-valore con chiave il giorno della settimana e valori le categorie di pasto
-      colazione: { recipe: null, time: "" },
-      pranzo: { recipe: null, time: "" },
-      merenda: { recipe: null, time: "" },
-      cena: { recipe: null, time: "" }
-    };
-  });
+days.forEach((day) => { //per ogni elemento di "days"
+  userDiet[day] = { //crea una coppia chiave-valore con chiave il giorno della settimana e valori le categorie di pasto
+    colazione: { recipe: null, time: "" },
+    pranzo: { recipe: null, time: "" },
+    merenda: { recipe: null, time: "" },
+    cena: { recipe: null, time: "" }
+  };
+});
 
-  const getKcal = async () => {
-    try {
-      const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
-      kcalUser.value = resProfile.data.kcal;
-      console.log("KCAL USER:", kcalUser.value);
-    } catch (error) {
-      console.error("Errore caricamento ricette:", error);
-    }
+const getKcal = async () => {
+  try {
+    const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
+    kcalUser.value = resProfile.data.kcal;
+    console.log("KCAL USER:", kcalUser.value);
+  } catch (error) {
+    console.error("Errore caricamento ricette:", error);
+  }
+}
+
+const getRecipes = async () => {
+  try {
+    const res = await axios.get("http://localhost:5000/recipes");
+    res.data.forEach((ricetta) => { //per ogni ricetta recuperata
+      const ricettaScalata = scaleRecipe(ricetta, ricetta.categoria);
+      mealsByType[ricetta.categoria].push(ricettaScalata); //inserisce quella ricetta nell'array giusto in base alla sua categoria
+    });
+  } catch (error) {
+    console.error("Errore caricamento ricette:", error);
+  }
+}
+
+//mostra il target calorico dell'utente in base alla categoria di pasto
+const getTargetKcal = (categoria) => {
+  if (!kcalUser.value) {
+    return 0;
   }
 
-  const getRecipes = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/recipes");
-      res.data.forEach((ricetta) => { //per ogni ricetta recuperata
-        const ricettaScalata = scaleRecipe(ricetta, ricetta.categoria);
-        mealsByType[ricetta.categoria].push(ricettaScalata); //inserisce quella ricetta nell'array giusto in base alla sua categoria
-      });
-    } catch (error) {
-      console.error("Errore caricamento ricette:", error);
+  switch (categoria) {
+    case "colazione": return Math.round(kcalUser.value * 0.25);
+    case "pranzo": return Math.round(kcalUser.value * 0.35);
+    case "merenda": return Math.round(kcalUser.value * 0.10);
+    case "cena": return Math.round(kcalUser.value * 0.30);
+    default: return 0;
+  }
+};
+
+const saveDiet = async () => {
+  try {
+    const { data } = await axios.post("http://localhost:5000/diets", {
+      userId: userStore.id,
+      settimana: userDiet
+    });
+
+    if (data.status) {
+      alert("Dieta salvata con successo");
+      router.push({ name: "Home" });
+
+    } else {
+      alert("Errore: " + data.message);
     }
+  } catch (err) {
+    alert("Errore nel salvataggio della dieta");
+    console.error(err);
+  }
+};
+
+//menu a scomparsa per i dettagli della ricetta
+const toggleRecipe = (id) => {
+  if (openRecipes.value.has(id)) { //se la ricetta è già aperta
+    openRecipes.value.delete(id); //chiude il menu di quella ricetta
+  } else { //altrimenti
+    openRecipes.value.add(id); //apre il menu della ricetta 
+  }
+};
+
+const scaleRecipe = (ricetta, categoria) => {
+  const targetKcal = getTargetKcal(categoria);
+  if (!targetKcal || !ricetta.kcal) return { ...ricetta, kcalTotali: ricetta.kcal };
+
+  const fattore = targetKcal / ricetta.kcal;
+
+  const ingredientiScalati = ricetta.ingredienti.map(ing => ({
+    ...ing,
+    peso: Math.round(ing.peso * fattore),
+    kcal: Math.round(ing.kcal * fattore)
+  }));
+
+  const kcalTotali = ingredientiScalati.reduce((acc, ing) => acc + ing.kcal, 0);
+
+  return {
+    ...ricetta,
+    ingredienti: ingredientiScalati,
+    kcalTotali // aggiungiamo la proprietà kcalTotali
+  };
+};
+
+const descrizioneKcal = (ricetta) => {
+  if (!ricetta.kcalTotali || !ricetta.categoria) {
+    return '';
   }
 
-  //mostra il target calorico dell'utente in base alla categoria di pasto
-  const getTargetKcal = (categoria) => {
-    if (!kcalUser.value) {
-      return 0;
-    }
+  const target = getTargetKcal(ricetta.categoria);
+  const percentuale = ((ricetta.kcalTotali - target) / target) * 100;
 
-    switch (categoria) {
-      case "colazione": return Math.round(kcalUser.value * 0.25);
-      case "pranzo": return Math.round(kcalUser.value * 0.35);
-      case "merenda": return Math.round(kcalUser.value * 0.10);
-      case "cena": return Math.round(kcalUser.value * 0.30);
-      default: return 0;
-    }
-  };
+  if (percentuale < -10) return "Opzione leggera";
+  if (percentuale <= 10) return "Opzione equilibrata";
+  if (percentuale > 10) return "Opzione abbondante";
+};
 
-  const saveDiet = async () => {
-    try {
-      const { data } = await axios.post("http://localhost:5000/diets", {
-        userId: userStore.id,
-        settimana: userDiet
-      });
+const goToPreviousDay = () => {
+  if (selectedDayIndex.value > 0) {
+    selectedDayIndex.value--;
+    openRecipes.value.clear();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+};
 
-      if (data.status) {
-        alert("Dieta salvata con successo");
-        router.push({ name: "Home" });
+const goToNextDay = () => {
+  if (selectedDayIndex.value < days.length - 1) {
+    selectedDayIndex.value++;
+    openRecipes.value.clear();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+};
 
-      } else {
-        alert("Errore: " + data.message);
-      }
-    } catch (err) {
-      alert("Errore nel salvataggio della dieta");
-      console.error(err);
-    }
-  };
-
-  //menu a scomparsa per i dettagli della ricetta
-  const toggleRecipe = (id) => {
-    if (openRecipes.value.has(id)) { //se la ricetta è già aperta
-      openRecipes.value.delete(id); //chiude il menu di quella ricetta
-    } else { //altrimenti
-      openRecipes.value.add(id); //apre il menu della ricetta 
-    }
-  };
-
-  const scaleRecipe = (ricetta, categoria) => {
-    const targetKcal = getTargetKcal(categoria);
-    if (!targetKcal || !ricetta.kcal) return { ...ricetta, kcalTotali: ricetta.kcal };
-
-    const fattore = targetKcal / ricetta.kcal;
-
-    const ingredientiScalati = ricetta.ingredienti.map(ing => ({
-      ...ing,
-      peso: Math.round(ing.peso * fattore),
-      kcal: Math.round(ing.kcal * fattore)
-    }));
-
-    const kcalTotali = ingredientiScalati.reduce((acc, ing) => acc + ing.kcal, 0);
-
-    return {
-      ...ricetta,
-      ingredienti: ingredientiScalati,
-      kcalTotali // aggiungiamo la proprietà kcalTotali
-    };
-  };
-
-  const descrizioneKcal = (ricetta) => {
-    if (!ricetta.kcalTotali || !ricetta.categoria) {
-      return '';
-    }
-
-    const target = getTargetKcal(ricetta.categoria);
-    const percentuale = ((ricetta.kcalTotali - target) / target) * 100;
-
-    if (percentuale < -10) return "Opzione leggera";
-    if (percentuale <= 10) return "Opzione equilibrata";
-    if (percentuale > 10) return "Opzione abbondante";
-  };
-
-  const goToPreviousDay = () => {
-    if (selectedDayIndex.value > 0) {
-      selectedDayIndex.value--;
-      openRecipes.value.clear();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const goToNextDay = () => {
-    if (selectedDayIndex.value < days.length - 1) {
-      selectedDayIndex.value++;
-      openRecipes.value.clear();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const getRecipeImage = (imageName) => {
+const getRecipeImage = (imageName) => {
   return imageName ? `/images/recipes/${imageName}` : '';
 };
 
 
 
-  onMounted(() => {
-    const init = async () => {
-      await userStore.fetchUser(router);
-      await getKcal();
-      await getRecipes();
-    };
-    init();
-  });
+onMounted(() => {
+  const init = async () => {
+    await userStore.fetchUser(router);
+    await getKcal();
+    await getRecipes();
+  };
+  init();
+});
 </script>
 
 <template>
@@ -185,28 +185,20 @@
         con :value="ricetta" si specifica l'elemento collegato a v-model, 
         con v-model="userDiet[currentDay][meal]" si salva automaticamente la ricetta per il giorno (currentDay) e per la categoria indicata (mealCategory) -->
         <div class="recipe-header">
-  <label class="recipe-label">
-    <input
-      type="radio"
-      :name="`${currentDay}-${mealCategory}`"
-      :value="ricetta"
-      v-model="userDiet[currentDay][mealCategory].recipe"
-    />
+          <label class="recipe-label">
+            <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="ricetta"
+              v-model="userDiet[currentDay][mealCategory].recipe" />
 
-    <img
-  class="recipe-img"
-  :src="getRecipeImage(ricetta.immagine)"
-  :alt="ricetta.nome"
-/>
+            <img class="recipe-img" :src="getRecipeImage(ricetta.immagine)" :alt="ricetta.nome" />
 
 
-    {{ ricetta.nome }}
-  </label>
+            {{ ricetta.nome }}
+          </label>
 
-  <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
-    {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
-  </button>
-</div>
+          <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
+            {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
+          </button>
+        </div>
 
         <div v-if="openRecipes.has(ricetta._id)" class="recipe-details">
           <p><strong>Ingredienti:</strong></p>
@@ -262,58 +254,58 @@
 
 
 <style scoped>
-  .day-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+.day-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .meal-block {
-    margin-bottom: 24px;
-  }
+.meal-block {
+  margin-bottom: 24px;
+}
 
-  .recipe-option {
-    margin-left: 16px;
-    margin-bottom: 6px;
-  }
+.recipe-option {
+  margin-left: 16px;
+  margin-bottom: 6px;
+}
 
-  .navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 32px;
-  }
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
 
-  .save-btn {
-    display: block;
-    margin: 32px auto;
-  }
+.save-btn {
+  display: block;
+  margin: 32px auto;
+}
 
-  .recipe-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .recipe-info {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #444;
-  }
+.recipe-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+}
 
 
-  .toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-  }
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-  .recipe-details {
-    margin-left: 24px;
-    margin-top: 8px;
-    padding: 8px;
-    background-color: #f9f9f9;
-    border-radius: 6px;
-  }
+.recipe-details {
+  margin-left: 24px;
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
 
 .recipe-label {
   display: flex;
@@ -328,5 +320,4 @@
   object-fit: cover;
   border-radius: 6px;
 }
-
 </style>

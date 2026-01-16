@@ -35,7 +35,7 @@ const logout = () => {
         📊 I tuoi progressi
       </router-link>
 
-     
+
 
       <button class="logout" @click="logout"> Logout</button>
     </div>
@@ -75,8 +75,8 @@ const logout = () => {
 .menu {
   position: absolute;
   top: calc(100% + 12px);
-  left: 50%;                     // ⬅️ centro orizzontale
-  transform: translateX(-50%);   // ⬅️ vero centraggio
+  left: 50%; // centro orizzontale
+  transform: translateX(-50%); // vero centraggio
 
   background: #ffffff;
   border-radius: 14px;

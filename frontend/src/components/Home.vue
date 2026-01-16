@@ -1,30 +1,30 @@
 <!-- componente home -->
 
 <script setup>
-  import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user'
-  import { ref, computed, onMounted } from "vue";
-  import AreaDieta from "./AreaDieta.vue";
-  import HeaderHome from "./HeaderHome.vue";
-  import LLMChat from "./LLMChat.vue";
-  import NotificationBanner from "../components/NotificationBanner.vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from '../stores/user'
+import { ref, computed, onMounted } from "vue";
+import AreaDieta from "./AreaDieta.vue";
+import HeaderHome from "./HeaderHome.vue";
+import LLMChat from "./LLMChat.vue";
+import NotificationBanner from "../components/NotificationBanner.vue";
 
-  const router = useRouter();
-  const userStore = useUserStore()
-  const chatOpen = ref(false);
-  const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
+const router = useRouter();
+const userStore = useUserStore()
+const chatOpen = ref(false);
+const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
 
-  const vaiAComponiDieta = () => {
-    router.push({ name: "ComponiDieta" });
-  };
+const vaiAComponiDieta = () => {
+  router.push({ name: "ComponiDieta" });
+};
 
-  const toggleChat = () => {
-    chatOpen.value = !chatOpen.value;
-  };
+const toggleChat = () => {
+  chatOpen.value = !chatOpen.value;
+};
 
-  onMounted(() => {
-    userStore.fetchUser(router);
-  });
+onMounted(() => {
+  userStore.fetchUser(router);
+});
 </script>
 
 <template>
@@ -39,7 +39,7 @@
 
       <!-- pulsante chat laterale -->
       <button class="chat-btn" @click="toggleChat">
-        🤖 
+        🤖
       </button>
     </div>
 
@@ -63,7 +63,9 @@
 .actions {
   text-align: center;
   margin: 20px 0;
-} //per centrare componi dieta 
+}
+
+//per centrare componi dieta 
 
 /* bottone componi dieta */
 .componi-btn {
@@ -105,4 +107,3 @@
   }
 }
 </style>
-

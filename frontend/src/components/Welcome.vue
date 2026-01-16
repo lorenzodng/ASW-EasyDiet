@@ -1,12 +1,12 @@
 <script setup>
-  import { useRouter } from "vue-router"
+import { useRouter } from "vue-router"
 import logo from "../assets/images/logo-easydiet.png"
 
-  const router = useRouter()
+const router = useRouter()
 
-  const vaiLogin = () => {
-    router.push({ name: "Login" })
-  }
+const vaiLogin = () => {
+  router.push({ name: "Login" })
+}
 </script>
 <template>
   <div class="welcome">
@@ -25,7 +25,7 @@ import logo from "../assets/images/logo-easydiet.png"
 </template>
 
 <style scoped lang="scss">
-  .login-button {
+.login-button {
   margin-top: 16px;
   padding: 10px 24px;
   font-size: 16px;
@@ -49,33 +49,33 @@ import logo from "../assets/images/logo-easydiet.png"
   }
 }
 
-  .welcome {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    text-align: center;
-    padding: 20px;
-    background-color: #e8f5e9; // verde chiarissimo
-  }
+.welcome {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 20px;
+  background-color: #e8f5e9; // verde chiarissimo
+}
 
-  .logo {
+.logo {
   width: 340px;
   height: auto;
   margin-bottom: 8px;
 }
 
 
-  .subtitle {
-    font-size: 20px;
-    font-weight: 500;
-  }
+.subtitle {
+  font-size: 20px;
+  font-weight: 500;
+}
 
-  .description {
-    max-width: 500px;
-    font-size: 16px;
-    opacity: 0.9;
-  }
+.description {
+  max-width: 500px;
+  font-size: 16px;
+  opacity: 0.9;
+}
 </style>

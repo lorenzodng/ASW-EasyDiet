@@ -1,24 +1,24 @@
 <!-- componente area dieta -->
 
 <script setup>
-  import { ref, onMounted } from "vue";
-  import axios from "axios";
-  import { useUserStore } from "../stores/user";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useUserStore } from "../stores/user";
 
-  const userStore = useUserStore();
-  const diet = ref(null);
-  const loading = ref(true);
-  const error = ref("");
-  const currentDayIndex = ref(0);
-   const days = [
-    "lunedì",
-    "martedì",
-    "mercoledì",
-    "giovedì",
-    "venerdì",
-    "sabato",
-    "domenica"
-  ];
+const userStore = useUserStore();
+const diet = ref(null);
+const loading = ref(true);
+const error = ref("");
+const currentDayIndex = ref(0);
+const days = [
+  "lunedì",
+  "martedì",
+  "mercoledì",
+  "giovedì",
+  "venerdì",
+  "sabato",
+  "domenica"
+];
 
 
 const nextDay = () => {
@@ -34,28 +34,28 @@ const prevDay = () => {
 };
 
 
- 
-  const fetchDiet = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/diets/${userStore.id}`);
-      console.log("USER ID:", userStore.id);
 
-      if (res.data.status) {
-        diet.value = res.data.data;
-      } else {
-        error.value = "Nessuna dieta trovata";
-      }
-    } catch (err) {
-      error.value = "Errore nel recupero della dieta";
-      console.error(err);
-    } finally {
-      loading.value = false;
+const fetchDiet = async () => {
+  try {
+    const res = await axios.get(`http://localhost:5000/diets/${userStore.id}`);
+    console.log("USER ID:", userStore.id);
+
+    if (res.data.status) {
+      diet.value = res.data.data;
+    } else {
+      error.value = "Nessuna dieta trovata";
     }
-  };
+  } catch (err) {
+    error.value = "Errore nel recupero della dieta";
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+};
 
-  onMounted(() => {
-    fetchDiet();
-  });
+onMounted(() => {
+  fetchDiet();
+});
 </script>
 
 <template>
@@ -72,17 +72,11 @@ const prevDay = () => {
 
       <!-- BOTTONI DI NAVIGAZIONE -->
       <div class="nav-buttons">
-        <button
-          @click="prevDay"
-          :disabled="currentDayIndex === 0"
-        >
+        <button @click="prevDay" :disabled="currentDayIndex === 0">
           ◀
         </button>
 
-        <button
-          @click="nextDay"
-          :disabled="currentDayIndex === days.length - 1"
-        >
+        <button @click="nextDay" :disabled="currentDayIndex === days.length - 1">
           ▶
         </button>
       </div>
@@ -91,19 +85,13 @@ const prevDay = () => {
       <div class="day-block">
         <h2>{{ days[currentDayIndex] }}</h2>
 
-        <div
-          v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']"
-          :key="meal"
-          class="meal-block"
-        >
+        <div v-for="meal in ['colazione', 'pranzo', 'merenda', 'cena']" :key="meal" class="meal-block">
           <span class="meal-badge" :class="meal">
-  {{ meal }}
-</span>
+            {{ meal }}
+          </span>
 
 
-          <div
-            v-if="diet.settimana[days[currentDayIndex]][meal].recipe"
-          >
+          <div v-if="diet.settimana[days[currentDayIndex]][meal].recipe">
             <p>
               <strong>
                 {{ diet.settimana[days[currentDayIndex]][meal].recipe.nome }}
@@ -111,10 +99,7 @@ const prevDay = () => {
             </p>
 
             <ul>
-              <li
-                v-for="(ing, i) in diet.settimana[days[currentDayIndex]][meal].recipe.ingredienti"
-                :key="i"
-              >
+              <li v-for="(ing, i) in diet.settimana[days[currentDayIndex]][meal].recipe.ingredienti" :key="i">
                 {{ ing.nome }} – {{ ing.peso }} g
               </li>
             </ul>
@@ -132,7 +117,7 @@ const prevDay = () => {
 
 
 <style scoped lang="scss">
-  .area-dieta {
+.area-dieta {
   max-width: 900px;
   margin: 0 auto;
   padding: 24px;
@@ -171,31 +156,32 @@ const prevDay = () => {
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   }
 
- .meal-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px; // ovale
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: white;
-  width: fit-content;
-}
-.meal-badge.colazione {
-  background-color: #fbc02d; // giallo
-}
+  .meal-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px; // ovale
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+    width: fit-content;
+  }
 
-.meal-badge.pranzo {
-  background-color: #4caf50; // verde
-}
+  .meal-badge.colazione {
+    background-color: #fbc02d; // giallo
+  }
 
-.meal-badge.merenda {
-  background-color: #ff9800; // arancione
-}
+  .meal-badge.pranzo {
+    background-color: #4caf50; // verde
+  }
 
-.meal-badge.cena {
-  background-color: #3f51b5; // blu/viola
-}
+  .meal-badge.merenda {
+    background-color: #ff9800; // arancione
+  }
+
+  .meal-badge.cena {
+    background-color: #3f51b5; // blu/viola
+  }
 
 
   p {
@@ -218,6 +204,7 @@ const prevDay = () => {
     color: #888;
   }
 }
+
 .day-navigation {
   display: flex;
   flex-direction: column;

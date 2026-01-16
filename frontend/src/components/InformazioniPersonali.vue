@@ -1,64 +1,64 @@
 <!-- componente informazioni personali -->
 
 <script setup>
-  import { ref, onMounted } from "vue"
-  import { useUserStore } from "../stores/user"
-  import axios from "axios"
-  import HeaderHome from "./HeaderHome.vue"
-  import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue"
+import { useUserStore } from "../stores/user"
+import axios from "axios"
+import HeaderHome from "./HeaderHome.vue"
+import { useRouter } from "vue-router";
 
-  const router = useRouter();
-  const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
-  const info = ref(null)
-  const loading = ref(true) //perchè quando il componente nasce sta caricando 
-  const error = ref(null)
-  const isEditing = ref(false);  // per abilitare la modifica 
-  const editInfo = ref(null); //copia delle info
+const router = useRouter();
+const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
+const info = ref(null)
+const loading = ref(true) //perchè quando il componente nasce sta caricando 
+const error = ref(null)
+const isEditing = ref(false);  // per abilitare la modifica 
+const editInfo = ref(null); //copia delle info
 
-  const getProfileInfo = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`)
-      info.value = res.data
-    } catch (err) {
-      error.value = "Impossibile caricare le informazioni personali"
-    } finally {
-      loading.value = false
-    }
+const getProfileInfo = async () => {
+  try {
+    const res = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`)
+    info.value = res.data
+  } catch (err) {
+    error.value = "Impossibile caricare le informazioni personali"
+  } finally {
+    loading.value = false
   }
+}
 
-  //abilita modifica
-  const modifica = () => {
-    editInfo.value = { ...info.value };
-    isEditing.value = true;
-  };
+//abilita modifica
+const modifica = () => {
+  editInfo.value = { ...info.value };
+  isEditing.value = true;
+};
 
-  const saveInfo = async () => {
-    try {
-      const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, editInfo.value);
+const saveInfo = async () => {
+  try {
+    const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, editInfo.value);
 
-      if (data.status) {
-        info.value = { ...editInfo.value }; // aggiorni i dati 
-        isEditing.value = false;
-      } else {
-        alert("Errore: " + data.message);
-      }
-    } catch (err) {
-      alert("Errore nel salvataggio");
+    if (data.status) {
+      info.value = { ...editInfo.value }; // aggiorni i dati 
+      isEditing.value = false;
+    } else {
+      alert("Errore: " + data.message);
     }
-  };
+  } catch (err) {
+    alert("Errore nel salvataggio");
+  }
+};
 
-  const annulla = () => {
-    isEditing.value = false;
-    editInfo.value = null;
-  };
+const annulla = () => {
+  isEditing.value = false;
+  editInfo.value = null;
+};
 
-  onMounted(() => {
-    const init = async () => {
-      await userStore.fetchUser(router);
-      await getProfileInfo();
-    };
-    init();
-  });
+onMounted(() => {
+  const init = async () => {
+    await userStore.fetchUser(router);
+    await getProfileInfo();
+  };
+  init();
+});
 </script>
 
 <template>
@@ -137,16 +137,16 @@
 </template>
 
 <style scoped>
-  .info-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-  }
+.info-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
 
-  button {
-    margin-top: 20px;
-    padding: 10px 16px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+button {
+  margin-top: 20px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
 </style>
