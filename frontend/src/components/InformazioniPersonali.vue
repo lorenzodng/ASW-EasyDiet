@@ -136,17 +136,69 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .info-container {
   max-width: 600px;
-  margin: auto;
-  padding: 20px;
+  margin: 40px auto;
+  padding: 32px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #1b5e20;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2e7d32;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 2px solid #c8e6c9;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.18);
+    }
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px 18px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background-color: #e8f5e9; // verde chiarissimo
+    color: #2e7d32; // verde scuro
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #4caf50;
+      background-color: #c8e6c9;
+    }
+  }
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px 16px;
-  font-size: 16px;
-  cursor: pointer;
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
 }
 </style>
