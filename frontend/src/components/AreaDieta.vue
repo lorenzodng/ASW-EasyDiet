@@ -157,7 +157,7 @@ onMounted(() => {
   }
 
   .meal-badge {
-    display: inline-block;
+    display: block; 
     padding: 6px 14px;
     border-radius: 999px; // ovale
     font-size: 14px;
@@ -165,6 +165,7 @@ onMounted(() => {
     text-transform: uppercase;
     color: white;
     width: fit-content;
+     margin: 0 auto;
   }
 
   .meal-badge.colazione {
