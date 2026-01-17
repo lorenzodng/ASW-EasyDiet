@@ -1,30 +1,30 @@
 <!-- componente home -->
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useUserStore } from '../stores/user'
-import { ref, computed, onMounted } from "vue";
-import AreaDieta from "./AreaDieta.vue";
-import HeaderHome from "./HeaderHome.vue";
-import LLMChat from "./LLMChat.vue";
-import NotificationBanner from "../components/NotificationBanner.vue";
+  import { useRouter } from "vue-router";
+  import { useUserStore } from '../stores/user'
+  import { ref, computed, onMounted } from "vue";
+  import AreaDieta from "./AreaDieta.vue";
+  import HeaderHome from "./HeaderHome.vue";
+  import LLMChat from "./LLMChat.vue";
+  import NotificationBanner from "../components/NotificationBanner.vue";
 
-const router = useRouter();
-const userStore = useUserStore()
-const chatOpen = ref(false);
-const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
+  const router = useRouter();
+  const userStore = useUserStore()
+  const chatOpen = ref(false);
+  const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
 
-const vaiAComponiDieta = () => {
-  router.push({ name: "ComponiDieta" });
-};
+  const vaiAComponiDieta = () => {
+    router.push({ name: "ComponiDieta" });
+  };
 
-const toggleChat = () => {
-  chatOpen.value = !chatOpen.value;
-};
+  const toggleChat = () => {
+    chatOpen.value = !chatOpen.value;
+  };
 
-onMounted(() => {
-  userStore.fetchUser(router);
-});
+  onMounted(() => {
+    userStore.fetchUser(router);
+  });
 </script>
 
 <template>
@@ -34,12 +34,12 @@ onMounted(() => {
     <!-- pulsante componi dieta -->
     <div class="actions">
       <button class="componi-btn" @click="vaiAComponiDieta">
-        ➕ Componi Dieta
+        Crea dieta ➕
       </button>
 
       <!-- pulsante chat laterale -->
       <button class="chat-btn" @click="toggleChat">
-        🤖
+        💬​
       </button>
     </div>
 
@@ -54,56 +54,56 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.home-container {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-}
-
-.actions {
-  text-align: center;
-  margin: 20px 0;
-}
-
-//per centrare componi dieta 
-
-/* bottone componi dieta */
-.componi-btn {
-  background: white;
-  border: 2px solid transparent;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    border-color: #0cb00f;
-    box-shadow: 0 0 0 3px rgba(12, 176, 15, 0.15);
+  .home-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    padding-top: 80px;
   }
-}
 
-/* bottone chat floating */
-.chat-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-
-  background-color: #0cb00f;
-  color: white;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  z-index: 1000;
-
-  &:hover {
-    background-color: #09940c;
+  .actions {
+    text-align: center;
+    margin: 20px 0;
   }
-}
+
+  //per centrare componi dieta 
+
+  /* bottone componi dieta */
+  .componi-btn {
+    background: white;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      border-color: #0cb00f;
+      box-shadow: 0 0 0 3px rgba(12, 176, 15, 0.15);
+    }
+  }
+
+  .chat-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    bottom: 50px;
+    right: 60px;
+
+    background-color: #0cb00f;
+    color: white;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+
+    &:hover {
+      background-color: #09940c;
+    }
+  }
 </style>
