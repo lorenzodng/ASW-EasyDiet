@@ -47,7 +47,7 @@
     }
   };
 
-  const annulla = () => {
+  const cancelInfo = () => {
     isEditing.value = false;
     editInfo.value = null;
   };
@@ -64,7 +64,7 @@
 <template>
   <div class="page-wrapper">
     <HeaderHome :userName="userStore.nome" />
-    <div class="info-container">
+    <div class="info-container" :class="{ editing: isEditing }">
       <h2>Informazioni personali</h2>
 
       <!-- stato di caricamento -->
@@ -76,19 +76,22 @@
       <!-- dati caricati -->
       <div v-else>
         <p v-if="!isEditing"><strong>Età:</strong> {{ info.eta }}</p>
-        <div v-else><label>Età</label><input type="number" v-model.number="editInfo.eta" /></div>
+        <div v-else class="form-field">
+          <label>Età</label>
+          <input type="number" v-model.number="editInfo.eta" />
+        </div>
         <p v-if="!isEditing"><strong>Peso:</strong> {{ info.peso }} kg</p>
-        <div v-else>
+        <div v-else class="form-field">
           <label>Peso (kg)</label>
           <input type="number" v-model.number="editInfo.peso" />
         </div>
         <p v-if="!isEditing"><strong>Altezza:</strong> {{ info.altezza }} cm</p>
-        <div v-else>
-          <label>Altezza</label>
+        <div v-else class="form-field">
+          <label>Altezza (cm)</label>
           <input type="number" v-model.number="editInfo.altezza" />
         </div>
         <p v-if="!isEditing"><strong>Sesso:</strong> {{ info.sesso }}</p>
-        <div v-else>
+        <div v-else class="form-field">
           <label>Sesso</label>
           <select v-model="editInfo.sesso" required>
             <option disabled value="">Seleziona</option>
@@ -97,7 +100,7 @@
           </select>
         </div>
         <p v-if="!isEditing"><strong>Obiettivo:</strong> {{ info.obiettivo }}</p>
-        <div v-else>
+        <div v-else class="form-field">
           <label>Obiettivo</label>
           <select v-model="editInfo.obiettivo" required>
             <option disabled value="">Seleziona</option>
@@ -107,12 +110,12 @@
           </select>
         </div>
         <p v-if="!isEditing"><strong>Peso Obiettivo:</strong> {{ info.obiettivoPeso }}</p>
-        <div v-else>
+        <div v-else class="form-field">
           <label>Peso obiettivo</label>
           <input type="number" v-model.number="editInfo.obiettivoPeso" />
         </div>
         <p v-if="!isEditing"><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
-        <div v-else>
+        <div v-else class="form-field">
           <label>Attività fisica</label>
           <select v-model="editInfo.livelloAttivitaFisica">
             <option value="basso">Basso</option>
@@ -124,11 +127,11 @@
       <div class="actions">
         <button v-if="!isEditing" @click="modifica">✏️ Modifica</button>
         <template v-else>
-          <button @click="saveInfo">
-            💾 Salva
+          <button class="save" @click="saveInfo">
+            Salva
           </button>
-          <button @click="annulla">
-            ❌ Annulla
+          <button class="cancel" @click="cancelInfo">
+            Annulla
           </button>
         </template>
       </div>
@@ -137,6 +140,14 @@
 </template>
 
 <style scoped lang="scss">
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto 20px;
+  }
+
   .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -147,35 +158,49 @@
   }
 
   .info-container {
-    width: 80%; // larghezza del box
-    max-width: 600px; // massimo 900px
-    padding: 32px;
+    width: 100%;
+    max-width: 700px;
+    padding: 22px;
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
+    &.editing {
+      margin-top: 200px;
+      margin-bottom: 100px;
+    }
 
     h2 {
       text-align: center;
-      margin-bottom: 24px;
-      color: #1b5e20;
+      margin-bottom: 40px;
+    }
+
+    p {
+      font-size: inherit;
+
+    }
+
+    label,
+    input,
+    select {
+      font-size: inherit;
     }
 
     label {
       display: block;
       margin-bottom: 6px;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
-      color: #2e7d32;
     }
 
     input,
     select {
       width: 100%;
+      box-sizing: border-box;
       padding: 12px 14px;
       font-size: 15px;
       border-radius: 10px;
-      border: 2px solid #c8e6c9;
+      border: 1px solid grey;
       background-color: #ffffff;
       transition: all 0.2s ease;
 
@@ -186,29 +211,51 @@
       }
     }
 
-    button {
-      margin-top: 20px;
+    .save {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid transparent;
+      font-weight: 600;
       padding: 10px 18px;
-      font-size: 15px;
       border-radius: 8px;
       cursor: pointer;
-      border: 1px solid transparent;
-      background-color: #e8f5e9; // verde chiarissimo
-      color: #2e7d32; // verde scuro
-      font-weight: 600;
       transition: all 0.2s ease;
 
       &:hover {
-        border-color: #4caf50;
-        background-color: #c8e6c9;
+        background-color: #4caf50;
+        color: white;
+        border-color: #3da73f;
       }
     }
+
+    .cancel {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid transparent;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #e53935;
+        color: white;
+        border-color: #b71c1c;
+      }
+    }
+  }
+
+  .save,
+  .cancel {
+    min-width: 120px;
+    font-size: 16px;
   }
 
   .actions {
     display: flex;
     justify-content: center;
-    gap: 14px;
-    margin-top: 24px;
+    gap: 55px;
+    margin-top: 70px;
   }
 </style>

@@ -4,7 +4,7 @@
 
     const messages = ref([]); //array di messaggi della chat
     const newMessage = ref(""); //messaggio nella casella di testo
-    const chatWidth = ref(400); //larghezza default chat
+    const chatWidth = ref(590); //larghezza default chat
     const messagesContainer = ref(null);
     const isResizing = ref(false);
     const isSending = ref(false); //verifica se il messaggio è arrivato dall'llm
@@ -100,9 +100,18 @@
 
         <!-- area dove vengono mostrati tutti i messaggi -->
         <div class="chat-messages" ref="messagesContainer">
-            <div v-for="(msg, i) in messages" :key="i" :class="msg.role">
-                <strong>{{ msg.role === 'user' ? 'Tu' : 'Assistente' }}:</strong>
-                <span v-html="formatMessage(msg.content)"></span>
+            <div v-for="(msg, i) in messages" :key="i" :class="['message', msg.role]">
+                <div class="message-content">
+                    <!-- Bubble utente con label interna -->
+                    <span v-if="msg.role === 'user'" class="bubble user">
+                        <strong>Tu:</strong> <span v-html="formatMessage(msg.content)"></span>
+                    </span>
+
+                    <!-- Bubble assistente -->
+                    <span v-else class="bubble assistant">
+                        <strong>Assistente:</strong> <span v-html="formatMessage(msg.content)"></span>
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -128,25 +137,27 @@
 
     .chat-sidebar {
         position: fixed;
-        top: 91px;
+        top: 88px;
         right: 0;
         height: calc(100vh - 91px);
         background: #f9f9f9;
         border-left: 1px solid #ccc;
         display: flex;
         flex-direction: column;
-        z-index: 1000;
+        z-index: 2;
         min-width: 200px;
         max-width: 700px;
     }
 
     .chat-header {
-        padding: 10px;
+        height: 70px;
         background: #eee;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid #ccc;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .chat-messages {
@@ -154,20 +165,62 @@
         padding: 40px;
         overflow-y: auto;
         font-family: "Segoe UI", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI", sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
     }
 
-    .user,
-    .assistant:not(:last-child) {
-        margin-bottom: 70px;
+    .message {
+        display: flex;
+        flex-direction: column;
     }
 
     .user {
-        color: blue;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .user .message-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user .message-label {
+        margin-bottom: 2px;
+        margin-right: auto;
+    }
+
+    .user .bubble {
+        background-color: #cce5ff;
+        text-align: left;
+        max-width: 70%;
+        padding: 8px 12px;
+        border-radius: 12px;
+        margin-left: auto;
+        display: inline-block;
+
     }
 
     .assistant {
-        color: green;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
+    .assistant .message-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .assistant .bubble {
+        background-color: #d0f1bd;
+        max-width: 70%;
+        padding: 8px 12px;
+        border-radius: 12px;
+        text-align: left;
     }
 
     .chat-input {

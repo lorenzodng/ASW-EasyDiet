@@ -41,16 +41,16 @@
     right: 0;
     display: flex;
     align-items: center;
-    padding: 0 32px;
-    background-color: #0cb00f;
+    height: 88px;
+    background-color: #3da73f;
     color: white;
-    z-index: 1000;
+    z-index: 3;
   }
 
   .logo {
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 50px;
 
 
     img {
@@ -63,7 +63,7 @@
     align-items: center;
     gap: 16px;
     margin-left: auto;
-    margin-right: 75px;
+    margin-right: 110px;
   }
 
   .user {
@@ -79,7 +79,7 @@
   }
 
   .welcome {
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 500;
 
     strong {
@@ -88,7 +88,7 @@
   }
 
   .tagline {
-    font-size: 14px;
+    font-size: 15px;
     opacity: 0.9;
   }
 

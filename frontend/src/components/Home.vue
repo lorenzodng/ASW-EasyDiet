@@ -34,7 +34,7 @@
     <!-- pulsante componi dieta -->
     <div class="actions">
       <button class="componi-btn" @click="vaiAComponiDieta">
-        Crea dieta ➕
+        Crea dieta 🍽️
       </button>
 
       <!-- pulsante chat laterale -->
@@ -61,21 +61,18 @@
     padding-top: 80px;
   }
 
-  .actions {
-    text-align: center;
-    margin: 20px 0;
-  }
-
-  //per centrare componi dieta 
-
-  /* bottone componi dieta */
+  /* bottone crea dieta */
   .componi-btn {
     background: white;
-    border: 2px solid transparent;
+    border: 2px solid;
+    border-color: #3da73f;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 55px;
+    font-size: 20px;
 
     &:hover {
-      border-color: #0cb00f;
       box-shadow: 0 0 0 3px rgba(12, 176, 15, 0.15);
     }
   }
@@ -91,16 +88,16 @@
 
     position: fixed;
     bottom: 50px;
-    right: 60px;
+    right: 70px;
 
-    background-color: #0cb00f;
+    background-color: #3da73f;
     color: white;
     border: none;
     font-size: 22px;
     cursor: pointer;
 
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    z-index: 1000;
+    z-index: 1;
 
     &:hover {
       background-color: #09940c;

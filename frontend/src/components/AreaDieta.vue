@@ -33,7 +33,10 @@
     }
   };
 
-
+  const capitalizeFirst = (text) => {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
 
   const fetchDiet = async () => {
     try {
@@ -100,7 +103,7 @@
 
             <ul>
               <li v-for="(ing, i) in diet.settimana[days[currentDayIndex]][meal].recipe.ingredienti" :key="i">
-                {{ ing.nome }} – {{ ing.peso }} g
+                {{ capitalizeFirst(ing.nome) }} – {{ ing.peso }} g
               </li>
             </ul>
           </div>
@@ -120,18 +123,17 @@
   .area-dieta {
     max-width: 700px;
     margin: 0 auto;
-    padding: 24px;
   }
 
   /* CARD GIORNO */
   .day-block {
     margin-bottom: 32px;
-    padding: 24px;
     border-radius: 16px;
     background: linear-gradient(180deg, #f9fbff, #f1f4f9);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 
     h2 {
+      margin-top: 15px;
       margin-bottom: 20px;
       text-transform: capitalize;
       font-size: 29px;
@@ -165,7 +167,7 @@
       text-transform: capitalize;
       color: white;
       text-align: center;
-      width: 200px;
+      width: 150px;
       margin: 6px auto 40px auto;
     }
 
@@ -197,7 +199,6 @@
         font-size: 14px;
         line-height: 1.5;
         margin-bottom: 4px;
-        text-transform: capitalize;
       }
     }
 
@@ -209,7 +210,7 @@
   }
 
   .day-navigation {
-    position: relative; // 👈 fondamentale
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -232,7 +233,7 @@
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      background-color: #4caf50;
+      background-color: #3da73f;
       color: white;
       transition: background-color 0.2s ease, opacity 0.2s ease;
 
