@@ -207,7 +207,6 @@ export const notifyWeight = async (user, nuovoPeso) => {
     await sendNotificationToUser(user.userId, payload);
 };
 
-
 //recupera l'id e il nome 
 export const getUserIdName = async (userId) => {
     const user = await UserAccount.findById(userId).select('_id nome');
