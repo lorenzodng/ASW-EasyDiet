@@ -145,7 +145,7 @@
         display: flex;
         flex-direction: column;
         z-index: 2;
-        min-width: 200px;
+        min-width: 160px;
         max-width: 700px;
     }
 
@@ -194,13 +194,17 @@
 
         &.bubble {
             background-color: #cce5ff;
-            text-align: left;
             max-width: 70%;
             padding: 8px 12px;
             border-radius: 12px;
             margin-left: auto;
-            display: inline-block;
+            display: block;
+            text-align: left;
 
+            p {
+                margin: 0;
+                display: inline;
+            }
         }
     }
 
@@ -208,7 +212,6 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-
 
         &.message-content {
             display: flex;
@@ -229,7 +232,7 @@
         display: flex;
         padding: 10px;
         border-top: 1px solid #ccc;
-
+        margin-bottom: 10px;
 
         textarea {
             flex: 1;

@@ -6,6 +6,8 @@
   import { useUserStore } from '../stores/user'
   import axios from "axios"
   import UserProfileForm from "./UserProfileForm.vue"
+  import HeaderHome from "./HeaderHome.vue"
+
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -59,6 +61,7 @@
 
 <template>
   <div class="page-wrapper">
+    <HeaderHome :userName="userStore.nome" :only-logout="true" />
     <div class="info-container">
       <h2>Completa il tuo profilo</h2>
 
@@ -67,41 +70,74 @@
 
       <!-- Bottone Continua -->
       <div class="actions">
-        <button 
-          @click="saveInfo"
-          :disabled="!userInfo.eta || !userInfo.peso || !userInfo.sesso || !userInfo.altezza || !userInfo.obiettivo || !userInfo.livelloAttivitaFisica || !userInfo.obiettivoPeso"
-        >
+        <button class="save" @click="saveInfo"
+          :disabled="!userInfo.eta || !userInfo.peso || !userInfo.sesso || !userInfo.altezza || !userInfo.obiettivo || !userInfo.livelloAttivitaFisica || !userInfo.obiettivoPeso">
           Continua
         </button>
       </div>
     </div>
   </div>
 </template>
+
 <style scoped lang="scss">
-  button {
+
+  .page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .info-container {
     width: 100%;
-    padding: 12px 0;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 16px;
-    background-color: #e8f5e9; /* verde chiaro simile a Salva */
-    color: #2e7d32;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    max-width: 700px;
+    padding: 22px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    margin-top: 200px;
+    margin-bottom: 100px;
 
-  &:disabled {
-    background-color: #ccc;
-    color: #666;
-    cursor: not-allowed;
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    p {
+      font-size: inherit;
+    }
+
+    .save {
+      min-width: 120px;
+      font-size: 16px;
+      border: 1px solid transparent;
+      padding: 10px 18px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+
+      &:hover:enabled {
+        background-color: #4caf50;
+        color: white;
+        border-color: #3da73f;
+      }
+
+      &:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+      }
+    }
   }
 
-  &:hover:enabled {
-    background-color: #4caf50;
-    color: white;
-    border-color: #3da73f;
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
   }
-}
 </style>
-
-<!--si potrebbe pensare magari di disabilitare il bottone se non sono stati inseriti i campi-->

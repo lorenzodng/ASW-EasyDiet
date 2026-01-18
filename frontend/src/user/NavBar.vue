@@ -6,6 +6,13 @@
   const isOpen = ref(false);
   const navbarRef = ref(null);
 
+  const props = defineProps({
+    onlyLogout: {
+      type: Boolean,
+      default: false
+    }
+  });
+
   const handleClickOutside = (event) => {
     if (navbarRef.value && !navbarRef.value.contains(event.target)) {
       isOpen.value = false;
@@ -39,18 +46,22 @@
     </button>
 
     <div v-if="isOpen" class="menu">
-      <router-link to="/home" @click="menu">🏠 Home</router-link>
-      <router-link to="/informazioni-personali" @click="menu">
-        👤 Info personali
-      </router-link>
-      <router-link :to="{ name: 'ComponiDieta' }" @click="menu">
-        🥗 Componi Dieta
-      </router-link>
-      <router-link :to="{ name: 'TrackingPeso' }" @click="menu">
-        📊 I tuoi progressi
-      </router-link>
+      <!-- se onlyLogout è false, mostra tutti i link -->
+      <template v-if="!props.onlyLogout">
+        <router-link to="/home" @click="menu">🏠 Home</router-link>
+        <router-link to="/informazioni-personali" @click="menu">
+          👤 Info personali
+        </router-link>
+        <router-link :to="{ name: 'ComponiDieta' }" @click="menu">
+          🥗 Componi Dieta
+        </router-link>
+        <router-link :to="{ name: 'TrackingPeso' }" @click="menu">
+          📊 I tuoi progressi
+        </router-link>
+      </template>
 
-      <button class="logout" @click="logout"> Logout</button>
+      <!-- logout sempre visibile -->
+      <button class="logout" @click="logout">Logout</button>
     </div>
   </div>
 </template>

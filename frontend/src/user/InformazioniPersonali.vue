@@ -88,7 +88,7 @@
           <p><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
         </template>
 
-         <!-- MODIFICA: usa il form condiviso -->
+        <!-- MODIFICA: usa il form condiviso -->
         <template v-else>
           <UserProfileForm v-model="editInfo" />
 
@@ -141,16 +141,11 @@
       font-size: inherit;
 
     }
-    
+
     .save {
       background-color: #e8f5e9;
       color: #2e7d32;
-      border: 1px solid transparent;
-      font-weight: 600;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+
 
       &:hover {
         background-color: #4caf50;
@@ -162,12 +157,6 @@
     .cancel {
       background-color: #ffebee;
       color: #c62828;
-      border: 1px solid transparent;
-      font-weight: 600;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
 
       &:hover {
         background-color: #e53935;
@@ -181,6 +170,13 @@
   .cancel {
     min-width: 120px;
     font-size: 16px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
   }
 
   .actions {

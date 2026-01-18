@@ -5,6 +5,10 @@
     userName: {
       type: String,
       required: true
+    },
+    onlyLogout: {
+      type: Boolean,
+      default: false
     }
   });
 </script>
@@ -27,7 +31,7 @@
     </div>
 
     <div class="nav">
-      <NavBar />
+      <NavBar :only-logout="onlyLogout" />
     </div>
   </header>
 </template>
