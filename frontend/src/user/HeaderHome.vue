@@ -33,7 +33,6 @@
 </template>
 
 <style scoped lang="scss">
-
   .header {
     position: fixed;
     top: 0;
@@ -41,7 +40,7 @@
     right: 0;
     display: flex;
     align-items: center;
-    height: 88px;
+    height: 105px;
     background-color: #3da73f;
     color: white;
     z-index: 3;
@@ -52,9 +51,8 @@
     align-items: center;
     margin-left: 50px;
 
-
     img {
-      height: 64px;
+      height: 100px;
     }
   }
 

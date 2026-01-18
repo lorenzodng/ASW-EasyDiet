@@ -11,6 +11,5 @@ createApp(App)
     .use(router) // gestione navigazione
     .mount('#app') // montaggio sull'elemento root HTML
 
-
-    //punto di ingresso applicazione vue 
-    //Collega App.vue, Pinia e Vue Router
+//punto di ingresso applicazione vue
+//Collega App.vue, Pinia e Vue Router

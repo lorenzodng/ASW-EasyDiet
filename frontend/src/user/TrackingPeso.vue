@@ -139,37 +139,38 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .storico {
     margin-top: 25px;
     text-align: left;
-  }
 
-  .storico h3 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 16px;
-  }
 
-  .storico ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+    h3 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
 
-  .storico li {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 12px;
-    margin-bottom: 6px;
-    border-radius: 6px;
-    background-color: #f5f5f5;
-    font-size: 14px;
-  }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-  .storico li.current {
-    background-color: #e8f5e9;
-    font-weight: bold;
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      background-color: #f5f5f5;
+      font-size: 14px;
+    }
+
+    &.current {
+      background-color: #e8f5e9;
+      font-weight: bold;
+    }
   }
 
   .date {

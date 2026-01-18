@@ -104,20 +104,20 @@
     gap: 6px;
 
     z-index: 100;
-  }
 
-  //router link
-  .menu a {
-    text-decoration: none;
-    color: #333;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    //router link
+    a {
+      text-decoration: none;
+      color: #333;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
 
-    &:hover {
-      background: #e8f5e9;
-      color: #2e7d32;
+      &:hover {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
     }
   }
 

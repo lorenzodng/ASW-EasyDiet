@@ -22,14 +22,13 @@
       if (data.status) {
         userStore.setUser(data.user) //salva nella memoria dello store le informazioni dell'utente
         localStorage.setItem("token", data.token);
-        alert("Login effettuato con successo");
         if (data.hasProfileInfo) {
           router.push({ name: "Home" }); //passa al componente home passandogli il parametro id
         } else {
           router.push({ name: "Form" }); //passa al componente form utente
         }
       } else {
-        alert("Login fallito");
+        //diventa rosso
       }
     } catch (err) {
       alert("Errore: " + err);
@@ -37,9 +36,9 @@
   };
 
   const goToAdmin = () => {
-  //alert("CLICK ADMIN");
-  router.push({ name: "AdminLogin" });
-};
+    //alert("CLICK ADMIN");
+    router.push({ name: "AdminLogin" });
+  };
 
 </script>
 
@@ -49,24 +48,24 @@
       <h2>Login</h2>
       <form @submit.prevent="loginData">
 
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input id="email" type="email" v-model="user.email" class="form-control" placeholder="Email">
-  </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" v-model="user.email" class="form-control" placeholder="Email">
+        </div>
 
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
-  </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
+        </div>
 
-  <button type="submit" class="login-button">Accedi</button>
-</form>
+        <button type="submit" class="login-button">Accedi</button>
+      </form>
 
-<p class="admin-link">
-  Sei un amministratore?
-  <span @click="goToAdmin">Accedi qui</span>
-</p>
+      <p class="admin-link">
+        Sei un amministratore?
+        <span @click="goToAdmin">Accedi qui</span>
+      </p>
     </div>
   </div>
 </template>
@@ -90,12 +89,12 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
 
-  .login-box h2 {
-    text-align: center;
-    color: #2e7d32;
-    margin-bottom: 8px;
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 8px;
+    }
   }
 
   /* FORM */
@@ -128,7 +127,6 @@
     }
   }
 
-  
   .login-button {
     margin-top: 12px;
     width: 100%;
@@ -153,26 +151,26 @@
       box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
     }
   }
+
   .admin-link {
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-  color: #555;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    color: #555;
 
-  span {
-    color: #2e7d32;
-    font-weight: 600;
-    cursor: pointer;
-    margin-left: 4px;
-    transition: color 0.3s ease;
+    span {
+      color: #2e7d32;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 4px;
+      transition: color 0.3s ease;
 
-    &:hover {
-      color: #4caf50;
-      text-decoration: underline;
+      &:hover {
+        color: #4caf50;
+        text-decoration: underline;
+      }
     }
   }
-}
 
 
 </style>
-
