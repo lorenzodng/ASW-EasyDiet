@@ -6,6 +6,7 @@
   import axios from "axios"
   import HeaderHome from "./HeaderHome.vue"
   import { useRouter } from "vue-router";
+  import UserProfileForm from "./UserProfileForm.vue"
 
   const router = useRouter();
   const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
@@ -64,6 +65,7 @@
 <template>
   <div class="page-wrapper">
     <HeaderHome :userName="userStore.nome" />
+
     <div class="info-container" :class="{ editing: isEditing }">
       <h2>Informazioni personali</h2>
 
@@ -75,78 +77,38 @@
 
       <!-- dati caricati -->
       <div v-else>
-        <p v-if="!isEditing"><strong>Età:</strong> {{ info.eta }}</p>
-        <div v-else class="form-field">
-          <label>Età</label>
-          <input type="number" v-model.number="editInfo.eta" />
-        </div>
-        <p v-if="!isEditing"><strong>Peso:</strong> {{ info.peso }} kg</p>
-        <div v-else class="form-field">
-          <label>Peso (kg)</label>
-          <input type="number" v-model.number="editInfo.peso" />
-        </div>
-        <p v-if="!isEditing"><strong>Altezza:</strong> {{ info.altezza }} cm</p>
-        <div v-else class="form-field">
-          <label>Altezza (cm)</label>
-          <input type="number" v-model.number="editInfo.altezza" />
-        </div>
-        <p v-if="!isEditing"><strong>Sesso:</strong> {{ info.sesso }}</p>
-        <div v-else class="form-field">
-          <label>Sesso</label>
-          <select v-model="editInfo.sesso" required>
-            <option disabled value="">Seleziona</option>
-            <option value="maschio">Maschio</option>
-            <option value="femmina">Femmina</option>
-          </select>
-        </div>
-        <p v-if="!isEditing"><strong>Obiettivo:</strong> {{ info.obiettivo }}</p>
-        <div v-else class="form-field">
-          <label>Obiettivo</label>
-          <select v-model="editInfo.obiettivo" required>
-            <option disabled value="">Seleziona</option>
-            <option value="dimagrimento">Dimagrimento</option>
-            <option value="mantenimento">Mantenimento</option>
-            <option value="aumento_peso">Aumento di peso</option>
-          </select>
-        </div>
-        <p v-if="!isEditing"><strong>Peso Obiettivo:</strong> {{ info.obiettivoPeso }}</p>
-        <div v-else class="form-field">
-          <label>Peso obiettivo</label>
-          <input type="number" v-model.number="editInfo.obiettivoPeso" />
-        </div>
-        <p v-if="!isEditing"><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
-        <div v-else class="form-field">
-          <label>Attività fisica</label>
-          <select v-model="editInfo.livelloAttivitaFisica">
-            <option value="basso">Basso</option>
-            <option value="moderato">Moderato</option>
-            <option value="intenso">Intenso</option>
-          </select>
-        </div>
-      </div>
-      <div class="actions">
-        <button v-if="!isEditing" @click="modifica">✏️ Modifica</button>
-        <template v-else>
-          <button class="save" @click="saveInfo">
-            Salva
-          </button>
-          <button class="cancel" @click="cancelInfo">
-            Annulla
-          </button>
+        <!-- VISUALIZZAZIONE -->
+        <template v-if="!isEditing">
+          <p><strong>Età:</strong> {{ info.eta }}</p>
+          <p><strong>Peso:</strong> {{ info.peso }} kg</p>
+          <p><strong>Altezza:</strong> {{ info.altezza }} cm</p>
+          <p><strong>Sesso:</strong> {{ info.sesso }}</p>
+          <p><strong>Obiettivo:</strong> {{ info.obiettivo }}</p>
+          <p><strong>Obiettivo peso:</strong> {{ info.obiettivoPeso }}</p>
+          <p><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
         </template>
+
+         <!-- MODIFICA: usa il form condiviso -->
+        <template v-else>
+          <UserProfileForm v-model="editInfo" />
+
+          <!-- BOTTONE SALVA / ANNULLA -->
+          <div class="actions">
+            <button class="save" @click="saveInfo">Salva</button>
+            <button class="cancel" @click="cancelInfo">Annulla</button>
+          </div>
+        </template>
+      </div>
+
+      <!-- BOTTONE MODIFICA -->
+      <div class="actions" v-if="!isEditing">
+        <button @click="modifica">✏️ Modifica</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    margin: 0 auto 20px;
-  }
 
   .page-wrapper {
     display: flex;
@@ -179,38 +141,7 @@
       font-size: inherit;
 
     }
-
-    label,
-    input,
-    select {
-      font-size: inherit;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    input,
-    select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px 14px;
-      font-size: 15px;
-      border-radius: 10px;
-      border: 1px solid grey;
-      background-color: #ffffff;
-      transition: all 0.2s ease;
-
-      &:focus {
-        outline: none;
-        border-color: #4caf50;
-        box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.18);
-      }
-    }
-
+    
     .save {
       background-color: #e8f5e9;
       color: #2e7d32;

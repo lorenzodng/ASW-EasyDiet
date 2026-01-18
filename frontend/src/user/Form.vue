@@ -4,7 +4,8 @@
   import { reactive, onMounted } from "vue";
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
-  import axios from "axios";
+  import axios from "axios"
+  import UserProfileForm from "./UserProfileForm.vue"
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -57,88 +58,50 @@
 </script>
 
 <template>
-  <div class="container">
-    <h2>Completa il tuo profilo</h2>
-    <form @submit.prevent="saveInfo">
+  <div class="page-wrapper">
+    <div class="info-container">
+      <h2>Completa il tuo profilo</h2>
 
-      <div class="form-group">
-        <label>Età</label>
-        <input type="number" v-model.number="userInfo.eta" required />
+      <!-- Form condiviso -->
+      <UserProfileForm v-model="userInfo" />
+
+      <!-- Bottone Continua -->
+      <div class="actions">
+        <button 
+          @click="saveInfo"
+          :disabled="!userInfo.eta || !userInfo.peso || !userInfo.sesso || !userInfo.altezza || !userInfo.obiettivo || !userInfo.livelloAttivitaFisica || !userInfo.obiettivoPeso"
+        >
+          Continua
+        </button>
       </div>
-
-      <div class="form-group">
-        <label>Peso(kg)</label>
-        <input type="number" v-model.number="userInfo.peso" required />
-      </div>
-
-      <div class="form-group">
-        <label>Peso che vuoi raggiungere(kg)</label>
-        <input type="number" v-model.number="userInfo.obiettivoPeso" required />
-      </div>
-
-      <div class="form-group">
-        <label>Sesso</label>
-        <select v-model="userInfo.sesso" required>
-          <option disabled value="">Seleziona</option>
-          <option value="maschio">Maschio</option>
-          <option value="femmina">Femmina</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Altezza</label>
-        <input type="number" v-model.number="userInfo.altezza" required />
-      </div>
-
-      <div class="form-group">
-        <label>Obiettivo che vuoi raggiungere</label>
-        <select v-model="userInfo.obiettivo" required>
-          <option disabled value="">Seleziona</option>
-          <option value="dimagrimento">Dimagrimento</option>
-          <option value="mantenimento">Mantenimento</option>
-          <option value="aumento_peso">Aumento di peso</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Livello di attività fisica</label>
-        <select v-model="userInfo.livelloAttivitaFisica" required>
-          <option disabled value="">Seleziona</option>
-          <option value="basso">Basso</option>
-          <option value="moderato">Moderato</option>
-          <option value="intenso">Intenso</option>
-        </select>
-      </div>
-
-      <button type="submit"
-        :disabled="!userInfo.eta || !userInfo.peso || !userInfo.sesso || !userInfo.altezza || !userInfo.obiettivo || !userInfo.livelloAttivitaFisica || !userInfo.obiettivoPeso">
-        Continua
-      </button>
-
-    </form>
+    </div>
   </div>
 </template>
-
-<style scoped>
-  .container {
-    max-width: 400px;
-    margin: auto;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  input,
-  select {
+<style scoped lang="scss">
+  button {
     width: 100%;
-    padding: 8px;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    background-color: #e8f5e9; /* verde chiaro simile a Salva */
+    color: #2e7d32;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+  &:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
   }
+
+  &:hover:enabled {
+    background-color: #4caf50;
+    color: white;
+    border-color: #3da73f;
+  }
+}
 </style>
 
 <!--si potrebbe pensare magari di disabilitare il bottone se non sono stati inseriti i campi-->
