@@ -1,14 +1,16 @@
 <script setup>
-  import { ref } from "vue";
+  import { ref, reactive } from "vue";
   import { useRouter } from "vue-router";
   import axios from "axios";
 
   const router = useRouter();
-
   const adminToken = ref("");
   const loading = ref(false);
   const error = ref("");
 
+  const errors = reactive({
+    token: false
+  });
   const loginAdmin = async () => {
     error.value = "";
     loading.value = true;
@@ -24,9 +26,11 @@
         router.push({ name: "AdminHome" }); // 
       } else {
         error.value = "Token non valido";
+        errors.token = true;
       }
     } catch (err) {
       error.value = "Errore di connessione";
+      errors.token = true;
     } finally {
       loading.value = false;
     }
@@ -41,7 +45,8 @@
       <form @submit.prevent="loginAdmin">
         <div class="form-group">
           <label for="token">Token</label>
-          <input id="token" type="password" v-model="adminToken" class="form-control" placeholder="Inserisci token" />
+          <input id="token" type="password" v-model="adminToken" :class="['form-control', { error: errors.token }]"
+            placeholder="Inserisci token" />
         </div>
 
         <button type="submit" class="login-button" :disabled="loading">
@@ -83,7 +88,6 @@
     }
   }
 
-
   .form-group {
     display: flex;
     flex-direction: column;
@@ -111,6 +115,12 @@
       outline: none;
       border-color: #4caf50;
       box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+
+    &.error {
+      border-color: #c62828;
+      box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+      text-align: left;
     }
   }
 

@@ -104,12 +104,14 @@
                 <div class="message-content">
                     <!-- Bubble utente con label interna -->
                     <span v-if="msg.role === 'user'" class="bubble user">
-                        <strong>Tu:</strong> <span v-html="formatMessage(msg.content)"></span>
+                        <strong>Tu:</strong>
+                        <span v-html="formatMessage(msg.content)"></span>
                     </span>
 
                     <!-- Bubble assistente -->
                     <span v-else class="bubble assistant">
-                        <strong>Assistente:</strong> <span v-html="formatMessage(msg.content)"></span>
+                        <strong>Assistente:</strong>
+                        <span v-html="formatMessage(msg.content)"></span>
                     </span>
                 </div>
             </div>
@@ -175,11 +177,10 @@
         flex-direction: column;
     }
 
-    .user {
+    .user,
+    .assistant {
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
-
 
         &.message-content {
             display: flex;
@@ -187,19 +188,13 @@
             align-items: flex-start;
         }
 
-        &.message-label {
-            margin-bottom: 2px;
-            margin-right: auto;
-        }
-
-        &.bubble {
-            background-color: #cce5ff;
-            max-width: 70%;
+        .bubble {
+            max-width: 400px;
             padding: 8px 12px;
             border-radius: 12px;
-            margin-left: auto;
-            display: block;
             text-align: left;
+            display: block;
+            word-break: break-word;
 
             p {
                 margin: 0;
@@ -208,23 +203,21 @@
         }
     }
 
+    .user {
+        align-items: flex-end;
+
+        .bubble {
+            background-color: #cce5ff;
+            margin-left: auto;
+        }
+    }
+
     .assistant {
-        display: flex;
-        flex-direction: column;
         align-items: flex-start;
 
-        &.message-content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        &.bubble {
+        .bubble {
             background-color: #d0f1bd;
-            max-width: 70%;
-            padding: 8px 12px;
-            border-radius: 12px;
-            text-align: left;
+            margin-right: auto;
         }
     }
 

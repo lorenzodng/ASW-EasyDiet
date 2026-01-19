@@ -1,18 +1,24 @@
 <!-- componente login -->
 
 <script setup>
-  import { reactive } from "vue";
+  import { ref, reactive } from "vue";
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
   import axios from "axios";
 
   const router = useRouter(); //utilizza vue-rotuer per passare a una nuova pagina dopo il login
   const userStore = useUserStore() //utilizza lo store di pinia definito
+  const errorMsg = ref("");
 
   //oggetto di variabili reattive
   const user = reactive({
     email: "",
     password: ""
+  });
+
+  const errors = reactive({
+    email: false,
+    password: false
   });
 
   //metodo di login
@@ -28,10 +34,14 @@
           router.push({ name: "Form" }); //passa al componente form utente
         }
       } else {
-        //diventa rosso
+        errors.email = true;
+        errors.password = true;
+        errorMsg.value = "Email o password non validi";
       }
     } catch (err) {
-      alert("Errore: " + err);
+      errorMsg.value = "Errore di connessione";
+      errors.email = true;
+      errors.password = true;
     }
   };
 
@@ -50,17 +60,21 @@
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" type="email" v-model="user.email" class="form-control" placeholder="Email">
+          <input id="email" type="email" v-model="user.email" :class="['form-control', { 'error': errors.email }]"
+            placeholder="Email">
         </div>
 
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" type="password" v-model="user.password" class="form-control" placeholder="Password">
+          <input id="password" type="password" v-model="user.password"
+            :class="['form-control', { 'error': errors.password }]" placeholder="Password">
         </div>
 
         <button type="submit" class="login-button">Accedi</button>
       </form>
+
+      <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
 
       <p class="admin-link">
         Sei un amministratore?
@@ -125,6 +139,12 @@
       border-color: #4caf50;
       box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
     }
+
+    &.error {
+      border-color: #c62828;
+      box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+      text-align: left;
+    }
   }
 
   .login-button {
@@ -172,5 +192,11 @@
     }
   }
 
+  .error {
+    margin-top: 8px;
+    text-align: center;
+    color: #d32f2f;
+    font-size: 14px;
+  }
 
 </style>
