@@ -118,7 +118,7 @@
     </header>
     <p v-if="loading">Caricamento ricette...</p>
     <p v-if="error" class="error">{{ error }}</p>
-    <button @click="showForm = !showForm">
+    <button class="add-button"  @click="showForm = !showForm">
       ➕ Aggiungi ricetta
     </button>
 
@@ -281,7 +281,7 @@
   }
 
   .admin-logo {
-    height: 90px;
+    height: 120px;
     cursor: pointer;
   }
 
@@ -312,6 +312,15 @@
     &:hover {
       background-color: #66bb6a;
     }
+  }
+
+  .add-button{
+    background-color: #ffffff;
+    margin-bottom: 24px;
+    outline: none;
+    &:hover {
+    border-color: #4caf50;
+  }
   }
 
   button[type="button"] {
@@ -462,12 +471,11 @@
   }
 
   .icon {
-    position: relative;
-    background: none;
     border: none;
-    font-size: 18px;
+    background: none;
     cursor: pointer;
-    padding: 6px;
+    font-size: 18px;
+    transition: transform 0.2s;
 
     transition: transform 0.2s ease;
 

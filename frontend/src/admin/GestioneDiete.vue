@@ -160,8 +160,6 @@
   .actions {
     display: flex;
     gap: 8px;
-    justify-content: flex-end;
-    padding-right: 24px;
   }
 
 </style>

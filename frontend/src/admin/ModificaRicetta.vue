@@ -207,7 +207,7 @@ const annulla = () => {
     opacity: 1;
   }
 }
-/* FORM CARD */
+
 form {
   background: #ffffff;
   padding: 24px;
@@ -218,7 +218,7 @@ form {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* TITOLI */
+
 h3 {
   margin: 20px 0 12px;
   color: #2e7d32;
@@ -227,7 +227,6 @@ h3 {
   padding-bottom: 6px;
 }
 
-/* LABEL */
 label {
   display: block;
   font-size: 13px;
@@ -236,17 +235,17 @@ label {
   color: #555;
 }
 
-/* INPUT / SELECT / TEXTAREA */
 input,
 select,
 textarea {
-  width: 100%;
+  width: 95%;
+  height: 42px; 
   padding: 10px 12px;
-  margin-bottom: 14px;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 14px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  
 
   &:focus {
     outline: none;
@@ -257,10 +256,9 @@ textarea {
 
 textarea {
   resize: vertical;
-  min-height: 70px;
+  min-height: 50px;
 }
 
-/* INGREDIENTI */
 .ingredient-row {
   display: grid;
    grid-template-columns: 2fr 1fr 1fr 40px; 
@@ -280,8 +278,7 @@ textarea {
     }
   }
 }
-
-/* BOTTONE AGGIUNGI */
+//bottone aggiungi
 button[type="button"] {
   background-color: #e8f5e9;
   color: #2e7d32;
@@ -295,7 +292,7 @@ button[type="button"] {
   }
 }
 
-/* AZIONI FINALI */
+
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -322,25 +319,29 @@ button[type="button"] {
   }
 }
 .remove-ingredient {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  margin: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   border-radius: 50%;
-  background: #ffebee;
+  background: #fdecea;
   color: #d32f2f;
   border: none;
   cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+
+  transition: background 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    background: #ffcdd2;
-    transform: scale(1.1);
+    background: #f9c5c3;
+    transform: scale(1.15);
   }
 }
+
 
 </style>

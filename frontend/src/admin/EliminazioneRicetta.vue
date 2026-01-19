@@ -41,13 +41,12 @@ const deleteRecipe = async () => {
 
 <style scoped lang="scss">
 .icon {
-  position: relative;
-  background: none;
   border: none;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 6px;
-  transition: transform 0.2s ease;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s;
+
 
   &:hover {
     transform: scale(1.15);
