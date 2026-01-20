@@ -1,166 +1,162 @@
 <script setup>
-import { reactive, ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useUserStore } from '../stores/user';
-import axios from "axios";
-import HeaderHome from "./HeaderHome.vue"
+  import { reactive, ref, onMounted, computed } from "vue";
+  import { useRouter } from "vue-router";
+  import { useUserStore } from '../stores/user';
+  import axios from "axios";
+  import HeaderHome from "./HeaderHome.vue"
 
-const router = useRouter();
-const userStore = useUserStore();
-const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
-const kcalUser = ref(0); //kcal dell'utente
-const userDiet = reactive({}); //dieta costruita dall'utente per ogni giorno
-const selectedDayIndex = ref(0); //indice del giorno corrente  
-const currentDay = computed(() => days[selectedDayIndex.value]); //giorno corrente 
-const openRecipes = ref(new Set()); //ricette aperte tramite menu, contiene solo gli id 
+  const router = useRouter();
+  const userStore = useUserStore();
+  const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+  const kcalUser = ref(0); //kcal dell'utente
+  const userDiet = reactive({}); //dieta costruita dall'utente per ogni giorno
+  const selectedDayIndex = ref(0); //indice del giorno corrente  
+  const currentDay = computed(() => days[selectedDayIndex.value]); //giorno corrente 
+  const openRecipes = ref(new Set()); //ricette aperte tramite menu, contiene solo gli id 
 
-//contiene tutte le ricette caricate dal db, ordinate per categoria
-const mealsByType = reactive({
-  colazione: [],
-  pranzo: [],
-  merenda: [],
-  cena: []
-});
+  //contiene tutte le ricette caricate dal db, ordinate per categoria
+  const mealsByType = reactive({
+    colazione: [],
+    pranzo: [],
+    merenda: [],
+    cena: []
+  });
 
-days.forEach((day) => { //per ogni elemento di "days"
-  userDiet[day] = { //crea una coppia chiave-valore con chiave il giorno della settimana e valori le categorie di pasto
-    colazione: { recipe: null, time: "" },
-    pranzo: { recipe: null, time: "" },
-    merenda: { recipe: null, time: "" },
-    cena: { recipe: null, time: "" }
-  };
-});
+  days.forEach((day) => { //per ogni elemento di "days"
+    userDiet[day] = { //crea una coppia chiave-valore con chiave il giorno della settimana e valori le categorie di pasto
+      colazione: { recipe: null, time: "" },
+      pranzo: { recipe: null, time: "" },
+      merenda: { recipe: null, time: "" },
+      cena: { recipe: null, time: "" }
+    };
+  });
 
-const getKcal = async () => {
-  try {
-    const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
-    kcalUser.value = resProfile.data.kcal;
-    console.log("KCAL USER:", kcalUser.value);
-  } catch (error) {
-    console.error("Errore caricamento ricette:", error);
-  }
-}
-
-const getRecipes = async () => {
-  try {
-    const res = await axios.get("http://localhost:5000/recipes");
-    res.data.forEach((ricetta) => { //per ogni ricetta recuperata
-      const ricettaScalata = scaleRecipe(ricetta, ricetta.categoria);
-      mealsByType[ricetta.categoria].push(ricettaScalata); //inserisce quella ricetta nell'array giusto in base alla sua categoria
-    });
-  } catch (error) {
-    console.error("Errore caricamento ricette:", error);
-  }
-}
-
-//mostra il target calorico dell'utente in base alla categoria di pasto
-const getTargetKcal = (categoria) => {
-  if (!kcalUser.value) {
-    return 0;
-  }
-
-  switch (categoria) {
-    case "colazione": return Math.round(kcalUser.value * 0.25);
-    case "pranzo": return Math.round(kcalUser.value * 0.35);
-    case "merenda": return Math.round(kcalUser.value * 0.10);
-    case "cena": return Math.round(kcalUser.value * 0.30);
-    default: return 0;
-  }
-};
-
-const saveDiet = async () => {
-  try {
-    const { data } = await axios.post("http://localhost:5000/diets", {
-      userId: userStore.id,
-      settimana: userDiet
-    });
-
-    if (data.status) {
-      alert("Dieta salvata con successo");
-      router.push({ name: "Home" });
-
-    } else {
-      alert("Errore: " + data.message);
+  const getKcal = async () => {
+    try {
+      const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
+      kcalUser.value = resProfile.data.kcal;
+      console.log("KCAL USER:", kcalUser.value);
+    } catch (error) {
+      console.error("Errore caricamento ricette:", error);
     }
-  } catch (err) {
-    alert("Errore nel salvataggio della dieta");
-    console.error(err);
   }
-};
 
-//menu a scomparsa per i dettagli della ricetta
-const toggleRecipe = (id) => {
-  if (openRecipes.value.has(id)) { //se la ricetta è già aperta
-    openRecipes.value.delete(id); //chiude il menu di quella ricetta
-  } else { //altrimenti
-    openRecipes.value.add(id); //apre il menu della ricetta 
+  const getRecipes = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/recipes");
+      res.data.forEach((ricetta) => { //per ogni ricetta recuperata
+        const ricettaScalata = scaleRecipe(ricetta, ricetta.categoria);
+        mealsByType[ricetta.categoria].push(ricettaScalata); //inserisce quella ricetta nell'array giusto in base alla sua categoria
+      });
+    } catch (error) {
+      console.error("Errore caricamento ricette:", error);
+    }
   }
-};
 
-const scaleRecipe = (ricetta, categoria) => {
-  const targetKcal = getTargetKcal(categoria);
-  if (!targetKcal || !ricetta.kcal) return { ...ricetta, kcalTotali: ricetta.kcal };
+  //mostra il target calorico dell'utente in base alla categoria di pasto
+  const getTargetKcal = (categoria) => {
+    if (!kcalUser.value) {
+      return 0;
+    }
 
-  const fattore = targetKcal / ricetta.kcal;
-
-  const ingredientiScalati = ricetta.ingredienti.map(ing => ({
-    ...ing,
-    peso: Math.round(ing.peso * fattore),
-    kcal: Math.round(ing.kcal * fattore)
-  }));
-
-  const kcalTotali = ingredientiScalati.reduce((acc, ing) => acc + ing.kcal, 0);
-
-  return {
-    ...ricetta,
-    ingredienti: ingredientiScalati,
-    kcalTotali // aggiungiamo la proprietà kcalTotali
+    switch (categoria) {
+      case "colazione": return Math.round(kcalUser.value * 0.25);
+      case "pranzo": return Math.round(kcalUser.value * 0.35);
+      case "merenda": return Math.round(kcalUser.value * 0.10);
+      case "cena": return Math.round(kcalUser.value * 0.30);
+      default: return 0;
+    }
   };
-};
 
-const descrizioneKcal = (ricetta) => {
-  if (!ricetta.kcalTotali || !ricetta.categoria) {
-    return '';
-  }
+  const saveDiet = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:5000/diets", {
+        userId: userStore.id,
+        settimana: userDiet
+      });
 
-  const target = getTargetKcal(ricetta.categoria);
-  const percentuale = ((ricetta.kcalTotali - target) / target) * 100;
-
-  if (percentuale < -10) return "Opzione leggera";
-  if (percentuale <= 10) return "Opzione equilibrata";
-  if (percentuale > 10) return "Opzione abbondante";
-};
-
-const goToPreviousDay = () => {
-  if (selectedDayIndex.value > 0) {
-    selectedDayIndex.value--;
-    openRecipes.value.clear();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-};
-
-const goToNextDay = () => {
-  if (selectedDayIndex.value < days.length - 1) {
-    selectedDayIndex.value++;
-    openRecipes.value.clear();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-};
-
-const getRecipeImage = (imageName) => {
-  return imageName ? `/images/recipes/${imageName}` : '';
-};
-
-
-
-onMounted(() => {
-  const init = async () => {
-    await userStore.fetchUser(router);
-    await getKcal();
-    await getRecipes();
+      if (data.status) {
+        router.push({ name: "Home" });
+      }
+    } catch (err) {
+      alert("Errore nel salvataggio della dieta");
+      console.error(err);
+    }
   };
-  init();
-});
+
+  //menu a scomparsa per i dettagli della ricetta
+  const toggleRecipe = (id) => {
+    if (openRecipes.value.has(id)) { //se la ricetta è già aperta
+      openRecipes.value.delete(id); //chiude il menu di quella ricetta
+    } else { //altrimenti
+      openRecipes.value.add(id); //apre il menu della ricetta 
+    }
+  };
+
+  const scaleRecipe = (ricetta, categoria) => {
+    const targetKcal = getTargetKcal(categoria);
+    if (!targetKcal || !ricetta.kcal) return { ...ricetta, kcalTotali: ricetta.kcal };
+
+    const fattore = targetKcal / ricetta.kcal;
+
+    const ingredientiScalati = ricetta.ingredienti.map(ing => ({
+      ...ing,
+      peso: Math.round(ing.peso * fattore),
+      kcal: Math.round(ing.kcal * fattore)
+    }));
+
+    const kcalTotali = ingredientiScalati.reduce((acc, ing) => acc + ing.kcal, 0);
+
+    return {
+      ...ricetta,
+      ingredienti: ingredientiScalati,
+      kcalTotali // aggiungiamo la proprietà kcalTotali
+    };
+  };
+
+  const descrizioneKcal = (ricetta) => {
+    if (!ricetta.kcalTotali || !ricetta.categoria) {
+      return '';
+    }
+
+    const target = getTargetKcal(ricetta.categoria);
+    const percentuale = ((ricetta.kcalTotali - target) / target) * 100;
+
+    if (percentuale < -10) return "Opzione leggera";
+    if (percentuale <= 10) return "Opzione equilibrata";
+    if (percentuale > 10) return "Opzione abbondante";
+  };
+
+  const goToPreviousDay = () => {
+    if (selectedDayIndex.value > 0) {
+      selectedDayIndex.value--;
+      openRecipes.value.clear();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const goToNextDay = () => {
+    if (selectedDayIndex.value < days.length - 1) {
+      selectedDayIndex.value++;
+      openRecipes.value.clear();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const getRecipeImage = (imageName) => {
+    return imageName ? `/images/recipes/${imageName}` : '';
+  };
+
+
+
+  onMounted(() => {
+    const init = async () => {
+      await userStore.fetchUser(router);
+      await getKcal();
+      await getRecipes();
+    };
+    init();
+  });
 </script>
 
 <template>
@@ -274,297 +270,289 @@ onMounted(() => {
 
 
 <style scoped lang="scss">
-.componi-dieta {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 90px 16px 0;
-
-}
-
-.day-title {
-  text-align: center;
-  margin-bottom: 32px;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1b5e20;
-  text-transform: capitalize;
-}
-
-.legend {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  background: #ffffff;
-  padding: 8px 12px;
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-weight: 500;
-}
-
-/* pallino neutro */
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #4caf50;
-  /* colore unico */
-}
-
-.time-field {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding: 6px 12px;
-  background: #f1f8f4;
-  border-radius: 999px;
-
-  label {
-    font-size: 15px;
-    color: #388e3c;
-    font-weight: 600;
+  .componi-dieta {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 90px 16px 0;
   }
 
-  input[type="time"] {
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    color: #1b5e20;
-    padding: 0;
-
-    &:focus {
-      outline: none;
-    }
-  }
-}
-
-.meal-block {
-  margin-bottom: 28px;
-  padding: 20px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 3px solid #36abbb;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
-
-  h3 {
-    text-transform: capitalize;
-    color: #1b5e20;
-    margin-bottom: 6px;
-
-    &:last-of-type {
-      font-size: 14px;
-      font-weight: 500;
-      color: #4caf50;
-      margin-bottom: 14px;
-    }
-  }
-
-  &.colazione {
-    border-color: #36abbb;
-  }
-
-  &.pranzo {
-    border-color: #f89604;
-  }
-
-  &.merenda {
-    border-color: #4caf50;
-  }
-
-  &.cena {
-    border-color: #5564b6;
-  }
-}
-
-.recipe-option {
-  margin-bottom: 10px;
-}
-
-.navigation {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 48px auto 0;
-  max-width: 500px;
-
-  button {
-    flex: 1;
-    padding: 14px 18px;
-    border-radius: 14px;
-    background: #64cb37;
-    color: #1b5e20;
-    font-size: 15px;
+  .day-title {
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 28px;
     font-weight: 700;
-    border: 2px solid #c8e6c9;
-    cursor: pointer;
-    transition: all 0.25s ease;
+    color: #1b5e20;
+    text-transform: capitalize;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
+    font-size: 13px;
+    background: #ffffff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-weight: 500;
+  }
 
-    &:hover:not(:disabled) {   //controlla che il bottone sia disabilitato 
-      background: #e8f5e9;
+  /* pallino neutro */
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4caf50;
+    /* colore unico */
+  }
+
+  .time-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 6px 12px;
+    background: #f1f8f4;
+    border-radius: 999px;
+
+    label {
+      font-size: 15px;
+      color: #388e3c;
+      font-weight: 600;
+    }
+
+    input[type="time"] {
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      color: #1b5e20;
+      padding: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .meal-block {
+    margin-bottom: 28px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 3px solid #36abbb;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+
+    h3 {
+      text-transform: capitalize;
+      color: #1b5e20;
+      margin-bottom: 6px;
+
+      &:last-of-type {
+        font-size: 14px;
+        font-weight: 500;
+        color: #4caf50;
+        margin-bottom: 14px;
+      }
+    }
+
+    &.colazione {
+      border-color: #36abbb;
+    }
+
+    &.pranzo {
+      border-color: #f89604;
+    }
+
+    &.merenda {
       border-color: #4caf50;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(76, 175, 80, 0.2);
     }
 
-    &:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
+    &.cena {
+      border-color: #5564b6;
     }
   }
-}
 
-
-
-.save-btn {
-  display: block;
-  margin: 40px auto;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 14px;
-  background: #4caf50;
-  color: white;
-  font-weight: 700;
-  border: none;
-
-  &:hover {
-    background: #388e3c;
-  }
-}
-
-
-.recipe-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-
-.toggle-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.recipe-details {
-  margin: 12px auto 0;
-  padding: 16px 18px;
-  max-width: 600px;
-  background: #f1f8f4;
-  border-radius: 14px;
-  border-left: 4px solid #4caf50;
-  font-size: 14px;
-  animation: fadeIn 0.25s ease;
-}
-
-
-.recipe-details {
-  h4 {
+  .recipe-option {
     margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-}
-
-.ingredients {
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
   }
 
-  li {
+  .navigation {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px dashed;
+    gap: 16px;
+    margin: 48px auto 0;
+    max-width: 500px;
 
-    &:last-child {
-      border-bottom: none;
+    button {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: #64cb37;
+      color: #1b5e20;
+      font-size: 15px;
+      font-weight: 700;
+      border: 2px solid #c8e6c9;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      &:hover:not(:disabled) {
+        //controlla che il bottone sia disabilitato 
+        background: #e8f5e9;
+        border-color: #4caf50;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(76, 175, 80, 0.2);
+      }
+
+      &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+      }
     }
   }
-}
 
-.recipe-info {
-  ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-  }
-}
+  .save-btn {
+    display: block;
+    margin: 40px auto;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 14px;
+    background: #4caf50;
+    color: white;
+    font-weight: 700;
+    border: none;
 
-
-.ing-name {
-  color: #000000;
-  font-weight: 500;
-}
-
-.ing-weight {
-  font-weight: 600;
-  color: #000000;
-}
-
-/* NOTE */
-
-.recipe-info {
-  margin-top: 14px;
-  font-size: 14px;
-  color: #000000;
-
-  ul {
-    list-style: none;
-    margin: 0;
+    &:hover {
+      background: #388e3c;
+    }
   }
 
-  li {
-    margin-bottom: 6px;
+  .recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-}
 
 
-/* BADGE kcal */
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
-  background: #c8e6c9;
-  color: #1b5e20;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 12px;
-  width: fit-content;
-}
+  .toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
 
+  .recipe-details {
+    margin: 12px auto 0;
+    padding: 16px 18px;
+    max-width: 600px;
+    background: #f1f8f4;
+    border-radius: 14px;
+    border-left: 4px solid #4caf50;
+    font-size: 14px;
+    animation: fadeIn 0.25s ease;
+  }
 
+  .recipe-details {
+    h4 {
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+  }
 
-.recipe-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  font-weight: 500;
-}
+  .ingredients {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-.recipe-img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 6px;
-}
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .recipe-info {
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+  }
+
+  .ing-name {
+    color: #000000;
+    font-weight: 500;
+  }
+
+  .ing-weight {
+    font-weight: 600;
+    color: #000000;
+  }
+
+  /* NOTE */
+
+  .recipe-info {
+    margin-top: 14px;
+    font-size: 14px;
+    color: #000000;
+
+    ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+  }
+
+  /* BADGE kcal */
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #c8e6c9;
+    color: #1b5e20;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    width: fit-content;
+  }
+
+  .recipe-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .recipe-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
 </style>

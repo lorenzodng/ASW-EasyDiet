@@ -63,6 +63,42 @@ export const getDietInfoController = async (req, res) => {
   }
 };
 
+//eliminazione della dieta dell'utente
+export const deleteDietInfoController = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        status: false,
+        message: "UserId mancante"
+      });
+    }
+
+    const diet = await service.deleteDietByUserId(userId);
+
+    if (!diet) {
+      return res.status(404).json({
+        status: false,
+        message: "Nessuna dieta trovata per questo utente"
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Dieta eliminata con successo",
+      data: diet
+    });
+
+  } catch (error) {
+    console.error("Errore eliminazione dieta:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Errore server nell'eliminazione della dieta"
+    });
+  }
+};
+
 //chat con LLM per la generazione della dieta
 export const chatController = async (req, res) => {
   const messages = JSON.parse(req.query.messages || "[]");

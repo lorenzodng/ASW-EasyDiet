@@ -3,13 +3,15 @@
 <script setup>
   import { ref, onMounted } from "vue"
   import { useUserStore } from "../stores/user"
+  import { useDietStore } from "../stores/diet"
+  import { useRouter } from "vue-router";
   import axios from "axios"
   import HeaderHome from "./HeaderHome.vue"
-  import { useRouter } from "vue-router";
   import UserProfileForm from "./UserProfileForm.vue"
 
   const router = useRouter();
   const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
+  const dietStore = useDietStore()  //per chiedere al backend i dati di quello specifico utente 
   const info = ref(null)
   const loading = ref(true) //perchè quando il componente nasce sta caricando 
   const error = ref(null)
@@ -57,6 +59,7 @@
     const init = async () => {
       await userStore.fetchUser(router);
       await getProfileInfo();
+      await dietStore.fetchDiet(userStore.id);
     };
     init();
   });

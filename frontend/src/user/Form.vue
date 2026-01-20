@@ -43,10 +43,7 @@
       const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, userInfo)
 
       if (data.status) {
-        alert("Dati salvati con successo");
         router.push({ name: "Home" });
-      } else {
-        alert("Errore: " + data.message);
       }
     } catch (err) {
       alert("Errore nel salvataggio dei dati");

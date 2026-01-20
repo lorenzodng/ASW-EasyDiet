@@ -65,7 +65,7 @@
     align-items: center;
     gap: 16px;
     margin-left: auto;
-    margin-right: 110px;
+    margin-right: 125px;
   }
 
   .user {

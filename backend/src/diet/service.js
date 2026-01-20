@@ -49,6 +49,16 @@ export const getDietByUserId = async (userId) => {
   }
 };
 
+//elimina la dieta
+export const deleteDietByUserId = async (userId) => {
+  try {
+    return await DietInfo.deleteOne({ userId });
+  } catch (error) {
+    console.error("Errore service deleteDietByUserId:", error);
+    throw error;
+  }
+};
+
 //verifica che il messaggio contiene almeno una parola consentita
 export function validateMessage(message) {
   const msg = message.toLowerCase();

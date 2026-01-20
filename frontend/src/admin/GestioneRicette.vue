@@ -40,10 +40,6 @@
     });
   };
 
-
-
-
-
   const openRecipeModal = (recipe) => {
     recipeDetail.value = recipe; // ✅ già completa
     showRecipeModal.value = true;
@@ -118,7 +114,7 @@
     </header>
     <p v-if="loading">Caricamento ricette...</p>
     <p v-if="error" class="error">{{ error }}</p>
-    <button class="add-button"  @click="showForm = !showForm">
+    <button class="add-button" @click="showForm = !showForm">
       ➕ Aggiungi ricetta
     </button>
 
@@ -314,13 +310,14 @@
     }
   }
 
-  .add-button{
+  .add-button {
     background-color: #ffffff;
     margin-bottom: 24px;
     outline: none;
+
     &:hover {
-    border-color: #4caf50;
-  }
+      border-color: #4caf50;
+    }
   }
 
   button[type="button"] {

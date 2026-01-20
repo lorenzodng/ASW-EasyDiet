@@ -22,6 +22,7 @@ export const useUserStore = defineStore('user', {
             const token = localStorage.getItem('token');
             if (!token)
                 return;
+
             try {
                 const { data } = await axios.get('http://localhost:5000/users/user', { headers: { Authorization: `Bearer ${token}` } }); //invia il token all'header
                 this.setUser({ id: data.id, nome: data.nome });
@@ -32,6 +33,11 @@ export const useUserStore = defineStore('user', {
                 localStorage.removeItem('token');
                 router?.push({ name: 'Login' });  //logout forzato e redirect al login
             }
-        }//Recupera i dati dell’utente autenticato a partire dal token
+        },
+
+        reset() {
+            this.id = null
+            this.nome = null
+        },
     }
 })

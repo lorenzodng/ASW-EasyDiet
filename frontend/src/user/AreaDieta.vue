@@ -109,7 +109,7 @@
           </div>
 
           <p v-else class="empty">
-            Nessuna ricetta selezionata
+            Nessun pasto selezionato
           </p>
         </div>
       </div>

@@ -3,6 +3,7 @@
 <script setup>
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
+  import { useDietStore } from "../stores/diet"
   import { ref, computed, onMounted } from "vue";
   import AreaDieta from "./AreaDieta.vue";
   import HeaderHome from "./HeaderHome.vue";
@@ -10,7 +11,8 @@
   import NotificationBanner from "../user/NotificationBanner.vue";
 
   const router = useRouter();
-  const userStore = useUserStore()
+  const userStore = useUserStore();
+  const dietStore = useDietStore();
   const chatOpen = ref(false);
   const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
 
@@ -22,8 +24,11 @@
     chatOpen.value = !chatOpen.value;
   };
 
-  onMounted(() => {
-    userStore.fetchUser(router);
+  onMounted(async () => {
+    await userStore.fetchUser(router);
+    if (userStore.id) {
+      await dietStore.fetchDiet(userStore.id);
+    }
   });
 </script>
 
@@ -32,7 +37,9 @@
     <HeaderHome :userName="userName" />
 
     <!-- pulsante componi dieta -->
-    <div class="actions">
+    <div class="no-dieta-container" v-if="userStore.id && !dietStore.dieta">
+      <h2>Sei pronto a iniziare il tuo percorso?</h2>
+      <p>Crea la tua dieta personalizzata! 💪</p>
       <button class="componi-btn" @click="vaiAComponiDieta">
         Crea dieta 🍽️
       </button>
@@ -43,7 +50,7 @@
       </button>
     </div>
 
-    <AreaDieta v-if="userStore.id" /> <!-- parte solo se l'id dell'utente esiste -->
+    <AreaDieta v-if="dietStore.dieta" class="area-dieta-spacing" /> <!-- parte solo se l'id dell'utente esiste -->
 
     <!-- sidebar chat -->
     <LLMChat v-show="chatOpen" @close="chatOpen = false" />
@@ -56,25 +63,47 @@
 <style scoped lang="scss">
   .home-container {
     width: 100%;
-    min-height: 100vh;
     position: relative;
     padding-top: 80px;
   }
 
-  /* bottone crea dieta */
+  .no-dieta-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    text-align: center;
+    padding: 0 20px;
+
+    h2 {
+      font-size: 25px;
+      color: #2e7d32;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 19px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+  }
+
   .componi-btn {
     background: white;
-    border: 2px solid;
-    border-color: #3da73f;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid #3da73f;
     text-align: center;
-    margin-top: 70px;
-    margin-bottom: 55px;
-    font-size: 20px;
+    font-size: 21px;
+    margin-top: 20px;
+    box-sizing: border-box;
 
     &:hover {
-      box-shadow: 0 0 0 3px rgba(12, 176, 15, 0.15);
+      outline: 1px solid #00ff00;
     }
+  }
+
+  .area-dieta-spacing {
+    margin-top: 80px;
   }
 
   .chat-btn {

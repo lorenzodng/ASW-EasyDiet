@@ -4,7 +4,7 @@
 
     const messages = ref([]); //array di messaggi della chat
     const newMessage = ref(""); //messaggio nella casella di testo
-    const chatWidth = ref(590); //larghezza default chat
+    const chatWidth = ref(560); //larghezza default chat
     const messagesContainer = ref(null);
     const isResizing = ref(false);
     const isSending = ref(false); //verifica se il messaggio è arrivato dall'llm
@@ -134,7 +134,6 @@
         left: 0;
         top: 0;
         bottom: 0;
-        z-index: 1001;
     }
 
     .chat-sidebar {
@@ -148,7 +147,7 @@
         flex-direction: column;
         z-index: 2;
         min-width: 160px;
-        max-width: 700px;
+        max-width: 750px;
     }
 
     .chat-header {
