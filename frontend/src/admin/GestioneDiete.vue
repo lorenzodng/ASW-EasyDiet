@@ -13,12 +13,8 @@
   const loadUsers = async () => {
     try {
       loading.value = true;
-
-      const { data } = await axios.get(
-        "http://localhost:5000/admin/users/info"
-      );
-
-      users.value = data.users;
+      const { data } = await axios.get("http://localhost:5000/admin/users/info");
+      users.value = data.users.filter(u => u.obiettivo && u.kcal);
     } catch (err) {
       error.value = "Errore nel caricamento delle diete";
     } finally {
@@ -26,7 +22,15 @@
     }
   };
 
-  onMounted(loadUsers);
+  //funzione per rimuovere la riga della dieta appena eliminata
+  const onDietDeleted = (userId) => {
+    users.value = users.value.filter(u => u.userId._id !== userId);
+  };
+
+
+  onMounted(() => {
+    loadUsers();
+  });
 </script>
 
 <template>
@@ -56,12 +60,12 @@
 
       <tbody>
         <tr v-for="u in users" :key="u._id">
-          <td>{{ u.userId.email }}</td>
+          <td>{{ u.email }}</td>
           <td>{{ u.obiettivo }}</td>
           <td>{{ u.kcal }}</td>
           <td class="actions">
-            <VisualizzaDieta :userId="u.userId._id" />
-            <EliminazioneDieta :userId="u.userId._id" @deleted="loadUsers" />
+            <VisualizzaDieta :userId="u._id" />
+            <EliminazioneDieta :userId="u._id" @deleted="loadUsers" />
           </td>
         </tr>
       </tbody>

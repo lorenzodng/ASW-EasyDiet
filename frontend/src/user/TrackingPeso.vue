@@ -6,7 +6,6 @@
   import axios from "axios";
   import HeaderHome from "./HeaderHome.vue"
 
-
   const router = useRouter();
   const userStore = useUserStore();
   const dietStore = useDietStore();
@@ -101,17 +100,17 @@
 </script>
 
 <template>
-  <div>
+  <div class="page">
     <HeaderHome :userName="userStore.nome" />
     <div class="tracking-container">
-      <h2>Tracking Peso</h2>
+      <h2>I tuoi progressi</h2>
 
       <p v-if="loading">Caricamento...</p>
 
       <div v-else>
         <p><strong>Peso attuale:</strong> {{ pesoAttuale }} kg</p>
+        <p class="obiettivo"><strong>Obiettivo:</strong> {{ obiettivoPeso }} kg</p>
 
-        <p><strong>Obiettivo:</strong> {{ obiettivoPeso }} kg</p>
         <div class="progress-bar-container">
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: progress + '%' }"></div>
@@ -155,10 +154,17 @@
 </template>
 
 <style scoped lang="scss">
+
+  .page {
+    min-height: 100vh;
+    background-color: #e8f5e9;
+    padding-top: 105px;
+    box-sizing: border-box;
+  }
+
   .storico {
     margin-top: 40px;
     text-align: left;
-
 
     h3 {
       text-align: center;
@@ -203,9 +209,23 @@
 
   .tracking-container {
     max-width: 400px;
-    margin: 130px auto 0;
-    padding: 20px;
+    margin: 0 auto;
+    padding: 50px;
     text-align: center;
+
+    h2 {
+      margin-bottom: 50px; // regola il valore a piacere
+    }
+
+    p {
+      font-size: 16px;
+
+      &.obiettivo strong {
+        color: #2e7d32;
+        font-weight: 700;
+      }
+    }
+
   }
 
   .progress-bar-container {

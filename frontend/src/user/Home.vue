@@ -43,12 +43,12 @@
       <button class="componi-btn" @click="vaiAComponiDieta">
         Crea dieta 🍽️
       </button>
-
-      <!-- pulsante chat laterale -->
-      <button class="chat-btn" @click="toggleChat">
-        💬​
-      </button>
     </div>
+
+    <!-- pulsante chat laterale -->
+    <button class="chat-btn" @click="toggleChat">
+      💬​
+    </button>
 
     <AreaDieta v-if="dietStore.dieta" class="area-dieta-spacing" /> <!-- parte solo se l'id dell'utente esiste -->
 

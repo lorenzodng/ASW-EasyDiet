@@ -45,8 +45,6 @@ export const getUsersController = async (req, res) => {
 
 };
 
-
-
 export const createUserController = async (req, res) => {
   try {
     const result = await service.createUser(req.body);
@@ -71,8 +69,6 @@ export const createUserController = async (req, res) => {
     });
   }
 };
-
-
 
 export const updateemailUserController = async (req, res) => {
   try {
@@ -141,20 +137,22 @@ export const getUserInfoController = async (req, res) => {
     });
   }
 };
-export const getUsersInfoController = async (req, res) => 
-  { try { 
-    const users = await service.getAllUsersInfo(); 
-    res.json({ 
-      status: true, 
-      users: users });
-     } catch (error) { 
-      console.error("Errore recupero informazioni:", error); 
-      res.status(500).json({ 
-        status: false, 
-        message: "Errore server" 
-      }); 
-    } 
-  };
+
+export const getUsersInfoController = async (req, res) => {
+  try {
+    const users = await service.getAllUsersWithDiet();
+    res.json({
+      status: true,
+      users: users
+    });
+  } catch (error) {
+    console.error("Errore recupero utenti con dieta:", error);
+    res.status(500).json({
+      status: false,
+      message: "Errore server"
+    });
+  }
+};
 
 
 //recipe 
@@ -182,8 +180,6 @@ export const createRecipeController = async (req, res) => {
     });
   }
 };
-
-
 
 
 export const deleteRecipeController = async (req, res) => {
@@ -266,7 +262,6 @@ export const createDietController = async (req, res) => {
 export const deleteDietController = async (req, res) => {
   try {
     const dietId = req.params.id;
-
     const result = await service.deleteDiet(dietId);
 
     if (result.status) {

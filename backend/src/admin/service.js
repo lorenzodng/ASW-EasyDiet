@@ -5,7 +5,6 @@ import Diet from "../diet/infoModel.js";
 import Notification from "../notification/infoModel.js";
 import Recipe from "../recipes/infoModel.js";
 
-
 export const loginAdmin = async ({ token }) => {
   if (!token) {
     return {
@@ -45,16 +44,29 @@ export const getAllUsers = async () => {
   return users;
 };
 
+export const getAllUsersWithDiet = async () => {
+  // 1️⃣ Recupera tutte le diete e popola l'account con email/nome
+  const diets = await Diet.find().populate({
+    path: "userId",
+    select: "email"
+  }); //recupera le diete e le email degli utenti associati 
 
+  const userIds = diets.map(d => d.userId._id); //recupera gli id degli utenti
+  const profiles = await User.find({ userId: { $in: userIds } }).select("userId obiettivo kcal"); //recupera solo gli utenti che hanno una dieta
 
-export const getAllUsersInfo = async () => {
-  const usersInfo = await User.find()
-    .populate("userId") //abbiamo così i dati di account senza dover fare 2 get
+  //raggruppa i dati
+  const usersWithDiet = diets.map(d => {
+    const profile = profiles.find(p => p.userId.toString() === d.userId._id.toString());
+    return {
+      _id: d.userId._id,
+      email: d.userId.email,
+      obiettivo: profile?.obiettivo || null,
+      kcal: profile?.kcal || null
+    };
+  });
 
-  return usersInfo;
+  return usersWithDiet;
 };
-
-
 
 export const createUser = async (userData) => { //userdata viene dal frontend
   const nome = userData.nome;

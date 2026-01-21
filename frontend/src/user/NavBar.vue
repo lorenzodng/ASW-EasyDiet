@@ -69,7 +69,7 @@
 <template>
   <div class="navbar" ref="navbarRef">
     <button class="menu-btn" :class="{ 'active': isOpen }" @click="menu">
-      <img src="../../public/images/hamburger-menu.png" alt="Menu" class="menu-icon" />
+      <img src="../../images/hamburger-menu.png" alt="Menu" class="menu-icon" />
     </button>
 
     <div v-if="isOpen" class="menu">

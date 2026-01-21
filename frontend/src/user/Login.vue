@@ -90,7 +90,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f2f8f3; // verde chiarissimo
     padding: 20px;
   }
 

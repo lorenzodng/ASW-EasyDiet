@@ -53,10 +53,12 @@
   .logo {
     display: flex;
     align-items: center;
-    margin-left: 50px;
+    margin-left: 80px;
 
     img {
-      height: 100px;
+      height: 78px;
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
     }
   }
 

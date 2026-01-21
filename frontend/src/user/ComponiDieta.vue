@@ -22,6 +22,11 @@
     cena: []
   });
 
+  const capitalizeFirst = (text) => {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   days.forEach((day) => { //per ogni elemento di "days"
     userDiet[day] = { //crea una coppia chiave-valore con chiave il giorno della settimana e valori le categorie di pasto
       colazione: { recipe: null, time: "" },
@@ -162,87 +167,82 @@
 <template>
   <HeaderHome :userName="userStore.nome" />
   <div class="componi-dieta">
-    <h2 class="day-title">
-      {{ currentDay }}
-    </h2> <!--cambia automaticamente quando cambia selectedDayIndex-->
-    <div class="legend">
-      <div class="legend-item">
-        <span class="dot"></span>
-        <span><strong>Leggera</strong> – sotto il target calorico</span>
+    <div class="day-block">
+      <h2 class="day-title">{{ capitalizeFirst(currentDay) }}</h2>
+      <!--cambia automaticamente quando cambia selectedDayIndex-->
+      <div class="legend">
+        <div class="legend-item">
+          <span><strong>Leggera</strong> – sotto il target calorico</span>
+        </div>
+
+        <div class="legend-item">
+          <span><strong>Equilibrata</strong> – vicina al target calorico</span>
+        </div>
+
+        <div class="legend-item">
+          <span><strong>Abbondante</strong> – sopra il target calorico</span>
+        </div>
       </div>
 
-      <div class="legend-item">
-        <span class="dot"></span>
-        <span><strong>Equilibrata</strong> – vicina al target calorico</span>
-      </div>
+      <div v-for="mealCategory in ['colazione', 'pranzo', 'merenda', 'cena']" :key="mealCategory" class="meal-block"
+        :class="mealCategory">
 
-      <div class="legend-item">
-        <span class="dot"></span>
-        <span><strong>Abbondante</strong> – sopra il target calorico</span>
-      </div>
-    </div>
+        <!--vue crea 4 blocchi, uno per ogni categoria -->
+        <h3>{{ mealCategory }}</h3> <!--mostra il nome del pasto corrente-->
 
+        <h3>Target calorico: {{ getTargetKcal(mealCategory) }} kcal</h3>
 
-    <div v-for="mealCategory in ['colazione', 'pranzo', 'merenda', 'cena']" :key="mealCategory" class="meal-block"
-      :class="mealCategory">
-
-      <!--vue crea 4 blocchi, uno per ogni categoria -->
-      <h3>{{ mealCategory }}</h3> <!--mostra il nome del pasto corrente-->
-
-      <h3>Target calorico: {{ getTargetKcal(mealCategory) }} kcal</h3>
-
-      <div class="time-field">
-        <label>Orario</label>
-        <input type="time" v-model="userDiet[currentDay][mealCategory].time" required />
-      </div>
+        <div class="time-field">
+          <label>Orario</label>
+          <input type="time" v-model="userDiet[currentDay][mealCategory].time" required />
+        </div>
 
 
-      <div v-for="ricetta in mealsByType[mealCategory]" :key="ricetta._id" class="recipe-option">
-        <!--prende solo le ricette per quella determinata categoria-->
+        <div v-for="ricetta in mealsByType[mealCategory]" :key="ricetta._id" class="recipe-option">
+          <!--prende solo le ricette per quella determinata categoria-->
 
-        <!-- con radio si ha una sola scelta per ogni gruppo, 
+          <!-- con radio si ha una sola scelta per ogni gruppo, 
         con :name="${currentDay}-${meal}" si crea un gruppo diverso per ogni giorno e ogni pasto, 
         con :value="ricetta" si specifica l'elemento collegato a v-model, 
         con v-model="userDiet[currentDay][meal]" si salva automaticamente la ricetta per il giorno (currentDay) e per la categoria indicata (mealCategory) -->
-        <div class="recipe-header">
-          <label class="recipe-label">
-            <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="ricetta"
-              v-model="userDiet[currentDay][mealCategory].recipe" />
+          <div class="recipe-header">
+            <label class="recipe-label">
+              <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="ricetta"
+                v-model="userDiet[currentDay][mealCategory].recipe" />
 
-            <img class="recipe-img" :src="getRecipeImage(ricetta.immagine)" :alt="ricetta.nome" />
+              <img class="recipe-img" :src="getRecipeImage(ricetta.immagine)" :alt="ricetta.nome" />
 
 
-            {{ ricetta.nome }}
-          </label>
+              {{ ricetta.nome }}
+            </label>
 
-          <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
-            {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
-          </button>
-        </div>
-
-        <div v-if="openRecipes.has(ricetta._id)" class="recipe-details">
-
-          <div class="ingredients">
-            <h4>Ingredienti</h4>
-            <ul>
-              <li v-for="(ing, i) in ricetta.ingredienti" :key="i">
-                <span class="ing-name">{{ ing.nome }}</span>
-                <span class="ing-weight">{{ ing.peso }} g</span>
-              </li>
-            </ul>
+            <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
+              {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
+            </button>
           </div>
 
-          <div v-if="ricetta.info" class="recipe-info">
-            <h4>Note nutrizionali</h4>
-            <ul>
-              <li class="badge">{{ descrizioneKcal(ricetta) }}</li>
-              <li>{{ ricetta.info[1].descrizioneTipoDieta }}</li>
-              <li>{{ ricetta.info[2].descrizioneIntolleranze }}</li>
-            </ul>
+          <div v-if="openRecipes.has(ricetta._id)" :class="['recipe-details', mealCategory]">
+
+            <div class="ingredients">
+              <h4>Ingredienti</h4>
+              <ul>
+                <li v-for="(ing, i) in ricetta.ingredienti" :key="i">
+                  <span class="ing-name">{{ capitalizeFirst(ing.nome) }}</span>
+                  <span class="ing-weight">{{ ing.peso }} g</span>
+                </li>
+              </ul>
+            </div>
+
+            <div v-if="ricetta.info" class="recipe-info">
+              <h4>Note nutrizionali</h4>
+              <ul>
+                <li class="badge">{{ descrizioneKcal(ricetta) }}</li>
+                <li>{{ ricetta.info[1].descrizioneTipoDieta }}</li>
+                <li>{{ ricetta.info[2].descrizioneIntolleranze }}</li>
+              </ul>
+            </div>
           </div>
-
         </div>
-
       </div>
     </div>
 
@@ -268,291 +268,312 @@
   </div>
 </template>
 
-
 <style scoped lang="scss">
   .componi-dieta {
     max-width: 900px;
     margin: 0 auto;
-    padding: 90px 16px 0;
-  }
+    padding: 160px 16px 0;
 
-  .day-title {
-    text-align: center;
-    margin-bottom: 32px;
-    font-size: 28px;
-    font-weight: 700;
-    color: #1b5e20;
-    text-transform: capitalize;
-  }
+    .day-block {
+      margin-bottom: 32px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #def5e0, #dff1df);
+      box-shadow: 0 8px 100px rgba(0, 0, 0, 0.06);
+      padding-top: 3px;
+      padding-bottom: 3px;
 
-  .legend {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    background: #ffffff;
-    padding: 8px 12px;
-    border-radius: 999px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    font-weight: 500;
-  }
-
-  /* pallino neutro */
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #4caf50;
-    /* colore unico */
-  }
-
-  .time-field {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding: 6px 12px;
-    background: #f1f8f4;
-    border-radius: 999px;
-
-    label {
-      font-size: 15px;
-      color: #388e3c;
-      font-weight: 600;
-    }
-
-    input[type="time"] {
-      border: none;
-      background: transparent;
-      font-size: 14px;
-      color: #1b5e20;
-      padding: 0;
-
-      &:focus {
-        outline: none;
+      .day-title {
+        font-size: 29px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.3;
+        margin-bottom: 32px;
+        text-transform: capitalize;
       }
-    }
-  }
 
-  .meal-block {
-    margin-bottom: 28px;
-    padding: 20px;
-    border-radius: 16px;
-    background: #ffffff;
-    border: 3px solid #36abbb;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+      .legend {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
 
-    h3 {
-      text-transform: capitalize;
-      color: #1b5e20;
-      margin-bottom: 6px;
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 13px;
+          background: #ffffff;
+          padding: 8px 12px;
+          border-radius: 999px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          font-weight: 500;
 
-      &:last-of-type {
-        font-size: 14px;
-        font-weight: 500;
-        color: #4caf50;
-        margin-bottom: 14px;
+          .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+          }
+        }
+      }
+
+      .meal-block {
+        margin-bottom: 28px;
+        padding: 20px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 3px solid #36abbb;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+
+        &.colazione {
+          border-color: #36abbb;
+        }
+
+        &.pranzo {
+          border-color: #f89604;
+        }
+
+        &.merenda {
+          border-color: #4caf50;
+        }
+
+        &.cena {
+          border-color: #5564b6;
+        }
+
+        h3 {
+          margin-bottom: 6px;
+
+          &:first-of-type {
+            text-transform: capitalize;
+            font-size: 21px;
+          }
+
+          &:last-of-type {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 40px;
+          }
+        }
       }
     }
 
-    &.colazione {
-      border-color: #36abbb;
-    }
-
-    &.pranzo {
-      border-color: #f89604;
-    }
-
-    &.merenda {
-      border-color: #4caf50;
-    }
-
-    &.cena {
-      border-color: #5564b6;
-    }
-  }
-
-  .recipe-option {
-    margin-bottom: 10px;
-  }
-
-  .navigation {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    margin: 48px auto 0;
-    max-width: 500px;
-
-    button {
-      flex: 1;
-      padding: 14px 18px;
-      border-radius: 14px;
-      background: #64cb37;
-      color: #1b5e20;
-      font-size: 15px;
-      font-weight: 700;
-      border: 2px solid #c8e6c9;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
+    .time-field {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 8px;
+      margin-bottom: 30px;
+      padding: 6px 12px;
+      background: #f1f8f4;
+      border-radius: 999px;
 
-      &:hover:not(:disabled) {
-        //controlla che il bottone sia disabilitato 
-        background: #e8f5e9;
-        border-color: #4caf50;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 18px rgba(76, 175, 80, 0.2);
+      label {
+        font-weight: 600;
       }
 
-      &:disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
-        box-shadow: none;
-        transform: none;
+      input[type="time"] {
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        color: #1b5e20;
+        padding: 0;
+
+        &:focus {
+          outline: none;
+        }
       }
     }
-  }
 
-  .save-btn {
-    display: block;
-    margin: 40px auto;
-    padding: 14px 28px;
-    font-size: 16px;
-    border-radius: 14px;
-    background: #4caf50;
-    color: white;
-    font-weight: 700;
-    border: none;
+    .recipe-option {
+      margin-bottom: 26px;
 
-    &:hover {
-      background: #388e3c;
+      .recipe-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .recipe-label {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          font-weight: 500;
+
+          .recipe-img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 999px;
+          }
+        }
+
+        .toggle-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 14px;
+        }
+      }
+
+      .recipe-details {
+        margin: 12px auto 0;
+        padding: 16px 18px;
+        max-width: 400px;
+        background: #f1f8f4;
+        border-radius: 14px;
+        border-left: 4px solid;
+        animation: fadeIn 0.25s ease;
+
+        &.colazione {
+          border-left-color: #36abbb;
+        }
+
+        &.pranzo {
+          border-left-color: #f89604;
+        }
+
+        &.merenda {
+          border-left-color: #4caf50;
+        }
+
+        &.cena {
+          border-left-color: #5564b6;
+        }
+
+        h4 {
+          margin-bottom: 20px;
+          font-size: 16px;
+          font-weight: 700;
+          letter-spacing: 0.4px;
+        }
+
+        .ingredients,
+        .recipe-info {
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+              margin-bottom: 6px;
+              font-size: 14px;
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+
+        .recipe-info {
+          margin-top: 30px;
+        }
+
+        .ingredients {
+          li {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            border-bottom: 1px dashed #999;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            .ing-name {
+              color: #000000;
+              font-weight: 500;
+            }
+
+            .ing-weight {
+              color: #000000;
+              font-weight: 600;
+            }
+          }
+        }
+
+        .badge {
+          display: inline-block;
+          padding: 4px 10px;
+          border-radius: 999px;
+          font-weight: 500;
+          font-size: 12px;
+          width: fit-content;
+        }
+
+        &.colazione .badge {
+          background: rgba(109, 200, 212, 0.2);
+        }
+
+        &.pranzo .badge {
+          background: rgba(248, 150, 4, 0.15);
+        }
+
+        &.merenda .badge {
+          background: rgba(76, 175, 80, 0.15);
+        }
+
+        &.cena .badge {
+          background: rgba(85, 100, 182, 0.15);
+        }
+      }
     }
-  }
 
-  .recipe-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-
-  .toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-  }
-
-  .recipe-details {
-    margin: 12px auto 0;
-    padding: 16px 18px;
-    max-width: 600px;
-    background: #f1f8f4;
-    border-radius: 14px;
-    border-left: 4px solid #4caf50;
-    font-size: 14px;
-    animation: fadeIn 0.25s ease;
-  }
-
-  .recipe-details {
-    h4 {
-      margin-bottom: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-  }
-
-  .ingredients {
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
+    .navigation {
       display: flex;
       justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px dashed;
+      gap: 16px;
+      margin: 48px auto 0;
+      max-width: 500px;
 
-      &:last-child {
-        border-bottom: none;
+      button {
+        flex: 1;
+        padding: 14px 18px;
+        border-radius: 14px;
+        background: #64cb37;
+        color: #1b5e20;
+        font-size: 15px;
+        font-weight: 700;
+        border: 2px solid #c8e6c9;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        &:hover:not(:disabled) {
+          background: #e8f5e9;
+          border-color: #4caf50;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 18px rgba(76, 175, 80, 0.2);
+        }
+
+        &:disabled {
+          opacity: 0.35;
+          cursor: not-allowed;
+          box-shadow: none;
+          transform: none;
+        }
       }
     }
-  }
 
-  .recipe-info {
-    ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
+    .save-btn {
+      display: block;
+      margin: 40px auto;
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 14px;
+      background: #4caf50;
+      color: white;
+      font-weight: 700;
+      border: none;
+
+      &:hover {
+        background: #388e3c;
+      }
     }
-  }
-
-  .ing-name {
-    color: #000000;
-    font-weight: 500;
-  }
-
-  .ing-weight {
-    font-weight: 600;
-    color: #000000;
-  }
-
-  /* NOTE */
-
-  .recipe-info {
-    margin-top: 14px;
-    font-size: 14px;
-    color: #000000;
-
-    ul {
-      list-style: none;
-      margin: 0;
-    }
-
-    li {
-      margin-bottom: 6px;
-    }
-  }
-
-  /* BADGE kcal */
-  .badge {
-    display: inline-block;
-    padding: 4px 10px;
-    background: #c8e6c9;
-    color: #1b5e20;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 12px;
-    width: fit-content;
-  }
-
-  .recipe-label {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    font-weight: 500;
-  }
-
-  .recipe-img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
   }
 </style>

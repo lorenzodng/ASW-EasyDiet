@@ -141,8 +141,7 @@
     }
 
     p {
-      font-size: inherit;
-
+      font-size: 16px;
     }
 
     .save {
