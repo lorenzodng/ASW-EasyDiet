@@ -1,5 +1,6 @@
 <script setup>
   import NavBar from './NavBar.vue';
+  import logo from '../assets/images/logo-easydiet.png'
 
   const props = defineProps({
     userName: {
@@ -17,7 +18,7 @@
   <header class="header">
 
     <router-link to="/home" class="logo">
-      <img src="../assets/images/logo-easydiet.png" alt="EasyDiet logo" />
+      <img :src="logo" alt="EasyDiet logo" />
     </router-link>
 
     <div class="user">
@@ -94,6 +95,7 @@
   .tagline {
     font-size: 15px;
     opacity: 0.9;
+    font-style: italic;
   }
 
 </style>

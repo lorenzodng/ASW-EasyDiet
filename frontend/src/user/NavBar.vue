@@ -70,7 +70,7 @@
 <template>
   <div class="navbar" ref="navbarRef">
     <button class="menu-btn" :class="{ 'active': isOpen }" @click="menu">
-      <img src="../../images/hamburger-menu.png" alt="Menu" class="menu-icon" />
+      <img src="/images/hamburger-menu.png" alt="Menu" class="menu-icon" />
     </button>
 
     <div v-if="isOpen" class="menu">
@@ -115,8 +115,8 @@
   }
 
   .menu-icon {
-    width: 31px;
-    height: 17px;
+    width: 28px;
+    height: 15px;
     object-fit: contain;
     fill: #333;
   }

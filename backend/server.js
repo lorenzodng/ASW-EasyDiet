@@ -22,17 +22,17 @@ webpush.setVapidDetails(
   privateKey //chiave per firmare le notifiche push che il server invia
 );
 
-const uri = "mongodb+srv://easydiet:easydietpsw@dietdb.tfpxquz.mongodb.net/dietDb"; //url del db su mongodb atlas
+const uri = process.env.MONGO_URI; //url del db su mongodb atlas
 const app = express();
-const PORT = 5000;
 
 app.use(express.json());
 
 //abilita la comunicazione tra frontend (porta 5173) e server (porta 5000)
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(usersRouter);
 app.use(recipesRouter);
 app.use(dietsRouter);
+
 app.use(notificationsRouter);
 app.use(adminRouter);
 
@@ -46,6 +46,6 @@ try {
 }
 
 //avvia il server
-app.listen(PORT, () => {
-  console.log("Server listening on port " + PORT);
+app.listen(process.env.PORT, () => {
+  console.log("Server listening on port " + process.env.PORT);
 });
