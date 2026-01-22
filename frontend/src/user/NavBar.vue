@@ -53,6 +53,7 @@
     localStorage.removeItem("user");
     localStorage.removeItem("userId");
     localStorage.removeItem("notificationBannerDismissed");
+    localStorage.removeItem("token");
     router.push({ name: "Login" });
   };
 

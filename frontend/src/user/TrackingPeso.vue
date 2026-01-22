@@ -225,7 +225,6 @@
         font-weight: 700;
       }
     }
-
   }
 
   .progress-bar-container {
@@ -239,6 +238,7 @@
     background-color: #eee;
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #888;
   }
 
   .progress-fill {

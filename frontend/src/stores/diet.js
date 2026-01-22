@@ -47,4 +47,4 @@ export const useDietStore = defineStore('diets', {
             this.dieta = null
         }
     }
-})
+});

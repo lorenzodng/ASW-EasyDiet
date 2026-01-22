@@ -42,7 +42,6 @@ export const getUsersController = async (req, res) => {
       message: "Errore server"
     });
   }
-
 };
 
 export const createUserController = async (req, res) => {

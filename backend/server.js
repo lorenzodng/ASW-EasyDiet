@@ -29,9 +29,7 @@ const PORT = 5000;
 app.use(express.json());
 
 //abilita la comunicazione tra frontend (porta 5173) e server (porta 5000)
-app.use(cors({
-  origin: "http://localhost:5173"
-}));
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(usersRouter);
 app.use(recipesRouter);
 app.use(dietsRouter);

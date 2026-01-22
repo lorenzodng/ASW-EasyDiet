@@ -3,43 +3,61 @@ import * as notificationService from "./service.js";
 import * as userService from "../user/service.js";
 import * as dietService from "../diet/service.js";
 
-//invia promemoria sui pasti dell'utente
+// Funzione principale: avvia i promemoria
 export const startMealReminders = () => {
-    cron.schedule("* * * * *", async () => { //"* * * * *" significa "ogni minuto", quindi il blocco di codice all'interno viene eseguito ogni minuto 
-        const giorni = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
-        const categoriePasto = ["colazione", "pranzo", "merenda", "cena"];
-        const currentDate = new Date(); //orario corrente
-        const currentDay = giorni[currentDate.getDay()]; //giorno corrente
-        const currentHour = currentDate.getHours(); //ora corrente
-        const currentMinute = currentDate.getMinutes(); //minuti correnti
-        const users = await userService.getAllUsers(); //recupera tutti gli utenti
+    cron.schedule("* * * * *", async () => {
+        const currentDateInfo = getCurrentDateInfo();
+        const users = await userService.getAllUsers();
 
-        for (let user of users) { //per ogni utente
-            const dieta = await dietService.getDietByUserId(user.userId); //recupera la dieta
-
-            if (!dieta || !dieta.settimana) //se l'utente non ha ancora nessuna dieta, passa al prossimo utente
-                continue;
-
-            for (let categoriaPasto of categoriePasto) { //per ogni categoria di pasto
-                const pasto = dieta.settimana[currentDay][categoriaPasto]; //recupera il pasto 
-                if (!pasto || !pasto.time) //se l'utente non ha ancora nessuna dieta, passa alla prossima categoria di pasto
-                    continue;
-                const [ora, minuto] = pasto.time.split(":").map(Number); //recupera l'ora e il minuto del pasto
-                if (ora === currentHour && minuto === currentMinute) { //se l'orario del pasto coincide con quello attuale
-                    let corpo;
-                    if (categoriaPasto === "pranzo") {
-                        corpo = `È ora del tuo ${categoriaPasto}! *aggiungere icona/emoji* `; //notifica pranzo
-                    } else {
-                        corpo = `È ora della tua ${categoriaPasto}! *aggiungere icona/emoji* `; //notifica colazione/merenda/cena
-                    }
-                    //costruisce la notifica
-                    const payload = {
-                        title: "Promemoria pasto",
-                        body: corpo,
-                    };
-                    await notificationService.sendNotificationToUser(user.userId, payload); //chiama la funzione per l'invio della notifica
-                }
-            }
+        for (let user of users) {
+            await processUserMeals(user, currentDateInfo);
         }
     });
+};
+
+// Recupera giorno corrente, ora e minuti
+const getCurrentDateInfo = () => {
+    const giorni = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+    const currentDate = new Date();
+    return {
+        currentDay: giorni[currentDate.getDay()],
+        currentHour: currentDate.getHours(),
+        currentMinute: currentDate.getMinutes()
+    };
+};
+
+// Gestisce tutti i pasti di un singolo utente
+const processUserMeals = async (user, { currentDay, currentHour, currentMinute }) => {
+    const dieta = await dietService.getDietByUserId(user.userId);
+    if (!dieta || !dieta.settimana) return;
+
+    const categoriePasto = ["colazione", "pranzo", "merenda", "cena"];
+    for (let categoriaPasto of categoriePasto) {
+        await processSingleMeal(user, dieta, categoriaPasto, currentDay, currentHour, currentMinute);
+    }
+};
+
+// Gestisce un singolo pasto
+const processSingleMeal = async (user, dieta, categoriaPasto, currentDay, currentHour, currentMinute) => {
+    const pasto = dieta.settimana[currentDay][categoriaPasto];
+    if (!pasto || !pasto.time) return;
+
+    const [ora, minuto] = pasto.time.split(":").map(Number);
+    if (ora === currentHour && minuto === currentMinute) {
+        const corpo = buildMealMessage(categoriaPasto);
+        const payload = {
+            title: "Promemoria pasto",
+            body: corpo,
+        };
+        await notificationService.sendNotificationToUser(user.userId, payload);
+    }
+};
+
+// Costruisce il messaggio della notifica
+const buildMealMessage = (categoriaPasto) => {
+    if (categoriaPasto === "pranzo") {
+        return `È ora del tuo ${categoriaPasto}! 😋 `;
+    } else {
+        return `È ora della tua ${categoriaPasto}! 😋`;
+    }
 };
