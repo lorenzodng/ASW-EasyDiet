@@ -108,17 +108,15 @@
         <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
 
         <div class="admin-titles">
-          <h1>Gestione Ricette</h1>
+          <h1>Gestione Piatti</h1>
         </div>
       </div>
     </header>
-    <p v-if="loading">Caricamento ricette...</p>
+    <p v-if="loading">Caricamento piatti...</p>
     <p v-if="error" class="error">{{ error }}</p>
     <button class="add-button" @click="showForm = !showForm">
-      ➕ Aggiungi ricetta
+      ➕ Aggiungi piatto
     </button>
-
-
 
     <form v-if="showForm" class="recipe-form" @submit.prevent="saveRecipe">
 
@@ -156,7 +154,7 @@
 
       <input type="number" v-model.number="newRecipe.kcal" placeholder="Kcal totali" required />
 
-      <button type="submit">💾 Salva ricetta</button>
+      <button type="submit">💾 Salva piatto</button>
       <button type="button" @click="showForm = false">
         ❌ Annulla
       </button>

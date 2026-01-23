@@ -42,7 +42,7 @@
     </button>
 
     <button @click="goTo('GestioneRicette')">
-      📖 Gestione Ricette
+      📖 Gestione Piatti
     </button>
   </div>
 </template>
