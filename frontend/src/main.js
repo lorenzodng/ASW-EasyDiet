@@ -7,9 +7,7 @@ import App from './App.vue'
 import router from "./router/index.js"
 
 createApp(App)
-    .use(createPinia()) // gestione stato globale
-    .use(router) // gestione navigazione
-    .mount('#app') // montaggio sull'elemento root HTML
+    .use(createPinia()) // Global state management
+    .use(router) // Client-side routing
+    .mount('#app') // Mount Vue app to the DOM
 
-//punto di ingresso applicazione vue
-//Collega App.vue, Pinia e Vue Router

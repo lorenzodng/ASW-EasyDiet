@@ -9,13 +9,14 @@
   const router = useRouter();
   const userStore = useUserStore();
   const dietStore = useDietStore();
+
+  // Reactive state
   const pesi = ref([]);
   const obiettivoPeso = ref(0);
   const obiettivo = ref("");
   const loading = ref(true);
   const expanded = ref(false);
 
-  // carica dati utente
   const loadUserInfo = async () => {
     try {
       const { data } = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
@@ -29,16 +30,13 @@
       loading.value = false;
     }
   };
-
-  // calcolo progresso
-  //const pesoIniziale = pesi.value[0].peso
-
+// Weight history sorted by date (latest first)
   const storicoPesi = computed(() => {
     return [...pesi.value].sort(
       (a, b) => new Date(b.data) - new Date(a.data)
     );
   });
-
+// Visible weights (collapsed or expanded view)
   const pesiVisibili = computed(() => {
     if (expanded.value) {
       return storicoPesi.value;
@@ -57,6 +55,7 @@
       : 0;
   });
 
+  // Progress percentage based on user goal
   const progress = computed(() => {
     if (!pesi.value.length || !obiettivoPeso.value) return 0;
 
@@ -74,7 +73,7 @@
     }
     if (obiettivo.value === "mantenimento") {
       const tolleranza = 1; // kg
-      const maxDiff = 8;   // oltre questo sei fuori target
+      const maxDiff = 8;   // out-of-range threshold
 
       const diff = Math.abs(pesoAttuale.value - pesoIniziale.value);
 
@@ -83,7 +82,7 @@
       } else {
         percent = 100 - ((diff - tolleranza) / maxDiff) * 100;
       }
-    }  // se ci si allontana di 2 kg siamo a 80% 4 kg a 40% maggiore di target kg a 0%
+    }  // Progress decreases as the user moves away from the target weight: +2 kg ≈ 80%, +4 kg ≈ 40%...
 
     return Math.min(Math.max(Math.round(percent), 0), 100);
 
@@ -116,7 +115,6 @@
             <div class="progress-fill" :style="{ width: progress + '%' }"></div>
           </div>
 
-          <!-- coriandoli attorno alla barra, senza toccare la barra -->
           <div class="confetti-container" v-if="progress >= 100">
             <div v-for="n in 30" :key="n" class="confetti" :style="{
               left: Math.random() * 120 - 10 + '%', // -10% a 110%
@@ -214,7 +212,7 @@
     text-align: center;
 
     h2 {
-      margin-bottom: 50px; // regola il valore a piacere
+      margin-bottom: 50px; 
     }
 
     p {
@@ -266,21 +264,20 @@
     opacity: 1;
   }
 
-  /* serve a dire al browser come cambiano le proprietà di un elemento nel tempo */
   @keyframes fall {
     0% {
-      /* all’inizio dell’animazione (0%), il coriandolo è nella sua posizione originale */
+      /* At the start of the animation (0%), the confetti is in its original position */
       transform: translateY(0) rotate(0deg);
       opacity: 1;
     }
 
     50% {
-      /* a metà animazione, il coriandolo cambia posizione */
+      /* Midway through the animation, the confetti moves */
       transform: translateY(20px) rotate(180deg);
     }
 
     100% {
-      /* alla fine dell'animazione, il coriandolo cambia posizione */
+      /* At the end of the animation, the confetti reaches its final position */
       transform: translateY(40px) rotate(360deg);
       opacity: 0;
     }

@@ -4,7 +4,7 @@
 
   const router = useRouter()
 
-  const vaiLogin = () => {
+  const goToLogin = () => {
     router.push({ name: "Login" })
   }
 </script>
@@ -20,7 +20,7 @@
       scegliendo le ricette che preferisci in base ai tuoi obiettivi e al tuo stile di vita.
     </p>
 
-    <button class="login-button" @click="vaiLogin">Accedi</button>
+    <button class="login-button" @click="goToLogin">Accedi</button>
   </div>
 </template>
 
@@ -39,7 +39,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #66bb6a; // verde più chiaro
+      background-color: #66bb6a; 
       box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
       transform: translateY(-2px);
     }
