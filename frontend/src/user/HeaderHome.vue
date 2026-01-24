@@ -75,7 +75,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    max-width: calc(100% - 250px); // spazio per logo + nav
+    max-width: calc(100% - 250px); 
     padding: 0 16px;
     text-align: center;
     display: flex;

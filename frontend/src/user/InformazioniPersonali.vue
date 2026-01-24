@@ -1,5 +1,3 @@
-<!-- componente informazioni personali -->
-
 <script setup>
   import { ref, onMounted } from "vue"
   import { useUserStore } from "../stores/user"
@@ -10,13 +8,13 @@
   import UserProfileForm from "./UserProfileForm.vue"
 
   const router = useRouter();
-  const userStore = useUserStore()  //per chiedere al backend i dati di quello specifico utente 
-  const dietStore = useDietStore()  //per chiedere al backend i dati di quello specifico utente 
+  const userStore = useUserStore()  // to request from the backend the data of the specific user 
+  const dietStore = useDietStore()  
   const info = ref(null)
-  const loading = ref(true) //perchè quando il componente nasce sta caricando 
+  const loading = ref(true)  
   const error = ref(null)
-  const isEditing = ref(false);  // per abilitare la modifica 
-  const editInfo = ref(null); //copia delle info
+  const isEditing = ref(false);  
+  const editInfo = ref(null); // copy of the user info used while editing
 
   const getProfileInfo = async () => {
     try {
@@ -29,8 +27,7 @@
     }
   }
 
-  //abilita modifica
-  const modifica = () => {
+  const edit = () => {
     editInfo.value = { ...info.value };
     isEditing.value = true;
   };
@@ -49,7 +46,7 @@
       alert("Errore nel salvataggio");
     }
   };
-
+  // cancel editing and restore original data
   const cancelInfo = () => {
     isEditing.value = false;
     editInfo.value = null;
@@ -72,15 +69,12 @@
     <div class="info-container" :class="{ editing: isEditing }">
       <h2>Informazioni personali</h2>
 
-      <!-- stato di caricamento -->
       <p v-if="loading">Caricamento...</p>
 
-      <!-- stato di errore -->
       <p v-else-if="error">{{ error }}</p>
 
-      <!-- dati caricati -->
       <div v-else>
-        <!-- VISUALIZZAZIONE -->
+ 
         <template v-if="!isEditing">
           <p><strong>Età:</strong> {{ info.eta }}</p>
           <p><strong>Peso:</strong> {{ info.peso }} kg</p>
@@ -91,11 +85,9 @@
           <p><strong>Attività fisica:</strong> {{ info.livelloAttivitaFisica }}</p>
         </template>
 
-        <!-- MODIFICA: usa il form condiviso -->
         <template v-else>
           <UserProfileForm v-model="editInfo" />
 
-          <!-- BOTTONE SALVA / ANNULLA -->
           <div class="actions">
             <button class="save" @click="saveInfo">Salva</button>
             <button class="cancel" @click="cancelInfo">Annulla</button>
@@ -103,9 +95,8 @@
         </template>
       </div>
 
-      <!-- BOTTONE MODIFICA -->
       <div class="actions" v-if="!isEditing">
-        <button @click="modifica">✏️ Modifica</button>
+        <button @click="edit">✏️ Modifica</button>
       </div>
     </div>
   </div>

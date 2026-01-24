@@ -1,5 +1,3 @@
-<!-- componente form utente -->
-
 <script setup>
   import { reactive, onMounted } from "vue";
   import { useRouter } from "vue-router";
@@ -12,7 +10,6 @@
   const router = useRouter();
   const userStore = useUserStore();
 
-  //oggetto di variabili reattive
   const userInfo = reactive({
     eta: "",
     peso: "",
@@ -23,9 +20,8 @@
     obiettivoPeso: ""
   });
 
-  //metodo per salvare i dati del form
   const saveInfo = async () => {
-    //verifica dell'inserimenti di tutti i valori nei campi
+    // check that all fields have been filled in
     if (
       !userInfo.eta ||
       !userInfo.peso ||
@@ -62,10 +58,8 @@
     <div class="info-container">
       <h2>Completa il tuo profilo</h2>
 
-      <!-- Form condiviso -->
       <UserProfileForm v-model="userInfo" />
 
-      <!-- Bottone Continua -->
       <div class="actions">
         <button class="save" @click="saveInfo"
           :disabled="!userInfo.eta || !userInfo.peso || !userInfo.sesso || !userInfo.altezza || !userInfo.obiettivo || !userInfo.livelloAttivitaFisica || !userInfo.obiettivoPeso">

@@ -1,5 +1,3 @@
-<!-- componente home -->
-
 <script setup>
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
@@ -16,7 +14,7 @@
   const dietStore = useDietStore();
   const chatOpen = ref(false);
   const userSesso = ref(null);
-  const userName = computed(() => userStore.nome); //ogni volta che userStore.nome cambia, userName si aggiorna automaticamente nel template
+  const userName = computed(() => userStore.nome); /// automatically updates when userStore.nome changes
 
   const readyText = computed(() => {
     return userSesso.value === "maschio" ? "Sei pronto" : "Sei pronta";
@@ -31,7 +29,7 @@
     }
   };
 
-  const vaiAComponiDieta = () => {
+  const goToComponiDieta = () => {
     router.push({ name: "ComponiDieta" });
   };
 
@@ -52,7 +50,6 @@
   <div class="home-container">
     <HeaderHome :userName="userName" />
 
-    <!-- pulsante componi dieta -->
     <div class="no-dieta-container" v-if="userStore.id && !dietStore.dieta">
       <h2>{{ readyText }} a iniziare il tuo percorso?</h2>
       <p class="subtitle">Crea la tua dieta personalizzata! 💪</p>
@@ -72,23 +69,20 @@
         </div>
       </div>
 
-      <button class="componi-btn" @click="vaiAComponiDieta">
+      <button class="componi-btn" @click="goToComponiDieta">
         Crea dieta 🍽️
       </button>
     </div>
 
-    <!-- pulsante chat -->
     <button class="chat-btn" @click="toggleChat">
       💬
     </button>
 
-    <AreaDieta v-if="dietStore.dieta" class="area-dieta-spacing" /> <!-- parte solo se l'id dell'utente esiste -->
+    <AreaDieta v-if="dietStore.dieta" class="area-dieta-spacing" /> <!-- shown only if a diet exists -->
 
-    <!-- sidebar chat -->
     <LLMChat v-show="chatOpen" @close="chatOpen = false" />
 
-    <!-- banner notifiche -->
-    <NotificationBanner v-if="userStore.id" /> <!-- parte solo se l'id dell'utente esiste -->
+    <NotificationBanner v-if="userStore.id" /> <!-- shown only when the user ID exists -->
   </div>
 </template>
 
