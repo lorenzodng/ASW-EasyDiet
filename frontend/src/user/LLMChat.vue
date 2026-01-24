@@ -2,32 +2,29 @@
     import { ref, onMounted, watch, nextTick } from "vue";
     import { marked } from 'marked';
 
-    const messages = ref([]); //array di messaggi della chat
-    const newMessage = ref(""); //messaggio nella casella di testo
-    const chatWidth = ref(560); //larghezza default chat
+    const messages = ref([]); 
+    const newMessage = ref(""); // Message typed by the user
+    const chatWidth = ref(560); // Chat sidebar width
     const messagesContainer = ref(null);
     const isResizing = ref(false);
-    const isSending = ref(false); //verifica se il messaggio è arrivato dall'llm
+    const isSending = ref(false); // Prevents sending multiple messages while waiting for the LLM response
     const formatMessage = (text) => marked.parse(text);
 
-    //ridimensionamento chat (click premuto)
     const startResize = (e) => {
         isResizing.value = true;
-        e.preventDefault(); //impedisce comportamenti predefiniti del browser
+        e.preventDefault(); // Prevent default browser behavior
     };
 
-    //fine ridimensionamento (rilascio click)
     const stopResize = () => {
         isResizing.value = false;
     };
 
-    //calcola la nuova larghezza della chat
     const doResize = (e) => {
         if (!isResizing.value) return;
         chatWidth.value = window.innerWidth - e.clientX;
     };
 
-    //invia messaggio al backend
+    // Send message to the backend
     const sendMessage = () => {
         if (!newMessage.value.trim() || isSending.value) return;
 
@@ -37,40 +34,40 @@
 
         const evtSource = new EventSource("http://localhost:5000/chat?messages=" + encodeURIComponent(JSON.stringify(messages.value))); //apre una connessione in streaming con il backend
 
-        let assistantMessage = { role: "assistant", content: "" }; //costruisce un messaggio vuoto
-        messages.value.push(assistantMessage); //invia un messaggio vuoto per mostrare "Assistente:" prima ancora del messaggio ricevuto
+        let assistantMessage = { role: "assistant", content: "" }; // Create an empty assistant message
+        messages.value.push(assistantMessage); //Push placeholder to show "Assistente:" immediately
 
-        //riceve i token (del messaggio) dall'llm
+        // Receive message tokens from the LLM
         evtSource.onmessage = (e) => {
             const data = JSON.parse(e.data);
 
-            //aggiorna man mano il messaggio creando un nuovo oggetto per ogni token ricevuto
+            // Incrementally update the assistant message with streamed tokens
             messages.value[messages.value.length - 1] = {
                 ...messages.value[messages.value.length - 1],
                 content: messages.value[messages.value.length - 1].content + data.content
             };
 
             nextTick().then(() => {
-                if (messagesContainer.value) { //una volta reinderizzato il token del messaggio
-                    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight; //scrolla verso il basso
+                if (messagesContainer.value) { 
+                    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight; 
                 }
             });
         };
 
-        //chiude la sessione di streaming quando la risposta è terminata
+        // Close the streaming connection when the response is complete
         evtSource.addEventListener("end", () => {
             isSending.value = false;
             evtSource.close();
         });
 
-        //chiude la sessione di streaming quando c'è un errore
+        // Close the streaming connection on error
         evtSource.onerror = (err) => {
             console.error(err);
             isSending.value = false;
             evtSource.close();
         };
     };
-
+    // Initialize the chat with a welcome message
     onMounted(() => {
         if (messages.value.length === 0) {
             messages.value.push({
@@ -78,37 +75,34 @@
                 content: "Ciao! Sono qui per aiutarti a gestire al meglio la tua alimentazione. Hai bisogno di generare una dieta, consigli su ricette o idee per i tuoi pasti? 😋"
             });
         }
-        window.addEventListener("mousemove", doResize); //chiama "doResize" mentre l’utente muove il mou
-        window.addEventListener("mouseup", stopResize); //chiama "stopResize" quando l’utente rilascia il mouse
+        window.addEventListener("mousemove", doResize); // Calls "doResize" while the user moves the mouse
+        window.addEventListener("mouseup", stopResize); // Stops resizing when the mouse is released
     });
 
-    const emit = defineEmits(["close"]); //definisce gli eventi da emettere al genitore
-    const closeChat = () => emit("close"); //funzione che emette l'evento
+    const emit = defineEmits(["close"]); // Define events emitted to the parent component
+    const closeChat = () => emit("close"); // Emit close event
 </script>
 
 <template>
     <div class="chat-sidebar" :style="{ width: chatWidth + 'px' }">
 
-        <!-- bordo di ridimensionamento -->
         <div class="resizer" @mousedown="startResize"></div>
 
-        <!-- header della chat-->
         <div class="chat-header">
             <h3>Chat</h3>
             <button @click="closeChat">✖</button>
         </div>
 
-        <!-- area dove vengono mostrati tutti i messaggi -->
         <div class="chat-messages" ref="messagesContainer">
             <div v-for="(msg, i) in messages" :key="i" :class="['message', msg.role]">
                 <div class="message-content">
-                    <!-- Bubble utente con label interna -->
+                    <!-- User message bubble -->
                     <span v-if="msg.role === 'user'" class="bubble user">
                         <strong>Tu:</strong>
                         <span v-html="formatMessage(msg.content)"></span>
                     </span>
 
-                    <!-- Bubble assistente -->
+                    <!-- Assistant message bubble -->
                     <span v-else class="bubble assistant">
                         <strong>Assistente:</strong>
                         <span v-html="formatMessage(msg.content)"></span>
@@ -117,7 +111,6 @@
             </div>
         </div>
 
-        <!-- casella di input -->
         <div class="chat-input">
             <textarea v-model="newMessage" placeholder="Scrivi qui..." @keydown.enter.prevent="sendMessage"
                 @keydown.enter.alt.exact.stop="newMessage += '\n'"></textarea>

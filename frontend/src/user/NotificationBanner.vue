@@ -1,5 +1,3 @@
-<!-- componente attivazione notifiche -->
-
 <script setup>
     import { ref, onMounted } from "vue"
     import { useUserStore } from '../stores/user'
@@ -7,12 +5,12 @@
 
     const publicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY
     const userStore = useUserStore()
-    const loading = ref(false) //indica se la procedura di iscrizione alle notifiche è in corso
-    const error = ref(null) //contiene eventuali messaggi di errore
-    const success = ref(false) //indica se la sottoscrizione è avvenuta con successo
-    const visible = ref(false) //definisce l'apparizione del banner delle notifiche
+    const loading = ref(false) // Subscription process in progress
+    const error = ref(null) // Error message 
+    const success = ref(false) // Subscription completed successfully
+    const visible = ref(false) // Controls notification banner visibility
 
-    //verifica se l'utente ha già attivato le notifiche
+    // Checks whether notifications are already enabled for the user
     const checkNotifications = async () => {
         if (localStorage.getItem("notificationBannerDismissed")) {
             return;
@@ -29,20 +27,20 @@
         }
     }
 
-    //sottoscrive l'utente alle notifiche
+   // Subscribes the user to push notifications
     const subscribeUser = async () => {
-        if ('serviceWorker' in navigator) { //se il browser supporta il service worker (navigator è un componente globale del browser)
+        if ('serviceWorker' in navigator) { // Checks whether the browser supports Service Workers (navigator is a global browser object)
             try {
                 loading.value = true
                 error.value = null
 
-                //registra il service worker nel browser dell'utente
+                // Register the Service Worker
                 const registration = await navigator.serviceWorker.register('./service-worker.js')
                 console.log('Service Worker registrato', registration)
-                //crea la sottoscrizione dell'utente alle notifiche utilizzando una chiave VAPID 
+                // Create push subscription using VAPID public key 
                 const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyConverter(publicKey) })
 
-                //esegue la sottoscrizione creando il documento
+                // Save the subscription on the backend
                 await axios.post(`http://localhost:5000/subscribe-notification/${userStore.id}`, { subscription, notificationsEnabled: true });
 
                 success.value = true
@@ -64,8 +62,7 @@
             error.value = "Service Worker non supportato dal browser"
         }
     }
-
-    //funzione che converte la chiave VAPID in formato "Base64" nel formato "Uint8Array" (necesario per renderla utilizzabile dal browser)
+    // Converts VAPID public key from Base64 to Uint8Array (required by the browser)
     const keyConverter = (base64String) => {
         if (!base64String) {
             throw new Error("VAPID public key undefined!");
@@ -76,12 +73,12 @@
         return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)))
     }
 
-    //evita l'apparizione del banner
+    // Dismisses the notification banner
     const dismissBanner = async () => {
         visible.value = false;
         localStorage.setItem("notificationBannerDismissed", "true");
         try {
-            //crea il documento
+            // Create the subscription document
             await axios.post(`http://localhost:5000/subscribe-notification/${userStore.id}`, { notificationsEnabled: false });
         } catch (err) {
             console.error("Errore nel backend per dismiss banner:", err);

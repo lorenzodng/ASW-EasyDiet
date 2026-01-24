@@ -10,15 +10,17 @@
   const modalRef = ref(null);
   const userStore = useUserStore();
   const dietStore = useDietStore();
-  const showConfirmModal = ref(false); // visibilità della modale
+  const showConfirmModal = ref(false); 
 
   const props = defineProps({
+    // If true, shows only the logout button
     onlyLogout: {
       type: Boolean,
       default: false
     }
   });
 
+  // Closes the menu when clicking outside the navbar or modal
   const handleClickOutside = (event) => {
     if (navbarRef.value && !navbarRef.value.contains(event.target) && (!modalRef.value || !modalRef.value.contains(event.target))) {
       isOpen.value = false;
@@ -29,6 +31,7 @@
     isOpen.value = !isOpen.value;
   };
 
+  // Opens confirmation modal for diet deletion
   const askDeleteDiet = () => {
     showConfirmModal.value = true;
   };
@@ -47,6 +50,7 @@
     showConfirmModal.value = false;
   };
 
+  // Logs out the user and clears local state
   const logout = () => {
     userStore.reset();
     dietStore.reset();
@@ -74,7 +78,7 @@
     </button>
 
     <div v-if="isOpen" class="menu">
-      <!-- se onlyLogout è false, mostra tutti i link -->
+      <!-- Show all links when onlyLogout is false -->
       <template v-if="!props.onlyLogout">
         <router-link to="/home" @click="menu">🏠 Home</router-link>
         <router-link to="/informazioni-personali" @click="menu">
@@ -89,11 +93,10 @@
         </button>
       </template>
 
-      <!-- logout sempre visibile -->
+      <!-- Logout button is always visible -->
       <button class="logout" @click="logout">Logout</button>
     </div>
 
-    <!-- modale di conferma -->
     <div v-if="showConfirmModal" class="modal-overlay" ref="modalRef" @click.self="cancelDeleteDiet">
       <div class="modal" @click.stop>
         <h2>Conferma eliminazione</h2>
@@ -149,8 +152,8 @@
   .menu {
     position: absolute;
     top: calc(100% + 12px);
-    left: 50%; // centro orizzontale
-    transform: translateX(-50%); // vero centraggio
+    left: 50%; 
+    transform: translateX(-50%); 
     background: #ffffff;
     border-radius: 14px;
     padding: 12px;
@@ -174,7 +177,7 @@
       color: #333;
       padding: 10px 12px;
       border-radius: 8px;
-      padding: 11px 12px; // stesso padding per tutti
+      padding: 11px 12px; 
       text-align: left;
 
       &:hover {

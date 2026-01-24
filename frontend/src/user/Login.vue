@@ -1,16 +1,14 @@
-<!-- componente login -->
-
 <script setup>
   import { ref, reactive } from "vue";
   import { useRouter } from "vue-router";
   import { useUserStore } from '../stores/user'
   import axios from "axios";
 
-  const router = useRouter(); //utilizza vue-rotuer per passare a una nuova pagina dopo il login
-  const userStore = useUserStore() //utilizza lo store di pinia definito
+  const router = useRouter(); // Vue Router instance used to navigate after login page
+  const userStore = useUserStore() /// Pinia store
   const errorMsg = ref("");
 
-  //oggetto di variabili reattive
+  // Reactive object
   const user = reactive({
     email: "",
     password: ""
@@ -21,17 +19,16 @@
     password: false
   });
 
-  //metodo di login
   const loginData = async () => {
     try {
-      const { data } = await axios.post("http://localhost:5000/login", user); //invia una post all'url del server (backend), specificando come corpo l'oggetto user
+      const { data } = await axios.post("http://localhost:5000/login", user); // Send login request to the backend with user credentials
       if (data.status) {
-        userStore.setUser(data.user) //salva nella memoria dello store le informazioni dell'utente
+        userStore.setUser(data.user) // Save user data in the store and token in localStorage
         localStorage.setItem("token", data.token);
-        if (data.hasProfileInfo) {
-          router.push({ name: "Home" }); //passa al componente home passandogli il parametro id
+        if (data.hasProfileInfo) { // Redirect based on profile
+          router.push({ name: "Home" }); 
         } else {
-          router.push({ name: "Form" }); //passa al componente form utente
+          router.push({ name: "Form" });// Redirect to profile form if information is missing 
         }
       } else {
         errors.email = true;
@@ -110,7 +107,6 @@
     }
   }
 
-  /* FORM */
   .form-group {
     display: flex;
     flex-direction: column;
