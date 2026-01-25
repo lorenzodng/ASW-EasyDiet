@@ -1,5 +1,6 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-const uri = "mongodb+srv://easydiet:easydietpsw@dietdb.tfpxquz.mongodb.net/?appName=dietDb";
+
+const uri = process.env.MONGO_URI;
 
 //crea un client (temporaneo) mongoDB
 const client = new MongoClient(uri, {
@@ -10,4 +11,4 @@ const client = new MongoClient(uri, {
     }
 });
 
-export {client};
+export { client };

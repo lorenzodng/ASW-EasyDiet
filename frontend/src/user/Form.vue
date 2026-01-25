@@ -58,7 +58,7 @@
     <div class="info-container">
       <h2>Completa il tuo profilo</h2>
 
-      <UserProfileForm v-model="userInfo" />
+      <UserProfileForm />
 
       <div class="actions">
         <button class="save" @click="saveInfo"

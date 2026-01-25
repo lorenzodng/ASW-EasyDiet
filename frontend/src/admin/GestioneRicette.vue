@@ -1,20 +1,16 @@
 <script setup>
-  import axios from "axios";
   import { ref, onMounted } from "vue";
-
+  import axios from "axios";
+  import logo from "../assets/images/logo-easydiet.png"
   import EliminazioneRicetta from "./EliminazioneRicetta.vue";
   import ModificaRicetta from "./ModificaRicetta.vue";
-  import logo from "../assets/images/logo-easydiet.png"
-
 
   const recipes = ref([]);
   const loading = ref(true);
   const error = ref("");
 
   const showRecipeModal = ref(false);
-
   const recipeDetail = ref(null);
-
   const showForm = ref(false);
 
   const newRecipe = ref({

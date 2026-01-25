@@ -16,31 +16,4 @@ async function insertData() {
     }
 }
 
-/*
-//recupera i dati dal db
-async function readData() {
-    try {
-        const db = client.db("dietDb");
-
-        //recupera tutti gli utenti
-        const users = await db.collection("users").find({}).toArray();
-        console.log("Utenti:", users);
-
-        //recupera tutte le ricette
-        const recipes = await db.collection("recipes").find({}).toArray();
-        console.log("Ricette:", recipes);
-
-        //trova un utente specifico
-        const specificUser = await db.collection("users").findOne({ nome: "Mario" });
-        console.log("Utente:", specificUser);
-
-        //filtra le ricette per categoria
-        const veganRecipes = await db.collection("recipes").find({ tipo: "vegana" }).toArray();
-        console.log("Ricette vegane:", veganRecipes);
-    } catch (err) {
-        console.error("Errore:", err);
-    }
-}
-*/
-
 export { insertData };
