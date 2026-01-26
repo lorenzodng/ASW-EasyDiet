@@ -1,6 +1,6 @@
 <script setup>
   import axios from "axios";
-  import { useDietStore } from "../stores/diet";
+  import { useDietStore } from "../../stores/diet";
   import { onMounted } from "vue";
 
   const dietStore = useDietStore();

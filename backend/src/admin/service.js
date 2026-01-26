@@ -3,7 +3,7 @@ import UserAccount from "../user/accountModel.js"
 import User from "../user/infoModel.js";
 import Diet from "../diet/infoModel.js";
 import Notification from "../notification/infoModel.js";
-import Recipe from "../recipes/infoModel.js";
+import RecipeInfo from "../recipes/infoModel.js";
 
 export const loginAdmin = async ({ token }) => {
   if (!token) {
@@ -36,12 +36,16 @@ export const loginAdmin = async ({ token }) => {
 };
 
 export const getAllUsers = async () => {
-  const users = await UserAccount.find(
-    { ruolo: "utente" },
-    { password: 0 } // escludiamo la password dal risultato 
-  );
-
-  return users;
+  try {
+    const users = await UserAccount.find(
+      { ruolo: "utente" },
+      { password: 0 } // escludiamo la password dal risultato 
+    );
+    return users;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Errore nel recupero delle ricette dal DB");
+  }
 };
 
 export const getAllUsersWithDiet = async () => {
@@ -107,8 +111,6 @@ export const createUser = async (userData) => { //userdata viene dal frontend
     }
   };
 };
-//senza inviare la password 
-
 
 
 export const updateUserEmail = async (userId, email) => {
@@ -148,8 +150,6 @@ export const updateUserEmail = async (userId, email) => {
     user: updatedUser
   };
 };
-
-
 
 export const deleteUserService = async (userId) => {
   // controllo ID
@@ -207,27 +207,26 @@ export const getUserInfoService = async (userId) => {
   };
 };
 
-
 //recipe 
 export const createRecipe = async (recipeData) => {
   const {
     nome,
     categoria,
+    immagine,
     ingredienti,
     kcal,
     info
   } = recipeData;
 
   // controllo campi obbligatori
-  if (!nome || !categoria || !ingredienti || ingredienti.length === 0 || !kcal) {
+  if (!nome || !categoria || !immagine || !ingredienti || ingredienti.length === 0 || !kcal) {
     return {
       status: false,
       message: "Dati mancanti"
     };
   }
-
   // (opzionale) controllo duplicato nome
-  const existingRecipe = await Recipe.findOne({ nome });
+  const existingRecipe = await RecipeInfo.findOne({ nome });
   if (existingRecipe) {
     return {
       status: false,
@@ -235,9 +234,10 @@ export const createRecipe = async (recipeData) => {
     };
   }
 
-  const newRecipe = new Recipe({
+  const newRecipe = new RecipeInfo({
     nome,
     categoria,
+    immagine,
     ingredienti,
     kcal,
     info
@@ -260,7 +260,7 @@ export const deleteRecipe = async (recipeId) => {
     };
   }
 
-  const recipe = await Recipe.findById(recipeId);
+  const recipe = await RecipeInfo.findById(recipeId);
 
   if (!recipe) {
     return {
@@ -269,7 +269,7 @@ export const deleteRecipe = async (recipeId) => {
     };
   }
 
-  await Recipe.findByIdAndDelete(recipeId);
+  await RecipeInfo.findByIdAndDelete(recipeId);
 
   return {
     status: true
@@ -278,7 +278,7 @@ export const deleteRecipe = async (recipeId) => {
 
 
 export const updateRecipe = async (id, data) => {
-  const recipe = await Recipe.findById(id);
+  const recipe = await RecipeInfo.findById(id);
 
   if (!recipe) {
     return {

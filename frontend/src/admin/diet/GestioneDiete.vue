@@ -3,7 +3,7 @@
   import axios from "axios";
   import VisualizzaDieta from "./VisualizzaDieta.vue";
   import EliminazioneDieta from "./EliminazioneDieta.vue";
-  import logo from "../assets/images/logo-easydiet.png"
+  import logo from "../../assets/images/logo-easydiet.png"
 
   const users = ref([]);
   const loading = ref(true);

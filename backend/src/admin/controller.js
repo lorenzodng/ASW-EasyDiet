@@ -30,7 +30,6 @@ export const adminController = async (req, res) => {
 export const getUsersController = async (req, res) => {
   try {
     const users = await service.getAllUsers();
-
     res.json({
       status: true,
       users: users
@@ -153,12 +152,10 @@ export const getUsersInfoController = async (req, res) => {
   }
 };
 
-
 //recipe 
 export const createRecipeController = async (req, res) => {
   try {
     const result = await service.createRecipe(req.body);
-
     if (result.status) {
       res.json({
         status: true,
@@ -179,7 +176,6 @@ export const createRecipeController = async (req, res) => {
     });
   }
 };
-
 
 export const deleteRecipeController = async (req, res) => {
   try {

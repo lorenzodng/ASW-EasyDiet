@@ -13,15 +13,9 @@
     const loading = ref(false);
 
     const submitUser = async () => {
-        error.value = "";
         loading.value = true;
-
         try {
-            const { data } = await axios.post(
-                "http://localhost:5000/admin/users",
-                newUser.value
-            );
-
+            const { data } = await axios.post("http://localhost:5000/admin/users", newUser.value);
             if (data.status) {
                 emit("created");
                 newUser.value = { nome: "", email: "" };

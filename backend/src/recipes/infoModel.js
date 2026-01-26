@@ -12,7 +12,7 @@ const RecipeSchema = new mongoose.Schema({
         enum: ["colazione", "pranzo", "merenda", "cena"],
         required: true
     },
-    immagine:{
+    immagine: {
         type: String,
         required: true
     },
@@ -41,6 +41,6 @@ const RecipeSchema = new mongoose.Schema({
     }]
 }, { versionKey: false });
 
-const RecipeInfo = mongoose.model("recipes", RecipeSchema);
+const RecipeInfo = mongoose.model("Recipe", RecipeSchema);
 
 export default RecipeInfo;

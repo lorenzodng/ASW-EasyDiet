@@ -34,65 +34,63 @@
         ]
     },
     {
-    "nome": "Fetta di torta e succo di frutta",
-    "categoria": "colazione",
-    "immagine": "torta-e-succo.png",
-    "ingredienti": [
-        {
-            "nome": "torta semplice",
-            "peso": 80,
-            "kcal": 280
-        },
-        {
-            "nome": "succo di frutta",
-            "peso": 200,
-            "kcal": 90
-        }
-    ],
-    "kcal": 370,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegana"
-        },
-        {
-            "descrizioneIntolleranze": "Può contenere glutine e lattosio"
-        }
-    ]
-},
-{
-    "nome": "Cereali e latte",
-    "categoria": "colazione",
-    "immagine": "cereali-latte.png",
-    "ingredienti": [
-        {
-            "nome": "cereali",
-            "peso": 40,
-            "kcal": 150
-        },
-        {
-            "nome": "latte parzialmente scremato",
-            "peso": 200,
-            "kcal": 90
-        }
-    ],
-    "kcal": 240,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene lattosio e glutine"
-        }
-    ]
-},
-
-
+        "nome": "Fetta di torta e succo di frutta",
+        "categoria": "colazione",
+        "immagine": "torta-e-succo.png",
+        "ingredienti": [
+            {
+                "nome": "torta semplice",
+                "peso": 80,
+                "kcal": 280
+            },
+            {
+                "nome": "succo di frutta",
+                "peso": 200,
+                "kcal": 90
+            }
+        ],
+        "kcal": 370,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegana"
+            },
+            {
+                "descrizioneIntolleranze": "Può contenere glutine e lattosio"
+            }
+        ]
+    },
+    {
+        "nome": "Cereali e latte",
+        "categoria": "colazione",
+        "immagine": "cereali-latte.png",
+        "ingredienti": [
+            {
+                "nome": "cereali",
+                "peso": 40,
+                "kcal": 150
+            },
+            {
+                "nome": "latte parzialmente scremato",
+                "peso": 200,
+                "kcal": 90
+            }
+        ],
+        "kcal": 240,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene lattosio e glutine"
+            }
+        ]
+    },
     {
         "nome": "Fette biscottate e marmellata",
         "categoria": "colazione",
@@ -274,105 +272,102 @@
         ]
     },
     {
-    "nome": "Pasta al pesto",
-    "categoria": "pranzo",
-    "immagine": "pasta-pesto.png",
-    "ingredienti": [
-        {
-            "nome": "pasta",
-            "peso": 80,
-            "kcal": 280
-        },
-        {
-            "nome": "pesto",
-            "peso": 30,
-            "kcal": 180
-        }
-    ],
-    "kcal": 460,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine e frutta secca"
-        }
-    ]
-},
-{
-    "nome": "Cous cous con verdure",
-    "categoria": "pranzo",
-    "immagine": "cous-cous-verdure.png",
-    "ingredienti": [
-        {
-            "nome": "cous cous",
-            "peso": 80,
-            "kcal": 300
-        },
-        {
-            "nome": "verdure miste",
-            "peso": 150,
-            "kcal": 50
-        },
-        {
-            "nome": "olio d'oliva",
-            "peso": 10,
-            "kcal": 90
-        }
-    ],
-    "kcal": 440,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine"
-        }
-    ]
-},
-
-{
-    "nome": "Riso con tonno",
-    "immagine": "riso-tonno.png",
-    "categoria": "pranzo",
-    "ingredienti": [
-        {
-            "nome": "riso",
-            "peso": 80,
-            "kcal": 280
-        },
-        {
-            "nome": "tonno al naturale",
-            "peso": 120,
-            "kcal": 140
-        },
-        {
-            "nome": "olio d'oliva",
-            "peso": 10,
-            "kcal": 90
-        }
-    ],
-    "kcal": 510,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta onnivora"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene pesce"
-        }
-    ]
-},
-
-
+        "nome": "Pasta al pesto",
+        "categoria": "pranzo",
+        "immagine": "pasta-pesto.png",
+        "ingredienti": [
+            {
+                "nome": "pasta",
+                "peso": 80,
+                "kcal": 280
+            },
+            {
+                "nome": "pesto",
+                "peso": 30,
+                "kcal": 180
+            }
+        ],
+        "kcal": 460,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine e frutta secca"
+            }
+        ]
+    },
+    {
+        "nome": "Cous cous con verdure",
+        "categoria": "pranzo",
+        "immagine": "cous-cous-verdure.png",
+        "ingredienti": [
+            {
+                "nome": "cous cous",
+                "peso": 80,
+                "kcal": 300
+            },
+            {
+                "nome": "verdure miste",
+                "peso": 150,
+                "kcal": 50
+            },
+            {
+                "nome": "olio d'oliva",
+                "peso": 10,
+                "kcal": 90
+            }
+        ],
+        "kcal": 440,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine"
+            }
+        ]
+    },
+    {
+        "nome": "Riso con tonno",
+        "immagine": "riso-tonno.png",
+        "categoria": "pranzo",
+        "ingredienti": [
+            {
+                "nome": "riso",
+                "peso": 80,
+                "kcal": 280
+            },
+            {
+                "nome": "tonno al naturale",
+                "peso": 120,
+                "kcal": 140
+            },
+            {
+                "nome": "olio d'oliva",
+                "peso": 10,
+                "kcal": 90
+            }
+        ],
+        "kcal": 510,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta onnivora"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene pesce"
+            }
+        ]
+    },
     {
         "nome": "Minestra con brodo di carne",
         "categoria": "pranzo",
@@ -423,96 +418,93 @@
         ]
     },
     {
-    "nome": "Pasta con le vongole",
-    "categoria": "pranzo",
-    "immagine": "pasta-vongole.png",
-    "ingredienti": [
-        {
-            "nome": "pasta",
-            "peso": 80,
-            "kcal": 280
-        },
-        {
-            "nome": "vongole",
-            "peso": 150,
-            "kcal": 110
-        },
-        {
-            "nome": "olio d'oliva",
-            "peso": 10,
-            "kcal": 90
-        },
-        {
-            "nome": "aglio",
-            "peso": 5,
-            "kcal": 7
-        },
-        {
-            "nome": "prezzemolo",
-            "peso": 5,
-            "kcal": 2
-        }
-    ],
-    "kcal": 489,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta onnivora"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine e molluschi"
-        }
-    ]
-},
-{
-    "nome": "Lasagna vegetariana",
-    "categoria": "pranzo",
-    "immagine": "lasagna-vegetariana.png",
-
-    "ingredienti": [
-        {
-            "nome": "sfoglie per lasagna",
-            "peso": 80,
-            "kcal": 270
-        },
-        {
-            "nome": "verdure miste",
-            "peso": 150,
-            "kcal": 50
-        },
-        {
-            "nome": "besciamella",
-            "peso": 80,
-            "kcal": 120
-        },
-        {
-            "nome": "formaggio grattugiato",
-            "peso": 30,
-            "kcal": 120
-        },
-        {
-            "nome": "olio d'oliva",
-            "peso": 5,
-            "kcal": 45
-        }
-    ],
-    "kcal": 605,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine e lattosio"
-        }
-    ]
-},
-
-
+        "nome": "Pasta con le vongole",
+        "categoria": "pranzo",
+        "immagine": "pasta-vongole.png",
+        "ingredienti": [
+            {
+                "nome": "pasta",
+                "peso": 80,
+                "kcal": 280
+            },
+            {
+                "nome": "vongole",
+                "peso": 150,
+                "kcal": 110
+            },
+            {
+                "nome": "olio d'oliva",
+                "peso": 10,
+                "kcal": 90
+            },
+            {
+                "nome": "aglio",
+                "peso": 5,
+                "kcal": 7
+            },
+            {
+                "nome": "prezzemolo",
+                "peso": 5,
+                "kcal": 2
+            }
+        ],
+        "kcal": 489,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta onnivora"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine e molluschi"
+            }
+        ]
+    },
+    {
+        "nome": "Lasagna vegetariana",
+        "categoria": "pranzo",
+        "immagine": "lasagna-vegetariana.png",
+        "ingredienti": [
+            {
+                "nome": "sfoglie per lasagna",
+                "peso": 80,
+                "kcal": 270
+            },
+            {
+                "nome": "verdure miste",
+                "peso": 150,
+                "kcal": 50
+            },
+            {
+                "nome": "besciamella",
+                "peso": 80,
+                "kcal": 120
+            },
+            {
+                "nome": "formaggio grattugiato",
+                "peso": 30,
+                "kcal": 120
+            },
+            {
+                "nome": "olio d'oliva",
+                "peso": 5,
+                "kcal": 45
+            }
+        ],
+        "kcal": 605,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine e lattosio"
+            }
+        ]
+    },
     {
         "nome": "Pasta con panna e funghi",
         "categoria": "pranzo",
@@ -679,123 +671,122 @@
         ]
     },
     {
-    "nome": "Piadina farcita",
-    "categoria": "cena",
-    "immagine": "piadina-farcita.png",
-    "ingredienti": [
-        {
-            "nome": "piadina",
-            "peso": 100,
-            "kcal": 320
-        },
-        {
-            "nome": "prosciutto cotto",
-            "peso": 60,
-            "kcal": 90
-        },
-        {
-            "nome": "formaggio",
-            "peso": 50,
-            "kcal": 150
-        },
-        {
-            "nome": "insalata",
-            "peso": 30,
-            "kcal": 5
-        }
-    ],
-    "kcal": 565,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta onnivora"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine e lattosio"
-        }
-    ]
-},
-{
-    "nome": "Fettine ai ferri",
-    "categoria": "cena",
-    "immagine": "fettine-ai-ferri.png",
-    "ingredienti": [
-        {
-            "nome": "carne di manzo",
-            "peso": 180,
-            "kcal": 270
-        },
-        {
-            "nome": "olio d'oliva",
-            "peso": 10,
-            "kcal": 90
-        },
-        {
-            "nome": "verdure grigliate",
-            "peso": 150,
-            "kcal": 45
-        }
-    ],
-    "kcal": 405,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta onnivora"
-        },
-        {
-            "descrizioneIntolleranze": "Nessuna"
-        }
-    ]
-},
-{
-    "nome": "Caprese con pane",
-    "categoria": "cena",
-    "immagine": "caprese-pane.png",
-    "ingredienti": [
-        {
-            "nome": "mozzarella",
-            "peso": 150,
-            "kcal": 375
-        },
-        {
-            "nome": "pomodori",
-            "peso": 200,
-            "kcal": 36
-        },
-        {
-            "nome": "pane",
-            "peso": 80,
-            "kcal": 210
-        },
-        {
-            "nome": "olio d'oliva",
-            "peso": 10,
-            "kcal": 90
-        },
-        {
-            "nome": "basilico",
-            "peso": 5,
-            "kcal": 1
-        }
-    ],
-    "kcal": 712,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine e lattosio"
-        }
-    ]
-},
-
+        "nome": "Piadina farcita",
+        "categoria": "cena",
+        "immagine": "piadina-farcita.png",
+        "ingredienti": [
+            {
+                "nome": "piadina",
+                "peso": 100,
+                "kcal": 320
+            },
+            {
+                "nome": "prosciutto cotto",
+                "peso": 60,
+                "kcal": 90
+            },
+            {
+                "nome": "formaggio",
+                "peso": 50,
+                "kcal": 150
+            },
+            {
+                "nome": "insalata",
+                "peso": 30,
+                "kcal": 5
+            }
+        ],
+        "kcal": 565,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta onnivora"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine e lattosio"
+            }
+        ]
+    },
+    {
+        "nome": "Fettine ai ferri",
+        "categoria": "cena",
+        "immagine": "fettine-ai-ferri.png",
+        "ingredienti": [
+            {
+                "nome": "carne di manzo",
+                "peso": 180,
+                "kcal": 270
+            },
+            {
+                "nome": "olio d'oliva",
+                "peso": 10,
+                "kcal": 90
+            },
+            {
+                "nome": "verdure grigliate",
+                "peso": 150,
+                "kcal": 45
+            }
+        ],
+        "kcal": 405,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta onnivora"
+            },
+            {
+                "descrizioneIntolleranze": "Nessuna"
+            }
+        ]
+    },
+    {
+        "nome": "Caprese con pane",
+        "categoria": "cena",
+        "immagine": "caprese-pane.png",
+        "ingredienti": [
+            {
+                "nome": "mozzarella",
+                "peso": 150,
+                "kcal": 375
+            },
+            {
+                "nome": "pomodori",
+                "peso": 200,
+                "kcal": 36
+            },
+            {
+                "nome": "pane",
+                "peso": 80,
+                "kcal": 210
+            },
+            {
+                "nome": "olio d'oliva",
+                "peso": 10,
+                "kcal": 90
+            },
+            {
+                "nome": "basilico",
+                "peso": 5,
+                "kcal": 1
+            }
+        ],
+        "kcal": 712,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine e lattosio"
+            }
+        ]
+    },
     {
         "nome": "Petto di pollo e verdure",
         "categoria": "cena",
@@ -831,119 +822,116 @@
         ]
     },
     {
-    "nome": "Frutta fresca",
-    "categoria": "merenda",
-    "immagine": "frutta-fresca.png",
-    "ingredienti": [
-        {
-            "nome": "frutta fresca",
-            "peso": 200,
-            "kcal": 100
-        }
-    ],
-    "kcal": 100,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegana"
-        },
-        {
-            "descrizioneIntolleranze": "Nessuna"
-        }
-    ]
-},
-{
-    "nome": "Biscotti secchi e tè",
-    "categoria": "merenda",
-    "immagine": "biscotti-te.png",
-    "ingredienti": [
-        {
-            "nome": "biscotti secchi",
-            "peso": 40,
-            "kcal": 170
-        },
-        {
-            "nome": "tè",
-            "peso": 200,
-            "kcal": 2
-        }
-    ],
-    "kcal": 172,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene glutine"
-        }
-    ]
-},
-{
-    "nome": "Mela e mandorle",
-    "categoria": "merenda",
-    "immagine": "mela-mandorle.png",
-    "ingredienti": [
-        {
-            "nome": "mela",
-            "peso": 180,
-            "kcal": 95
-        },
-        {
-            "nome": "mandorle",
-            "peso": 20,
-            "kcal": 120
-        }
-    ],
-    "kcal": 215,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene frutta secca"
-        }
-    ]
-},
-{
-    "nome": "Frullato di frutta",
-    "categoria": "merenda",
-    "immagine": "frullato-frutta.png",
-    "ingredienti": [
-        {
-            "nome": "frutta fresca",
-            "peso": 200,
-            "kcal": 100
-        },
-        {
-            "nome": "latte",
-            "peso": 150,
-            "kcal": 70
-        }
-    ],
-    "kcal": 170,
-    "info": [
-        {
-            "descrizioneKcal": ""
-        },
-        {
-            "descrizioneTipoDieta": "Ricetta vegetariana"
-        },
-        {
-            "descrizioneIntolleranze": "Contiene lattosio"
-        }
-    ]
-},
-
-
-
+        "nome": "Frutta fresca",
+        "categoria": "merenda",
+        "immagine": "frutta-fresca.png",
+        "ingredienti": [
+            {
+                "nome": "frutta fresca",
+                "peso": 200,
+                "kcal": 100
+            }
+        ],
+        "kcal": 100,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegana"
+            },
+            {
+                "descrizioneIntolleranze": "Nessuna"
+            }
+        ]
+    },
+    {
+        "nome": "Biscotti secchi e tè",
+        "categoria": "merenda",
+        "immagine": "biscotti-te.png",
+        "ingredienti": [
+            {
+                "nome": "biscotti secchi",
+                "peso": 40,
+                "kcal": 170
+            },
+            {
+                "nome": "tè",
+                "peso": 200,
+                "kcal": 2
+            }
+        ],
+        "kcal": 172,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene glutine"
+            }
+        ]
+    },
+    {
+        "nome": "Mela e mandorle",
+        "categoria": "merenda",
+        "immagine": "mela-mandorle.png",
+        "ingredienti": [
+            {
+                "nome": "mela",
+                "peso": 180,
+                "kcal": 95
+            },
+            {
+                "nome": "mandorle",
+                "peso": 20,
+                "kcal": 120
+            }
+        ],
+        "kcal": 215,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene frutta secca"
+            }
+        ]
+    },
+    {
+        "nome": "Frullato di frutta",
+        "categoria": "merenda",
+        "immagine": "frullato-frutta.png",
+        "ingredienti": [
+            {
+                "nome": "frutta fresca",
+                "peso": 200,
+                "kcal": 100
+            },
+            {
+                "nome": "latte",
+                "peso": 150,
+                "kcal": 70
+            }
+        ],
+        "kcal": 170,
+        "info": [
+            {
+                "descrizioneKcal": ""
+            },
+            {
+                "descrizioneTipoDieta": "Ricetta vegetariana"
+            },
+            {
+                "descrizioneIntolleranze": "Contiene lattosio"
+            }
+        ]
+    },
     {
         "nome": "Hummus e verdure",
         "categoria": "cena",

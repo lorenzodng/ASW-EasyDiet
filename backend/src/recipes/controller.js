@@ -2,13 +2,19 @@
 
 import * as service from "./service.js";
 
-//recupero delle ricette
+//recupero dei piatti
 export const getRecipesController = async (req, res) => {
     try {
         const recipes = await service.getRecipes();
-        res.json(recipes);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Errore nel recupero delle ricette" });
+        res.json({
+            status: true,
+            recipes: recipes
+        });
+    } catch (error) {
+        console.error("Errore recupero piatti:", error);
+        res.status(500).json({
+            status: false,
+            message: "Errore server"
+        });
     }
 };

@@ -1,11 +1,11 @@
 <script setup>
   import { ref, onMounted } from "vue";
   import axios from "axios";
-  import logo from "../assets/images/logo-easydiet.png";
+  import logo from "../../assets/images/logo-easydiet.png";
 
   import ModificaUtente from "./ModificaUtente.vue";
   import EliminazioneUtente from "./EliminazioneUtente.vue";
-  import VisualizzaUtente from "./VisualizzaUtente.vue";
+  import VisualizzazioneUtente from "./VisualizzazioneUtente.vue";
 
   const users = ref([]);
   const loading = ref(true);
@@ -43,18 +43,22 @@
     }
   };
 
-  // CARICAMENTO INIZIALE
-  onMounted(async () => {
+  const loadUsers = async () => {
     try {
       const { data } = await axios.get("http://localhost:5000/admin/users");
-      if (data.status) users.value = data.users;
-      else error.value = "Errore nel recupero utenti";
+      if (data.status)
+        users.value = data.users;
+      else
+        error.value = "Errore nel recupero degli utenti";
     } catch {
       error.value = "Errore di connessione";
     } finally {
       loading.value = false;
     }
-  });
+  };
+
+  onMounted(loadUsers);
+
 </script>
 
 <template>
@@ -98,7 +102,7 @@
             <ModificaUtente :user="user" @updated="users = users" />
           </td>
           <td class="actions">
-            <VisualizzaUtente :user="user" />
+            <VisualizzazioneUtente :user="user" />
             <EliminazioneUtente :user="user" @deleted="onUserDeleted" />
           </td>
         </tr>
