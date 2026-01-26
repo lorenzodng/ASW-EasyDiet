@@ -1,22 +1,23 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'; //per chiamare il backend
+import axios from 'axios'; 
 
 export const useUserStore = defineStore('user', {
 
-    //dati in memoria condivisi tra i componenti
+    // Global state for the authenticated user (shared across components)
     state: () => ({
         id: null,
         nome: null,
     }),
 
-    //metodi sui dati
+    
     actions: {
-        setUser(user) {  //per aggiornare lo stato
+        // Updates the user state after login or token validation
+        setUser(user) {  
             this.id = user.id;
             this.nome = user.nome;
         },
 
-        async fetchUser(router) { //"async" perchè "await" può essere usato solo in una funzione async
+        async fetchUser(router) { 
             if (this.id)
                 return;
             const token = localStorage.getItem('token');
@@ -24,14 +25,16 @@ export const useUserStore = defineStore('user', {
                 return;
 
             try {
-                const { data } = await axios.get('http://localhost:5000/users/user', { headers: { Authorization: `Bearer ${token}` } }); //invia il token all'header
+                const { data } = await axios.get('http://localhost:5000/users/user', 
+                    { 
+                        headers: { Authorization: `Bearer ${token}` } }); // Protected request: the token is sent in the Authorization header
                 this.setUser({ id: data.id, nome: data.nome });
             } catch (err) {
                 console.error("Token non valido o scaduto", err);
                 this.id = null;
                 this.nome = null;
                 localStorage.removeItem('token');
-                router?.push({ name: 'Login' });  //logout forzato e redirect al login
+                router?.push({ name: 'Login' });  
             }
         },
 

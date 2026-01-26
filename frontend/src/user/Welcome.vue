@@ -32,7 +32,7 @@
     font-size: 18px;
     font-weight: 600;
     color: #ffffff;
-    background-color: #4caf50; // verde base
+    background-color: #4caf50; 
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -57,7 +57,7 @@
     gap: 8px;
     text-align: center;
     padding: 80px;
-    background-color: #e8f5e9; // verde chiarissimo
+    background-color: #e8f5e9; 
     min-height: 100vh;
     box-sizing: border-box;
   }

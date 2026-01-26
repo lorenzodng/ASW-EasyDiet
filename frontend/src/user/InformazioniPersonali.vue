@@ -37,7 +37,7 @@
       const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, editInfo.value);
 
       if (data.status) {
-        info.value = { ...editInfo.value }; // aggiorni i dati 
+        info.value = { ...editInfo.value }; 
         isEditing.value = false;
       } else {
         alert("Errore: " + data.message);

@@ -20,8 +20,8 @@
         "http://localhost:5000/admin/login",
         { token: adminToken.value }
       );
-      //se il backend conferma 
       if (data.status) {
+        // Persist admin token for future authenticated requests
         localStorage.setItem("adminToken", adminToken.value);
         router.push({ name: "AdminHome" }); // 
       } else {

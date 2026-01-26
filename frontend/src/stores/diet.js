@@ -7,14 +7,15 @@ export const useDietStore = defineStore('diets', {
     }),
 
     getters: {
-        // restituisce true se la dieta esiste
+        // Returns true if a diet is currently loaded
         exists: (state) => !!state.dieta
     },
 
     actions: {
 
-        //recupera la dieta
-        //in questo caso il token ha una funzione di "sicurezza", e serve per consentire di recuperare la dieta solo per l'utente autenticato
+    //Fetches the user's diet from the backend.The JWT token is used for security purposes, 
+    // ensuring that only the authenticated user can access their own diet.
+
         async fetchDiet(userId) {
             if (!userId)
                 return
@@ -24,14 +25,14 @@ export const useDietStore = defineStore('diets', {
 
             try {
                 const { data } = await axios.get(`http://localhost:5000/diets/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
-                this.dieta = data ?? null //imposta la dieta se esiste, altrimenti associa null
+                // Assign the diet if it exists, otherwise reset it
+                this.dieta = data ?? null 
             } catch (err) {
                 console.error("Errore nel recupero della dieta", err)
                 this.dieta = null
             }
         },
 
-        // elimina la dieta
         async deleteDiet(userId) {
             try {
                 const token = localStorage.getItem('token')
