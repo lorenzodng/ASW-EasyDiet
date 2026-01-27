@@ -1,4 +1,3 @@
-// models/AdminAccount.js
 import mongoose from "mongoose";
 
 const AdminAccountSchema = new mongoose.Schema({

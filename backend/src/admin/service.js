@@ -5,6 +5,10 @@ import Diet from "../diet/infoModel.js";
 import Notification from "../notification/infoModel.js";
 import RecipeInfo from "../recipes/infoModel.js";
 
+// Service layer:
+// handles business logic and database operations.
+// Called by controllers and returns structured results.
+
 export const loginAdmin = async ({ token }) => {
   if (!token) {
     return {
@@ -34,6 +38,8 @@ export const loginAdmin = async ({ token }) => {
     }
   };
 };
+
+//USER
 
 export const getAllUsers = async () => {
   try {
@@ -207,7 +213,8 @@ export const getUserInfoService = async (userId) => {
   };
 };
 
-//recipe 
+//RECIPE
+
 export const createRecipe = async (recipeData) => {
   const {
     nome,
@@ -301,7 +308,7 @@ export const updateRecipe = async (id, data) => {
   };
 };
 
-//diet
+//DIET
 
 export const createDiet = async (dietData) => {
   try {

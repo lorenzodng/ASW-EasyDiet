@@ -1,15 +1,13 @@
-//rotte admin utenti 
-
 import express from "express"
 import * as controller from "../../src/admin/controller.js";
 
 const router = express.Router();
 
-router.get("/", controller.getUsersController); //rotta per recuperare gli utenti
-router.post("/", controller.createUserController); //rotta per creare un nuovo utente 
-router.put("/:id", controller.updateemailUserController); //rotta per modificare la mail 
-router.delete("/:id", controller.deleteUserController); //eliminare l'utente 
-router.get("/:id/info", controller.getUserInfoController); //per recuperare le informazioni personali 
-router.get('/info', controller.getUsersInfoController); //rotta per recuperare le informazioni degli utenti
+router.get("/", controller.getUsersController); 
+router.post("/", controller.createUserController); 
+router.put("/:id", controller.updateemailUserController);  
+router.delete("/:id", controller.deleteUserController); 
+router.get("/:id/info", controller.getUserInfoController); 
+router.get('/info', controller.getUsersInfoController); 
 
 export default router;

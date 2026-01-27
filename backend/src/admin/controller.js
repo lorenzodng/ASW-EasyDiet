@@ -1,5 +1,11 @@
 import * as service from "./service.js";
 
+// Controllers follow the same structure:
+// they handle HTTP requests, call the service layer
+// and return a JSON response with status and data.
+
+
+//Admin authentication
 export const adminController = async (req, res) => {
   try {
     console.log("ADMIN LOGIN BODY:", req.body);
@@ -27,6 +33,9 @@ export const adminController = async (req, res) => {
   }
 };
 
+//USER
+
+// Get all userS
 export const getUsersController = async (req, res) => {
   try {
     const users = await service.getAllUsers();
@@ -43,6 +52,7 @@ export const getUsersController = async (req, res) => {
   }
 };
 
+// Create new user
 export const createUserController = async (req, res) => {
   try {
     const result = await service.createUser(req.body);
@@ -68,6 +78,7 @@ export const createUserController = async (req, res) => {
   }
 };
 
+// Update user email
 export const updateemailUserController = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -95,6 +106,7 @@ export const updateemailUserController = async (req, res) => {
   }
 };
 
+// Delete user
 export const deleteUserController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -116,6 +128,7 @@ export const deleteUserController = async (req, res) => {
 
 };
 
+// Get single user info
 export const getUserInfoController = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -136,6 +149,7 @@ export const getUserInfoController = async (req, res) => {
   }
 };
 
+// Get userS with diet info
 export const getUsersInfoController = async (req, res) => {
   try {
     const users = await service.getAllUsersWithDiet();
@@ -152,7 +166,9 @@ export const getUsersInfoController = async (req, res) => {
   }
 };
 
-//recipe 
+//RECIPE
+
+//Create new recipe
 export const createRecipeController = async (req, res) => {
   try {
     const result = await service.createRecipe(req.body);
@@ -177,6 +193,7 @@ export const createRecipeController = async (req, res) => {
   }
 };
 
+// Delete recipe
 export const deleteRecipeController = async (req, res) => {
   try {
     const recipeId = req.params.id;
@@ -204,7 +221,7 @@ export const deleteRecipeController = async (req, res) => {
   }
 };
 
-
+// Update recipe
 export const updateRecipeController = async (req, res) => {
   try {
     const result = await service.updateRecipe(
