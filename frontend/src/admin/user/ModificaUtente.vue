@@ -10,24 +10,21 @@
     const isEditing = ref(false);
     const editEmail = ref("");
 
-    // quando clicco "✏️"
     const editUser = () => {
-        editEmail.value = props.user.email; // prende email dal padre
+        editEmail.value = props.user.email; 
         isEditing.value = true;
     };
 
-    // annulla modifica
     const cancelEdit = () => {
         isEditing.value = false;
         editEmail.value = "";
     };
 
-    // salva modifica e aggiorna il padre
     const saveUser = async () => {
         try {
             const { data } = await axios.put(`http://localhost:5000/admin/users/${props.user._id}`, { email: editEmail.value });
             if (data.status) {
-                props.user.email = editEmail.value; // aggiorna direttamente l'email nel padre
+                props.user.email = editEmail.value; 
                 isEditing.value = false;
                 emit("updated");
             } else {

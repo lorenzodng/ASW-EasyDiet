@@ -1,7 +1,8 @@
 <script setup>
   import axios from "axios";
 
-  //  props dal padre
+  // Props received from the parent component
+  // Contains the ID of the recipe to be deleted
   const props = defineProps({
     recipeId: {
       type: String,
@@ -9,10 +10,8 @@
     }
   });
 
-  // eventi verso il padre
   const emit = defineEmits(["deleted"]);
-
-  // elimina ricetta
+  //Deletes the selected recipe after user confirmation.
   const deleteRecipe = async () => {
     const conferma = confirm("Sei sicuro di voler eliminare questa ricetta?");
     if (!conferma) return;
@@ -22,7 +21,6 @@
         `http://localhost:5000/admin/recipes/${props.recipeId}`
       );
 
-      // avvisa il padre
       emit("deleted", props.recipeId);
 
     } catch (error) {

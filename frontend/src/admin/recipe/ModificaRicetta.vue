@@ -14,13 +14,11 @@
   const isEditing = ref(false);
   const editRecipe = ref({});
 
-  // apre form
-  const modifica = () => {
+  const edit = () => {
     editRecipe.value = JSON.parse(JSON.stringify(props.recipe));
     isEditing.value = true;
   };
 
-  // ingredienti da aggiungere 
   const addIngredient = () => {
     editRecipe.value.ingredienti.push({
       nome: "",
@@ -33,8 +31,7 @@
     editRecipe.value.ingredienti.splice(index, 1);
   };
 
-  // salva
-  const salva = async () => {
+  const save = async () => {
     try {
       await axios.put(
         `http://localhost:5000/admin/recipes/${props.recipe._id}`,
@@ -48,7 +45,6 @@
     }
   };
 
-  // annulla
   const annulla = () => {
     isEditing.value = false;
     editRecipe.value = {};
@@ -58,11 +54,11 @@
 <template>
   <div class="edit">
 
-    <button v-if="!isEditing" class="icon" data-label="Modifica" @click="modifica">
+    <button v-if="!isEditing" class="icon" data-label="Modifica" @click="edit">
       ✏️
     </button>
 
-    <form v-else @submit.prevent="salva">
+    <form v-else @submit.prevent="save">
 
 
       <h3>Dati ricetta</h3>
@@ -113,7 +109,6 @@
       <textarea :value="editRecipe.info?.[2]?.descrizioneIntolleranze"
         @input="editRecipe.info[2].descrizioneIntolleranze = $event.target.value" placeholder="Intolleranze" />
 
-      <!-- AZIONI -->
       <div class="actions">
         <button type="submit">💾 Salva</button>
         <button type="button" @click="annulla">❌ Annulla</button>

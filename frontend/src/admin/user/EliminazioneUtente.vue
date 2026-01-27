@@ -13,7 +13,6 @@
         try {
             const { data } = await axios.delete(`http://localhost:5000/admin/users/${props.user._id}`);
             if (data.status) {
-                // emetti l'evento al padre, che aggiornerà l'array
                 emit("deleted", props.user._id);
             } else {
                 alert(data.message || "Errore eliminazione");

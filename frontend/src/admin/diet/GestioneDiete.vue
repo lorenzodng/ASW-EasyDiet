@@ -9,7 +9,6 @@
   const loading = ref(true);
   const error = ref("");
 
-  // caricamento utenti + info personali
   const loadUsers = async () => {
     try {
       loading.value = true;

@@ -22,7 +22,10 @@
     showRecipeModal.value = false;
     recipeDetail.value = null;
   };
-
+  /**
+    * This method is reused after create, update and delete operations
+    * to keep the list in sync.
+   */
   const loadRecipes = async () => {
     try {
       loading.value = true;
@@ -57,7 +60,6 @@
     <p v-if="loading">Caricamento piatti...</p>
     <p v-if="error" class="error">{{ error }}</p>
 
-    <!-- Aggiunta nuova ricetta -->
     <CreazioneRicetta @saved="loadRecipes" />
 
     <table v-if="!loading && recipes.length" class="recipes-table">
@@ -85,8 +87,6 @@
     <p v-if="!loading && recipes.length === 0">
       Nessuna ricetta trovata
     </p>
-
-    <!-- Modal visualizzazione ricetta -->
     <VisualizzazioneRicetta :show="showRecipeModal" :recipe="recipeDetail" @close="closeRecipeModal" />
   </div>
 </template>

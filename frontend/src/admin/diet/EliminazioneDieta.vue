@@ -14,6 +14,12 @@
 
   const emit = defineEmits(["deleted"]);
 
+  /**
+  * Deletes the diet associated with the given user.
+  * Asks for confirmation before proceeding.
+  * Emits a "deleted" event on success.
+  */
+
   const deleteDiet = async () => {
 
     const conferma = confirm("Sei sicuro di voler eliminare la dieta di questo utente?");

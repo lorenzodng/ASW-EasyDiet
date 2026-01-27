@@ -48,7 +48,6 @@
     <p v-if="loading" class="info">Caricamento utenti...</p>
     <p v-if="error" class="error">{{ error }}</p>
 
-    <!-- TABELLA UTENTI -->
     <table v-if="!loading && !error" class="users-table">
       <thead>
         <tr>

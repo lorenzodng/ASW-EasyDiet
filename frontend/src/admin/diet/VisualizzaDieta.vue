@@ -2,7 +2,6 @@
   import { ref } from "vue";
   import axios from "axios";
 
-  // props dal padre
   const props = defineProps({
     userId: {
       type: String,
@@ -15,7 +14,8 @@
   const error = ref("");
   const diet = ref(null);
 
-  // carica dieta
+  //Loads the weekly diet for the selected user.
+  //Opens the modal if the diet is found.
   const loadDiet = async () => {
     try {
       loading.value = true;
