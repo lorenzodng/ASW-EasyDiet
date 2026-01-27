@@ -39,13 +39,15 @@
 </template>
 
 <style scoped lang="scss">
+  $green-dark: #2e7d32;
+  $white: #ffffff;
+
   .icon {
     border: none;
     background: none;
     cursor: pointer;
     font-size: 18px;
     transition: transform 0.2s;
-
 
     &:hover {
       transform: scale(1.15);
@@ -57,8 +59,8 @@
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
-      background: #2e7d32;
-      color: #ffffff;
+      background: $green-dark;
+      color: $white;
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 12px;
@@ -72,5 +74,4 @@
       opacity: 1;
     }
   }
-
 </style>

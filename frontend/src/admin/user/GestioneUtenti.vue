@@ -2,45 +2,17 @@
   import { ref, onMounted } from "vue";
   import axios from "axios";
   import logo from "../../assets/images/logo-easydiet.png";
-
   import ModificaUtente from "./ModificaUtente.vue";
   import EliminazioneUtente from "./EliminazioneUtente.vue";
   import VisualizzazioneUtente from "./VisualizzazioneUtente.vue";
+  import CreazioneUtente from "./CreazioneUtente.vue";
 
   const users = ref([]);
   const loading = ref(true);
   const error = ref("");
 
-  const showForm = ref(false);
-  const newUser = ref({ nome: "", email: "", password: "" });
-
-  const toggleForm = () => {
-    showForm.value = !showForm.value;
-  };
-
   const onUserDeleted = (id) => {
     users.value = users.value.filter(u => u._id !== id);
-  };
-
-  // 🔹 CREA UTENTE + RICARICA LISTA
-  const submitUser = async () => {
-    error.value = "";
-
-    try {
-      const { data } = await axios.post("http://localhost:5000/admin/users", newUser.value);
-
-      if (data.status) {
-        const res = await axios.get("http://localhost:5000/admin/users");
-        users.value = res.data.users;
-
-        showForm.value = false;
-        newUser.value = { nome: "", email: "", password: "" };
-      } else {
-        error.value = data.message || "Errore creazione utente";
-      }
-    } catch {
-      error.value = "Errore di connessione";
-    }
   };
 
   const loadUsers = async () => {
@@ -58,7 +30,6 @@
   };
 
   onMounted(loadUsers);
-
 </script>
 
 <template>
@@ -72,15 +43,7 @@
       </div>
     </header>
 
-    <button class="add" @click="toggleForm">➕ Aggiungi utente</button>
-
-    <!-- FORM CREAZIONE -->
-    <form v-if="showForm" class="user-form" @submit.prevent="submitUser">
-      <input type="text" placeholder="Nome" v-model="newUser.nome" required />
-      <input type="email" placeholder="Email" v-model="newUser.email" required />
-      <input type="password" placeholder="Password" v-model="newUser.password" required />
-      <button type="submit">Crea utente</button>
-    </form>
+    <CreazioneUtente @created="loadUsers" />
 
     <p v-if="loading" class="info">Caricamento utenti...</p>
     <p v-if="error" class="error">{{ error }}</p>
@@ -91,7 +54,7 @@
         <tr>
           <th>Nome Utente</th>
           <th>Email</th>
-          <th></th> <!-- rimane vuoto, nessun testo "Actions" -->
+          <th></th>
         </tr>
       </thead>
 
@@ -106,6 +69,7 @@
             <EliminazioneUtente :user="user" @deleted="onUserDeleted" />
           </td>
         </tr>
+
         <tr v-if="users.length === 0">
           <td colspan="3" class="empty">Nessun utente trovato</td>
         </tr>
@@ -115,11 +79,20 @@
 </template>
 
 <style scoped lang="scss">
+  $green-dark: #2e7d32;
+  $green-main: #4caf50;
+  $green-hover: #f1f8f4;
+  $green-shadow: rgba(76, 175, 80, 0.12);
+  $white: #ffffff;
+  $gray-border: #e0e0e0;
+  $gray-info: #555;
+  $gray-empty: #777;
+
   .admin-page {
     padding: 32px;
 
     h1 {
-      color: #2e7d32;
+      color: $green-dark;
     }
   }
 
@@ -128,7 +101,7 @@
     margin-bottom: 40px;
 
     h1 {
-      color: #2e7d32;
+      color: $green-dark;
       margin-bottom: 8px;
     }
   }
@@ -138,7 +111,7 @@
     display: flex;
     align-items: center;
     padding: 24px 32px;
-    background: #ffffff;
+    background: $white;
     border-radius: 18px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
   }
@@ -157,103 +130,52 @@
     h1 {
       font-size: 28px;
       font-weight: 800;
-      color: #2e7d32;
+      color: $green-dark;
       margin: 0;
     }
   }
 
-  .add {
-    padding: 10px 16px;
-    background-color: #ffffff;
-    color: #0a0000;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.3s ease;
-    margin-bottom: 24px;
-    outline: none;
-
-    &:hover {
-      border-color: #4caf50;
-    }
-  }
-
-  .user-form {
-    margin: 32px auto 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    max-width: 400px;
-
-    input {
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-
-      &:focus {
-        outline: none;
-        border-color: #4caf50;
-      }
-    }
-
-    button {
-      padding: 10px 16px;
-      background-color: #2e7d32;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #388e3c;
-      }
-    }
-  }
-
   .info {
-    color: #555;
+    color: $gray-info;
     font-size: 14px;
-  }
-
-  .error {
-    color: #d32f2f;
-    font-size: 14px;
-    margin-bottom: 12px;
   }
 
   .users-table {
+    table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
-    background-color: #ffffff;
+    background-color: $white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.12);
+    box-shadow: 0 8px 20px $green-shadow;
 
     thead {
-      background-color: #4caf50;
-      color: #ffffff;
+      background-color: $green-main;
+      color: $white;
     }
 
     th,
     td {
       padding: 14px 16px;
       text-align: left;
+
+      &:nth-child(2) {
+        text-align: center;
+      }
     }
 
     tbody tr {
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid $gray-border;
 
       &:hover {
-        background-color: #f1f8f4;
+        background-color: $green-hover;
       }
     }
 
     .actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      justify-content: flex-end;
     }
 
     .icon {
@@ -273,8 +195,8 @@
         bottom: 130%;
         left: 50%;
         transform: translateX(-50%);
-        background: #2e7d32;
-        color: #fff;
+        background: $green-dark;
+        color: $white;
         padding: 4px 8px;
         border-radius: 6px;
         font-size: 12px;
@@ -292,10 +214,8 @@
     .empty {
       text-align: center;
       padding: 20px;
-      color: #777;
+      color: $gray-empty;
       font-style: italic;
     }
   }
-
-
 </style>

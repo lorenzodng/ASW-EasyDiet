@@ -63,16 +63,16 @@
     <table v-if="!loading && recipes.length" class="recipes-table">
       <thead>
         <tr>
+          <th>Pasto</th>
           <th>Nome</th>
-          <th>Categoria</th>
           <th></th>
         </tr>
       </thead>
 
       <tbody>
         <tr v-for="recipe in recipes" :key="recipe._id">
-          <td>{{ recipe.nome }}</td>
           <td>{{ recipe.categoria }}</td>
+          <td>{{ recipe.nome }}</td>
           <td class="actions">
             <button class="icon" data-label="Visualizza" @click="openRecipeModal(recipe)">👁️</button>
             <ModificaRicetta :recipe="recipe" @updated="loadRecipes" />
@@ -159,6 +159,7 @@
   }
 
   .recipes-table {
+    table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
@@ -175,6 +176,14 @@
     td {
       padding: 14px 16px;
       text-align: left;
+
+      &:first-child {
+        text-transform: capitalize;
+      }
+
+      &:nth-child(2) {
+        text-align: center;
+      }
     }
 
     tbody tr {
@@ -184,12 +193,6 @@
         background-color: #f1f8f4;
       }
     }
-  }
-
-  .actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .icon {
@@ -223,5 +226,11 @@
     &:hover::after {
       opacity: 1;
     }
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
   }
 </style>

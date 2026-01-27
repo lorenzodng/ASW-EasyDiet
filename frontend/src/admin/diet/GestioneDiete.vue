@@ -77,14 +77,24 @@
   </div>
 </template>
 
-
 <style scoped lang="scss">
+  $green-dark: #2e7d32;
+  $green-button: #4caf50;
+  $white: #ffffff;
+  $red-error: #d32f2f;
+  $border-radius-small: 12px;
+  $border-radius-medium: 18px;
+  $box-shadow-topbar: 0 6px 16px rgba(0, 0, 0, 0.06);
+  $box-shadow-table: 0 8px 20px rgba(76, 175, 80, 0.12);
+  $padding-page: 32px;
+  $padding-table-cell: 14px 16px;
+
   .admin-header {
     text-align: center;
     margin-bottom: 40px;
 
     h1 {
-      color: #2e7d32;
+      color: $green-dark;
       margin-bottom: 8px;
     }
   }
@@ -94,9 +104,9 @@
     display: flex;
     align-items: center;
     padding: 24px 32px;
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    background: $white;
+    border-radius: $border-radius-medium;
+    box-shadow: $box-shadow-topbar;
   }
 
   .admin-logo {
@@ -107,28 +117,29 @@
   .admin-titles {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -27%);
     text-align: center;
 
     h1 {
       font-size: 28px;
       font-weight: 800;
-      color: #2e7d32;
+      color: $green-dark;
       margin: 0;
     }
   }
 
   .admin-page {
-    padding: 32px;
+    padding: $padding-page;
 
     h1 {
-      color: #2e7d32;
+      color: $green-dark;
       margin-bottom: 24px;
     }
   }
 
   .error {
-    color: #d32f2f;
+    color: $red-error;
     font-size: 14px;
     margin-bottom: 12px;
   }
@@ -136,20 +147,30 @@
   .table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 12px;
+    background-color: $white;
+    border-radius: $border-radius-small;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.12);
+    box-shadow: $box-shadow-table;
 
     thead {
-      background-color: #4caf50;
-      color: #ffffff;
+      background-color: $green-button;
+      color: $white;
     }
 
     th,
     td {
-      padding: 14px 16px;
+      padding: $padding-table-cell;
       text-align: left;
+
+      &:nth-child(2),
+      &:nth-child(3) {
+        text-align: center;
+        padding-right: 145px;
+      }
+
+      &:nth-child(2) {
+        text-transform: capitalize;
+      }
     }
 
     tbody tr {
@@ -164,6 +185,6 @@
   .actions {
     display: flex;
     gap: 8px;
+    justify-content: flex-end;
   }
-
 </style>

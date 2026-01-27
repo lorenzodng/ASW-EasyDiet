@@ -70,15 +70,25 @@
         </div>
     </div>
 </template>
-
 <style scoped lang="scss">
+    $green-dark: #2e7d32;
+    $green-main: #4caf50;
+    $green-light: #66bb6a;
+    $green-strong: #38973d;
+    $white: #ffffff;
+    $black-overlay: rgba(0, 0, 0, 0.5);
+    $black-shadow: rgba(0, 0, 0, 0.25);
+    $gray-text: #333333;
+    $gray-light: #f2f8f3;
+    $gray-info: #555;
+
     .modal-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5);
+        background: $black-overlay;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -86,24 +96,24 @@
     }
 
     .modal {
-        background: #ffffff;
+        background: $white;
         padding: 24px;
         border-radius: 12px;
         width: 400px;
         max-height: 80vh;
         overflow-y: auto;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 10px 30px $black-shadow;
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #2e7d32;
+            color: $green-dark;
         }
 
         h3 {
             margin-top: 40px;
             margin-bottom: 20px;
-            color: #2e7d32;
+            color: $green-dark;
             text-align: center;
         }
 
@@ -111,14 +121,14 @@
             display: block;
             margin: 16px auto 0;
             padding: 8px 14px;
-            background-color: #4caf50;
-            color: #fff;
+            background-color: $green-main;
+            color: $white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
 
             &:hover {
-                background-color: #66bb6a;
+                background-color: $green-light;
             }
         }
     }
@@ -130,11 +140,11 @@
         p {
             margin: 6px 0;
             font-size: 16px;
-            color: #333333;
+            color: $gray-text;
         }
 
         strong {
-            color: #38973d;
+            color: $green-strong;
         }
     }
 
@@ -150,19 +160,19 @@
         align-items: center;
         padding: 10px 14px;
         margin-bottom: 8px;
-        background: #f2f8f3;
+        background: $gray-light;
         border-radius: 8px;
         font-size: 14px;
     }
 
     .weight {
         font-weight: 600;
-        color: #555;
+        color: $gray-info;
     }
 
     .date {
         font-size: 13px;
-        color: #555;
+        color: $gray-info;
     }
 
     .icon {
@@ -182,8 +192,8 @@
             bottom: 130%;
             left: 50%;
             transform: translateX(-50%);
-            background: #2e7d32;
-            color: #fff;
+            background: $green-dark;
+            color: $white;
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;

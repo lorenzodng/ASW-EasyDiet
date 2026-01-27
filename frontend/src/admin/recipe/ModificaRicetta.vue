@@ -123,9 +123,25 @@
   </div>
 </template>
 
-
-
 <style scoped lang="scss">
+  $green-dark: #2e7d32;
+  $green-main: #4caf50;
+  $green-light: #66bb6a;
+  $green-light-bg: #e8f5e9;
+  $green-light-bg-hover: #c8e6c9;
+  $red-main: #d32f2f;
+  $red-light-bg: #fdecea;
+  $red-light-bg-hover: #f9c5c3;
+  $gray-border: #ccc;
+  $gray-light: #e0e0e0;
+  $gray-text: #555;
+  $white: #ffffff;
+  $shadow-dark: rgba(0, 0, 0, 0.08);
+  $shadow-focus: rgba(76, 175, 80, 0.15);
+
+  $border-radius: 8px;
+  $transition-fast: 0.2s ease;
+
   .icon {
     position: relative;
     background: none;
@@ -133,7 +149,7 @@
     font-size: 18px;
     cursor: pointer;
     padding: 6px;
-    transition: transform 0.2s ease;
+    transition: transform $transition-fast;
 
     &:hover {
       transform: scale(1.15);
@@ -145,15 +161,15 @@
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
-      background: #2e7d32;
-      color: #ffffff;
+      background: $green-dark;
+      color: $white;
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 12px;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: opacity $transition-fast;
     }
 
     &:hover::after {
@@ -162,21 +178,20 @@
   }
 
   form {
-    background: #ffffff;
+    background: $white;
     padding: 24px;
     margin-top: 16px;
     border-radius: 14px;
     width: 100%;
     max-width: 600px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px $shadow-dark;
   }
-
 
   h3 {
     margin: 20px 0 12px;
-    color: #2e7d32;
+    color: $green-dark;
     font-size: 18px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid $gray-light;
     padding-bottom: 6px;
   }
 
@@ -185,7 +200,7 @@
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 4px;
-    color: #555;
+    color: $gray-text;
   }
 
   input,
@@ -194,16 +209,15 @@
     width: 95%;
     height: 42px;
     padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    border: 1px solid $gray-border;
     font-size: 14px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-
+    transition: border-color $transition-fast, box-shadow $transition-fast;
 
     &:focus {
       outline: none;
-      border-color: #4caf50;
-      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.15);
+      border-color: $green-main;
+      box-shadow: 0 0 0 2px $shadow-focus;
     }
   }
 
@@ -224,7 +238,7 @@
       border: none;
       font-size: 16px;
       cursor: pointer;
-      color: #d32f2f;
+      color: $red-main;
 
       &:hover {
         transform: scale(1.15);
@@ -232,20 +246,18 @@
     }
   }
 
-  //bottone aggiungi
   button[type="button"] {
-    background-color: #e8f5e9;
-    color: #2e7d32;
+    background-color: $green-light-bg;
+    color: $green-dark;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: $border-radius;
     padding: 8px 12px;
     margin-top: 8px;
 
     &:hover {
-      background-color: #c8e6c9;
+      background-color: $green-light-bg-hover;
     }
   }
-
 
   .actions {
     display: flex;
@@ -255,20 +267,17 @@
 
     button {
       padding: 10px 16px;
-      border-radius: 8px;
+      border-radius: $border-radius;
       font-weight: 600;
     }
 
     button[type="submit"] {
-      background-color: #4caf50;
-      color: #ffffff;
-      font-weight: 600;
-      border-radius: 8px;
+      background-color: $green-main;
+      color: $white;
       padding: 8px 12px;
-      margin-top: 8px;
 
       &:hover {
-        background-color: #66bb6a;
+        background-color: $green-light;
       }
     }
   }
@@ -277,26 +286,21 @@
     width: 28px;
     height: 28px;
     padding: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-    background: #fdecea;
-    color: #d32f2f;
+    background: $red-light-bg;
+    color: $red-main;
     border: none;
     cursor: pointer;
     font-size: 14px;
     line-height: 1;
-
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background $transition-fast, transform $transition-fast;
 
     &:hover {
-      background: #f9c5c3;
+      background: $red-light-bg-hover;
       transform: scale(1.15);
     }
   }
-
-
 </style>

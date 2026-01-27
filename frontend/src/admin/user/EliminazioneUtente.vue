@@ -29,6 +29,9 @@
 </template>
 
 <style scoped lang="scss">
+    $green-dark: #2e7d32;
+    $white: #fff;
+
     .icon {
         border: none;
         background: none;
@@ -46,8 +49,8 @@
             bottom: 130%;
             left: 50%;
             transform: translateX(-50%);
-            background: #2e7d32;
-            color: #fff;
+            background: $green-dark;
+            color: $white;
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;

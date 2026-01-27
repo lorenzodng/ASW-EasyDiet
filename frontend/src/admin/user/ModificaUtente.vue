@@ -25,11 +25,7 @@
     // salva modifica e aggiorna il padre
     const saveUser = async () => {
         try {
-            const { data } = await axios.put(
-                `http://localhost:5000/admin/users/${props.user._id}`,
-                { email: editEmail.value }
-            );
-
+            const { data } = await axios.put(`http://localhost:5000/admin/users/${props.user._id}`, { email: editEmail.value });
             if (data.status) {
                 props.user.email = editEmail.value; // aggiorna direttamente l'email nel padre
                 isEditing.value = false;
@@ -60,23 +56,33 @@
 </template>
 
 <style scoped lang="scss">
+    $green-main: #4caf50;
+    $green-dark: #2e7d32;
+    $green-shadow: rgba(76, 175, 80, 0.2);
+    $white: #fff;
+
     .inline-edit {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 10px;
+    }
+
+    .email-text {
+        margin-left: 30px;
     }
 
     .edit-input {
         padding: 6px 10px;
-        border: 2px solid #4caf50;
+        border: 2px solid $green-main;
         border-radius: 6px;
         font-size: 14px;
         width: 180px;
+        box-sizing: border-box;
 
         &:focus {
             outline: none;
-            border-color: #2e7d32;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            border-color: $green-dark;
+            box-shadow: 0 0 0 3 $green-shadow;
         }
     }
 
@@ -97,8 +103,8 @@
             bottom: 130%;
             left: 50%;
             transform: translateX(-50%);
-            background: #2e7d32;
-            color: #fff;
+            background: $green-dark;
+            color: $white;
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
