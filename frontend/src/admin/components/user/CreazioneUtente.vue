@@ -69,7 +69,7 @@
     }
 
     .user-form {
-        margin: 32px auto 40px;
+        margin: 10px auto 40px;
         display: flex;
         flex-direction: column;
         gap: 14px;

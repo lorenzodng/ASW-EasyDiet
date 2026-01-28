@@ -1,6 +1,6 @@
 <script setup>
   import { useRouter } from "vue-router"
-  import logo from "../assets/images/logo-easydiet.png"
+  import logo from "./assets/images/logo-easydiet.png"
 
   const router = useRouter()
 
@@ -17,7 +17,7 @@
 
     <p class="description">
       Con EasyDiet puoi comporre la tua dieta personalizzata giorno per giorno,
-      scegliendo le ricette che preferisci in base ai tuoi obiettivi e al tuo stile di vita.
+      scegliendo i piatti che preferisci in base alle tue preferenze e al tuo stile di vita.
     </p>
 
     <button class="login-button" @click="goToLogin">Accedi</button>
@@ -27,19 +27,19 @@
 <style scoped lang="scss">
 
   .login-button {
-    margin-top: 16px;
+    margin-top: 50px;
     padding: 12px 28px;
     font-size: 18px;
     font-weight: 600;
     color: #ffffff;
-    background-color: #4caf50; 
+    background-color: #4caf50;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #66bb6a; 
+      background-color: #66bb6a;
       box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
       transform: translateY(-2px);
     }
@@ -57,19 +57,19 @@
     gap: 8px;
     text-align: center;
     padding: 80px;
-    background-color: #e8f5e9; 
+    background-color: #e8f5e9;
     min-height: 100vh;
     box-sizing: border-box;
   }
 
   .logo {
-    width: 400px;
+    width: 350px;
     height: auto;
     margin-bottom: 8px;
   }
 
   .subtitle {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 600;
     margin-bottom: 12px;
   }

@@ -2,10 +2,10 @@
   import { ref, onMounted } from "vue";
   import axios from "axios";
   import logo from "../../assets/images/logo-easydiet.png";
-  import EliminazioneRicetta from "./EliminazioneRicetta.vue";
-  import ModificaRicetta from "./ModificaRicetta.vue";
-  import CreazioneRicetta from "./CreazioneRicetta.vue";
-  import VisualizzazioneRicetta from "./VisualizzazioneRicetta.vue";
+  import EliminazioneRicetta from "../components/recipe/EliminazioneRicetta.vue";
+  import ModificaRicetta from "../components/recipe/ModificaRicetta.vue";
+  import CreazioneRicetta from "../components/recipe/CreazioneRicetta.vue";
+  import VisualizzazioneRicetta from "../components/recipe/VisualizzazioneRicetta.vue";
 
   const recipes = ref([]);
   const loading = ref(true);
@@ -49,8 +49,9 @@
   <div class="admin-page">
     <header class="admin-header">
       <div class="admin-topbar">
-        <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
-
+        <router-link to="/admin/home" class="logo">
+          <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
+        </router-link>
         <div class="admin-titles">
           <h1>Gestione Piatti</h1>
         </div>
@@ -97,6 +98,15 @@
   $green-button: #4caf50;
   $green-button-hover: #66bb6a;
   $red-error: #d32f2f;
+  $white: #ffffff;
+  $bg-table-hover: #f1f8f4;
+  $border-radius-small: 12px;
+  $border-radius-medium: 18px;
+  $border-table: #e0e0e0;
+  $topbar-box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  $table-box-shadow: 0 8px 20px rgba(76, 175, 80, 0.12);
+  $padding-page: 32px;
+  $padding-table-cell: 14px 16px;
 
   .header {
     display: flex;
@@ -106,21 +116,11 @@
   }
 
   .admin-page {
-    padding: 32px;
-
-    h1 {
-      color: $green-dark;
-    }
+    padding: $padding-page;
   }
 
   .admin-header {
-    text-align: center;
     margin-bottom: 40px;
-
-    h1 {
-      color: $green-dark;
-      margin-bottom: 8px;
-    }
   }
 
   .admin-topbar {
@@ -128,9 +128,9 @@
     display: flex;
     align-items: center;
     padding: 24px 32px;
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    background: $white;
+    border-radius: $border-radius-medium;
+    box-shadow: $topbar-box-shadow;
   }
 
   .admin-logo {
@@ -141,14 +141,14 @@
   .admin-titles {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -27%);
     text-align: center;
 
     h1 {
-      font-size: 28px;
-      font-weight: 800;
+      font-size: 33px;
       color: $green-dark;
-      margin: 0;
+      margin: 0 0 24px 0;
     }
   }
 
@@ -162,19 +162,19 @@
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 12px;
+    background-color: $white;
+    border-radius: $border-radius-small;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.12);
+    box-shadow: $table-box-shadow;
 
     thead {
       background-color: $green-button;
-      color: #ffffff;
+      color: $white;
     }
 
     th,
     td {
-      padding: 14px 16px;
+      padding: $padding-table-cell;
       text-align: left;
 
       &:first-child {
@@ -187,10 +187,10 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid $border-table;
 
       &:hover {
-        background-color: #f1f8f4;
+        background-color: $bg-table-hover;
       }
     }
   }
@@ -213,7 +213,7 @@
       left: 50%;
       transform: translateX(-50%);
       background: $green-dark;
-      color: #ffffff;
+      color: $white;
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 12px;

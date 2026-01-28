@@ -1,7 +1,7 @@
 <script setup>
   import { ref, reactive } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user'
+  import { useUserStore } from '../stores/user';
   import axios from "axios";
 
   const router = useRouter(); // Vue Router instance used to navigate after login page
@@ -26,7 +26,7 @@
         userStore.setUser(data.user) // Save user data in the store and token in localStorage
         localStorage.setItem("token", data.token);
         if (data.hasProfileInfo) { // Redirect based on profile
-          router.push({ name: "Home" }); 
+          router.push({ name: "Home" });
         } else {
           router.push({ name: "Form" });// Redirect to profile form if information is missing 
         }
@@ -43,7 +43,6 @@
   };
 
   const goToAdmin = () => {
-    //alert("CLICK ADMIN");
     router.push({ name: "AdminLogin" });
   };
 

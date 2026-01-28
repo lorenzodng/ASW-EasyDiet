@@ -27,9 +27,9 @@ export const loginUser = async (userData) => {
     const token = jwt.sign({
         id: foundUser._id,
         nome: foundUser.nome
-    }, process.env.JWT_SECRET, { //il token dura 1h(dopo l'utente dovrà rifare il login per visualizzare i dati)
-        expiresIn: '1h'
-    });
+    },
+        process.env.JWT_SECRET, { expiresIn: "1h" } //il token dura 1h(dopo l'utente dovrà rifare il login per visualizzare i dati)
+    );
 
     const profile = await UserInfo.findOne({ userId: foundUser._id }); //verifica la presenza dell'utente nella collezione "users"
 

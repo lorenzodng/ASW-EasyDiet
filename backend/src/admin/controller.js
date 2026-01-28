@@ -9,9 +9,7 @@ import * as service from "./service.js";
 export const adminController = async (req, res) => {
   try {
     console.log("ADMIN LOGIN BODY:", req.body);
-
     const result = await service.loginAdmin(req.body);
-
     if (result.status) {
       res.send({
         status: true,

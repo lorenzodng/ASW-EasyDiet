@@ -57,11 +57,17 @@
     $green-dark: #2e7d32;
     $green-button: #4caf50;
     $green-button-hover: #66bb6a;
+    $white: #ffffff;
+    $black-light: #333;
+    $box-shadow-modal: 0 10px 30px rgba(0, 0, 0, 0.25);
+    $overlay-bg: rgba(0, 0, 0, 0.5);
+    $border-radius-small: 6px;
+    $border-radius-medium: 12px;
 
     .modal-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.5);
+        background: $overlay-bg;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -69,13 +75,13 @@
     }
 
     .modal {
-        background: #ffffff;
+        background: $white;
         padding: 24px;
-        border-radius: 12px;
+        border-radius: $border-radius-medium;
         width: 400px;
         max-height: 80vh;
         overflow-y: auto;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        box-shadow: $box-shadow-modal;
 
         h2 {
             margin-bottom: 16px;
@@ -93,16 +99,16 @@
         p {
             font-size: 14px;
             margin-bottom: 6px;
-            color: #333;
+            color: $black-light;
         }
 
         button {
             margin-top: 16px;
             padding: 8px 14px;
             background-color: $green-button;
-            color: #ffffff;
+            color: $white;
             border: none;
-            border-radius: 6px;
+            border-radius: $border-radius-small;
             cursor: pointer;
 
             &:hover {

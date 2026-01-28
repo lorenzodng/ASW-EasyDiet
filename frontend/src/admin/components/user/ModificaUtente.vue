@@ -11,7 +11,7 @@
     const editEmail = ref("");
 
     const editUser = () => {
-        editEmail.value = props.user.email; 
+        editEmail.value = props.user.email;
         isEditing.value = true;
     };
 
@@ -24,7 +24,7 @@
         try {
             const { data } = await axios.put(`http://localhost:5000/admin/users/${props.user._id}`, { email: editEmail.value });
             if (data.status) {
-                props.user.email = editEmail.value; 
+                props.user.email = editEmail.value;
                 isEditing.value = false;
                 emit("updated");
             } else {
@@ -46,7 +46,7 @@
 
         <template v-else>
             <input type="email" v-model="editEmail" class="edit-input" />
-            <button class="icon" data-label="Salva" @click="saveUser">💾</button>
+            <button class="icon" data-label="Salva" @click="saveUser">✔️</button>
             <button class="icon" data-label="Annulla" @click="cancelEdit">❌</button>
         </template>
     </div>

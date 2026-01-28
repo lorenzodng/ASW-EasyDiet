@@ -10,7 +10,6 @@
   });
 
   const emit = defineEmits(["updated"]);
-
   const isEditing = ref(false);
   const editRecipe = ref({});
 
@@ -22,8 +21,8 @@
   const addIngredient = () => {
     editRecipe.value.ingredienti.push({
       nome: "",
-      peso: "",
-      kcal: ""
+      peso: null,
+      kcal: null
     });
   };
 
@@ -33,11 +32,7 @@
 
   const save = async () => {
     try {
-      await axios.put(
-        `http://localhost:5000/admin/recipes/${props.recipe._id}`,
-        editRecipe.value
-      );
-
+      await axios.put(`http://localhost:5000/admin/recipes/${props.recipe._id}`, editRecipe.value);
       isEditing.value = false;
       emit("updated");
     } catch (err) {
@@ -87,9 +82,7 @@
 
         <input type="number" :value="ing.kcal" @input="ing.kcal = Number($event.target.value)" placeholder="kcal" />
 
-        <button type="button" class="remove-ingredient" @click="removeIngredient(index)">
-          ❌
-        </button>
+        <button type="button" class="remove-ingredient" @click="removeIngredient(index)">❌</button>
 
       </div>
 
@@ -100,9 +93,6 @@
 
       <h3>Note</h3>
 
-      <textarea :value="editRecipe.info?.[0]?.descrizioneKcal"
-        @input="editRecipe.info[0].descrizioneKcal = $event.target.value" placeholder="Descrizione kcal" />
-
       <textarea :value="editRecipe.info?.[1]?.descrizioneTipoDieta"
         @input="editRecipe.info[1].descrizioneTipoDieta = $event.target.value" placeholder="Tipo dieta" />
 
@@ -110,8 +100,8 @@
         @input="editRecipe.info[2].descrizioneIntolleranze = $event.target.value" placeholder="Intolleranze" />
 
       <div class="actions">
-        <button type="submit">💾 Salva</button>
-        <button type="button" @click="annulla">❌ Annulla</button>
+        <button type="submit">Salva</button>
+        <button type="button" @click="annulla">Annulla</button>
       </div>
 
     </form>

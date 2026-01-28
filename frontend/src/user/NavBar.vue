@@ -10,7 +10,7 @@
   const modalRef = ref(null);
   const userStore = useUserStore();
   const dietStore = useDietStore();
-  const showConfirmModal = ref(false); 
+  const showConfirmModal = ref(false);
 
   const props = defineProps({
     // If true, shows only the logout button
@@ -58,7 +58,7 @@
     localStorage.removeItem("userId");
     localStorage.removeItem("notificationBannerDismissed");
     localStorage.removeItem("token");
-    router.push({ name: "Login" });
+    router.replace({ name: "Login" });
   };
 
 
@@ -152,8 +152,8 @@
   .menu {
     position: absolute;
     top: calc(100% + 12px);
-    left: 50%; 
-    transform: translateX(-50%); 
+    left: 50%;
+    transform: translateX(-50%);
     background: #ffffff;
     border-radius: 14px;
     padding: 12px;
@@ -177,7 +177,7 @@
       color: #333;
       padding: 10px 12px;
       border-radius: 8px;
-      padding: 11px 12px; 
+      padding: 11px 12px;
       text-align: left;
 
       &:hover {

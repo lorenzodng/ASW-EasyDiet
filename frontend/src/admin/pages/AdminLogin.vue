@@ -16,13 +16,9 @@
     loading.value = true;
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/admin/login",
-        { token: adminToken.value }
-      );
+      const { data } = await axios.post("http://localhost:5000/admin/login", { token: adminToken.value });
       if (data.status) {
-        // Persist admin token for future authenticated requests
-        localStorage.setItem("adminToken", adminToken.value);
+        localStorage.setItem("adminToken", data.tokenjwt);
         router.push({ name: "AdminHome" }); // 
       } else {
         error.value = "Token non valido";
@@ -60,6 +56,20 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $green-main: #4caf50;
+  $green-hover: #66bb6a;
+  $green-dark: #2e7d32;
+  $gray-border: #ccc;
+  $gray-text: #333;
+  $red-error: #c62828;
+  $red-error-text: #d32f2f;
+  $shadow-login: 0 8px 20px rgba(76, 175, 80, 0.15);
+  $shadow-focus-green: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  $shadow-focus-red: 0 0 0 2px rgba(198, 40, 40, 0.2);
+  $shadow-hover-button: 0 0 12px rgba(76, 175, 80, 0.6);
+  $shadow-active-button: 0 0 6px rgba(76, 175, 80, 0.4);
+
   .login-container {
     min-height: 100vh;
     display: flex;
@@ -71,18 +81,16 @@
   .login-box {
     width: 360px;
     padding: 32px;
-    background-color: #ffffff;
+    background-color: $white;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
+    box-shadow: $shadow-login;
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
 
-  .login-box {
     h2 {
       text-align: center;
-      color: #2e7d32;
+      color: $green-dark;
       margin-bottom: 8px;
     }
   }
@@ -94,11 +102,10 @@
     margin-bottom: 12px;
     text-align: left;
 
-
     label {
       font-size: 14px;
       font-weight: 500;
-      color: #333;
+      color: $gray-text;
     }
   }
 
@@ -106,19 +113,19 @@
     height: 42px;
     padding: 0 12px;
     font-size: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid $gray-border;
     border-radius: 8px;
     transition: border 0.3s ease, box-shadow 0.3s ease;
 
     &:focus {
       outline: none;
-      border-color: #4caf50;
-      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      border-color: $green-main;
+      box-shadow: $shadow-focus-green;
     }
 
     &.error {
-      border-color: #c62828;
-      box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+      border-color: $red-error;
+      box-shadow: $shadow-focus-red;
       text-align: left;
     }
   }
@@ -129,22 +136,22 @@
     padding: 12px;
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #4caf50;
+    color: $white;
+    background-color: $green-main;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #66bb6a;
-      box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+      background-color: $green-hover;
+      box-shadow: $shadow-hover-button;
       transform: translateY(-2px);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+      box-shadow: $shadow-active-button;
     }
 
     &:disabled {
@@ -156,7 +163,7 @@
   .error {
     margin-top: 8px;
     text-align: center;
-    color: #d32f2f;
+    color: $red-error-text;
     font-size: 14px;
   }
 </style>

@@ -1,9 +1,9 @@
 <script setup>
   import { ref, onMounted } from "vue";
   import axios from "axios";
-  import VisualizzaDieta from "./VisualizzaDieta.vue";
-  import EliminazioneDieta from "./EliminazioneDieta.vue";
   import logo from "../../assets/images/logo-easydiet.png"
+  import VisualizzaDieta from "../components/diet/VisualizzaDieta.vue";
+  import EliminazioneDieta from "../components/diet/EliminazioneDieta.vue";
 
   const users = ref([]);
   const loading = ref(true);
@@ -21,12 +21,6 @@
     }
   };
 
-  //funzione per rimuovere la riga della dieta appena eliminata
-  const onDietDeleted = (userId) => {
-    users.value = users.value.filter(u => u.userId._id !== userId);
-  };
-
-
   onMounted(() => {
     loadUsers();
   });
@@ -36,8 +30,9 @@
   <div class="admin-page">
     <header class="admin-header">
       <div class="admin-topbar">
-        <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
-
+        <router-link to="/admin/home" class="logo">
+          <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
+        </router-link>
         <div class="admin-titles">
           <h1>Gestione Diete</h1>
         </div>
@@ -81,21 +76,17 @@
   $green-button: #4caf50;
   $white: #ffffff;
   $red-error: #d32f2f;
+  $bg-table-hover: #f1f8f4;
   $border-radius-small: 12px;
   $border-radius-medium: 18px;
+  $border-table: #e0e0e0;
   $box-shadow-topbar: 0 6px 16px rgba(0, 0, 0, 0.06);
   $box-shadow-table: 0 8px 20px rgba(76, 175, 80, 0.12);
   $padding-page: 32px;
   $padding-table-cell: 14px 16px;
 
   .admin-header {
-    text-align: center;
     margin-bottom: 40px;
-
-    h1 {
-      color: $green-dark;
-      margin-bottom: 8px;
-    }
   }
 
   .admin-topbar {
@@ -121,20 +112,14 @@
     text-align: center;
 
     h1 {
-      font-size: 28px;
-      font-weight: 800;
+      font-size: 33px;
       color: $green-dark;
-      margin: 0;
+      margin: 0 0 24px 0;
     }
   }
 
   .admin-page {
     padding: $padding-page;
-
-    h1 {
-      color: $green-dark;
-      margin-bottom: 24px;
-    }
   }
 
   .error {
@@ -173,10 +158,10 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid $border-table;
 
       &:hover {
-        background-color: #f1f8f4;
+        background-color: $bg-table-hover;
       }
     }
   }

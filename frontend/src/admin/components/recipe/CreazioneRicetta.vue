@@ -10,16 +10,20 @@
         categoria: "",
         immagine: "", // percorso relativo o URL
         ingredienti: [
-            { nome: "", peso: 0, kcal: 0 }
+            {
+                nome: "",
+                peso: null,
+                kcal: null
+            }
         ],
-        kcal: 0,
+        kcal: null,
         info: [
             { descrizioneKcal: "" },
             { descrizioneTipoDieta: "" },
             { descrizioneIntolleranze: "" }
         ]
     });
-//Adds a new empty ingredient row to the recipe form
+    //Adds a new empty ingredient row to the recipe form
     const addIngredient = () => {
         newRecipe.value.ingredienti.push({
             nome: "",
@@ -60,9 +64,9 @@
 
     <form v-if="showForm" class="recipe-form" @submit.prevent="saveRecipe">
 
-        <input :value="newRecipe.nome" @input="newRecipe.nome = $event.target.value" placeholder="Nome ricetta"
+        <input :value="newRecipe.nome" @input="newRecipe.nome = $event.target.value" placeholder="Nome piatto"
             required />
-        <input v-model="newRecipe.immagine" placeholder="URL immagine (es. /images/pasta.jpg)" required />
+        <input v-model="newRecipe.immagine" placeholder="Nome file immagine (es. pasta.png)" required />
 
         <select v-model="newRecipe.categoria" required>
             <option disabled value="">Seleziona categoria</option>
@@ -84,18 +88,17 @@
             ➕ Aggiungi ingrediente
         </button>
 
-        <h3>Info</h3>
+        <h3>Note</h3>
 
-        <textarea v-model="newRecipe.info[0].descrizioneKcal" placeholder="Descrizione kcal" />
         <textarea v-model="newRecipe.info[1].descrizioneTipoDieta" placeholder="Tipo dieta" />
         <textarea v-model="newRecipe.info[2].descrizioneIntolleranze" placeholder="Intolleranze" />
 
         <input type="number" v-model.number="newRecipe.kcal" placeholder="Kcal totali" required />
 
-        <button type="submit">💾 Salva piatto</button>
-        <button type="button" @click="showForm = false">
-            ❌ Annulla
-        </button>
+        <div class="form-buttons">
+            <button class="submit">Salva</button>
+            <button class="cancel" @click="showForm = false">Annulla</button>
+        </div>
 
     </form>
 </template>
@@ -105,13 +108,18 @@
     $green-light: #388e3c;
     $green-button: #4caf50;
     $green-button-hover: #66bb6a;
+    $white: #ffffff;
+    $gray-light: #ccc;
+    $gray-medium: #e0e0e0;
+    $gray-medium-hover: #d5d5d5;
+    $box-shadow-form: 0 6px 16px rgba(0, 0, 0, 0.08);
 
     .recipe-form {
-        background: #ffffff;
+        background: $white;
         padding: 20px;
         margin: 16px auto 32px;
         border-radius: 12px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 6px 16px $box-shadow-form;
         max-width: 600px;
 
         input,
@@ -121,7 +129,7 @@
             padding: 10px;
             margin-bottom: 12px;
             border-radius: 6px;
-            border: 1px solid #ccc;
+            border: 1px solid $gray-light;
             font-size: 14px;
 
             &:focus {
@@ -144,17 +152,8 @@
         margin-bottom: 8px;
     }
 
-    button[type="submit"] {
-        background-color: $green-button;
-        color: #fff;
-
-        &:hover {
-            background-color: $green-button-hover;
-        }
-    }
-
     .add-button {
-        background-color: #ffffff;
+        background-color: $white;
         margin-bottom: 24px;
         outline: none;
 
@@ -163,11 +162,27 @@
         }
     }
 
-    button[type="button"] {
-        background-color: #e0e0e0;
+    .form-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 20px;
 
-        &:hover {
-            background-color: #d5d5d5;
+        .submit {
+            background-color: $green-button;
+            color: $white;
+
+            &:hover {
+                background-color: $green-button-hover;
+            }
+        }
+
+        .cancel {
+            background-color: $gray-medium;
+
+            &:hover {
+                background-color: $gray-medium-hover;
+            }
         }
     }
 </style>

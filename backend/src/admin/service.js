@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import AdminAccount from "./infoModel.js";
 import UserAccount from "../user/accountModel.js"
 import User from "../user/infoModel.js";
@@ -29,9 +30,19 @@ export const loginAdmin = async ({ token }) => {
     };
   }
 
+  const jwtToken = jwt.sign(
+    {
+      id: admin._id,
+      nome: admin.nome,
+      ruolo: admin.ruolo
+    },
+    process.env.JWT_SECRET, { expiresIn: "1h" }
+  );
+
   return {
     status: true,
     message: "Admin validato",
+    tokenjwt: jwtToken,
     admin: {
       nome: admin.nome,
       ruolo: admin.ruolo

@@ -90,14 +90,19 @@
   $green-light: #388e3c;
   $green-gradient-start: #43a047;
   $green-gradient-end: #66bb6a;
+  $green-gradient-hover-end: #5cb860;
   $white: #ffffff;
   $black-light: #333;
   $red-error: #d32f2f;
+  $overlay-bg: rgba(0, 0, 0, 0.5);
+  $day-bg: #f9fdf9;
+  $bg-hover-row: #f1f8f4;
   $border-radius-small: 6px;
   $border-radius-medium: 8px;
   $border-radius-large: 10px;
   $border-radius-xlarge: 12px;
   $border-radius-day: 14px;
+  $border-light: #e0e0e0;
   $box-shadow-icon: 0 0 0 rgba(0, 0, 0, 0);
   $box-shadow-modal: 0 10px 30px rgba(0, 0, 0, 0.25);
   $box-shadow-day: 0 4px 12px rgba(76, 175, 80, 0.12);
@@ -152,7 +157,7 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: $overlay-bg;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -183,7 +188,7 @@
   }
 
   .day {
-    background: #f9fdf9;
+    background: $day-bg;
     border-radius: $border-radius-day;
     padding: $padding-page;
     margin-bottom: 24px;
@@ -201,9 +206,13 @@
         background: linear-gradient(90deg, $green-gradient-start, $green-gradient-end);
       }
 
-      th {
+      th,
+      td {
         padding: $padding-cell;
-        font-size: $font-size-sm;
+        font-size: $font-size-md;
+      }
+
+      th {
         font-weight: 700;
         text-transform: capitalize;
         letter-spacing: 0.5px;
@@ -211,10 +220,8 @@
       }
 
       td {
-        padding: $padding-cell;
-        font-size: $font-size-md;
         color: $black-light;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid $border-light;
 
         &:first-child {
           font-weight: 600;
@@ -239,7 +246,7 @@
       }
 
       tbody tr:hover {
-        background-color: #f1f8f4;
+        background-color: $bg-hover-row;
       }
     }
   }
@@ -258,7 +265,7 @@
     margin: 20px auto 0;
 
     &:hover {
-      background: linear-gradient(90deg, $green-light, #5cb860);
+      background: linear-gradient(90deg, $green-light, $green-gradient-hover-end);
       box-shadow: $box-shadow-close-hover;
     }
   }

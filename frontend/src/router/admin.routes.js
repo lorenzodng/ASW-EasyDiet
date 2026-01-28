@@ -1,8 +1,8 @@
-import AdminLogin from "../admin/AdminLogin.vue"
-import AdminHome from "../admin/AdminHome.vue"
-import GestioneUtenti from "../admin/user/GestioneUtenti.vue"
-import GestioneDiete from "../admin/diet/GestioneDiete.vue"
-import GestioneRicette from "../admin/recipe/GestioneRicette.vue"
+import AdminLogin from "../admin/pages/AdminLogin.vue"
+import AdminHome from "../admin/pages/AdminHome.vue"
+import GestioneUtenti from "../admin/pages/GestioneUtenti.vue"
+import GestioneDiete from "../admin/pages/GestioneDiete.vue"
+import GestioneRicette from "../admin/pages/GestioneRicette.vue"
 
 export const adminRoutes = [
   {

@@ -2,10 +2,10 @@
   import { ref, onMounted } from "vue";
   import axios from "axios";
   import logo from "../../assets/images/logo-easydiet.png";
-  import ModificaUtente from "./ModificaUtente.vue";
-  import EliminazioneUtente from "./EliminazioneUtente.vue";
-  import VisualizzazioneUtente from "./VisualizzazioneUtente.vue";
-  import CreazioneUtente from "./CreazioneUtente.vue";
+  import ModificaUtente from "../components/user/ModificaUtente.vue";
+  import EliminazioneUtente from "../components/user/EliminazioneUtente.vue";
+  import VisualizzazioneUtente from "../components/user/VisualizzazioneUtente.vue";
+  import CreazioneUtente from "../components/user/CreazioneUtente.vue";
 
   const users = ref([]);
   const loading = ref(true);
@@ -36,7 +36,9 @@
   <div class="admin-page">
     <header class="admin-header">
       <div class="admin-topbar">
-        <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
+        <router-link to="/admin/home" class="logo">
+          <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
+        </router-link>
         <div class="admin-titles">
           <h1>Gestione Utenti</h1>
         </div>
@@ -83,26 +85,20 @@
   $green-hover: #f1f8f4;
   $green-shadow: rgba(76, 175, 80, 0.12);
   $white: #ffffff;
+  $bg-table-hover: #f1f8f4;
+  $border-table: #e0e0e0;
   $gray-border: #e0e0e0;
   $gray-info: #555;
   $gray-empty: #777;
+  $box-shadow-topbar: 0 6px 16px rgba(0, 0, 0, 0.06);
+
 
   .admin-page {
     padding: 32px;
-
-    h1 {
-      color: $green-dark;
-    }
   }
 
   .admin-header {
-    text-align: center;
     margin-bottom: 40px;
-
-    h1 {
-      color: $green-dark;
-      margin-bottom: 8px;
-    }
   }
 
   .admin-topbar {
@@ -112,7 +108,7 @@
     padding: 24px 32px;
     background: $white;
     border-radius: 18px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    box-shadow: $box-shadow-topbar;
   }
 
   .admin-logo {
@@ -123,14 +119,14 @@
   .admin-titles {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -27%);
     text-align: center;
 
     h1 {
-      font-size: 28px;
-      font-weight: 800;
+      font-size: 33px;
       color: $green-dark;
-      margin: 0;
+      margin: 0 0 24px 0;
     }
   }
 
@@ -164,10 +160,10 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid $gray-border;
+      border-bottom: 1px solid $border-table;
 
       &:hover {
-        background-color: $green-hover;
+        background-color: $bg-table-hover;
       }
     }
 

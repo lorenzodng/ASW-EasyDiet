@@ -1,6 +1,6 @@
 <script setup>
   import { useRouter } from "vue-router"
-  import logo from "../assets/images/logo-easydiet.png"
+  import logo from "../../assets/images/logo-easydiet.png"
 
   const router = useRouter();
 
@@ -9,7 +9,8 @@
   };
 
   const logout = () => {
-    router.push({ name: "AdminLogin" });
+    localStorage.removeItem("adminToken");
+    router.replace({ name: "AdminLogin" });
   };
 
 </script>
@@ -17,18 +18,13 @@
 <template>
   <header class="admin-header">
     <div class="admin-topbar">
-      <img :src="logo" alt="EasyDiet logo" class="admin-logo" />
-
-      <div class="admin-center">
-        <div class="admin-titles">
-          <h1>Dashboard Amministratore</h1>
-          <p>Gestione sistema EasyDiet</p>
-        </div>
-
-        <button class="logout-btn" @click="logout">
-          Logout
-        </button>
+      <img :src="logo" class="admin-logo" />
+      <div class="admin-titles">
+        <h1>Dashboard Amministratore</h1>
+        <p>Gestione sistema EasyDiet</p>
       </div>
+
+      <button class="logout-btn" @click="logout">Logout</button>
     </div>
   </header>
 
@@ -48,12 +44,15 @@
 </template>
 
 <style scoped lang="scss">
-  .admin-container {
-    min-height: 100vh;
-    background: #f2f8f3;
-    padding: 30px;
-    font-family: 'Inter', sans-serif;
-  }
+  $green-main: #4caf50;
+  $green-hover: #66bb6a;
+  $green-dark: #2e7d32;
+  $white: #fff;
+  $gray-text: #555;
+  $gray-text-light: #dadada;
+  $gray-shadow: rgba(0, 0, 0, 0.06);
+  $gray-box-shadow-green: rgba(76, 175, 80, 0.4);
+  $shadow-light: 0 5px 10px rgba(0, 0, 0, 0.15);
 
   .admin-actions {
     display: flex;
@@ -67,49 +66,51 @@
       padding: 26px;
       font-size: 18px;
       font-weight: 600;
-      background-color: #4caf50;
-      color: white;
+      background-color: $green-main;
+      color: $white;
       border: none;
       border-radius: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: #66bb6a;
+        background-color: $green-hover;
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
+        box-shadow: 0 10px 20px $gray-box-shadow-green;
       }
     }
   }
 
   .admin-topbar {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 24px 32px;
-    background: #ffffff;
+    background: $white;
     border-radius: 18px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-    position: relative;
+    box-shadow: 0 6px 16px $gray-shadow;
   }
 
   .admin-logo {
-    position: absolute;
-    left: 32px;
     height: 110px;
     cursor: pointer;
+    left: 32px;
   }
 
   .admin-center {
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 100%;
     max-width: 800px;
-    justify-content: center;
     position: relative;
   }
 
   .admin-titles {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -117,35 +118,34 @@
     z-index: 1;
 
     h1 {
-      font-size: 30px;
-      font-weight: 800;
-      color: #2e7d32;
+      font-size: 33px;
+      color: $green-dark;
+      margin: 10px 0 0 0;
     }
 
     p {
-      font-size: 15px;
-      color: #555;
-      margin-top: 4px;
+      font-size: 18px;
+      color: $gray-text;
+      margin-top: 10px;
+      font-weight: 500;
     }
   }
 
   .logout-btn {
-    position: absolute;
-    left: 1150px;
-    top: 50%;
-    transform: translateY(-50%);
     font-size: 16px;
     font-weight: 600;
-    background: #2e7d32;
-    color: #fff;
+    padding: 16px 18px;
+    background: $gray-text-light;
+    color: #333;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    padding: 15px 16px;
+    margin-right: 150px;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #388e3c;
+      transform: translateY(-2px);
+      box-shadow: $shadow-light;
     }
   }
-
 </style>
