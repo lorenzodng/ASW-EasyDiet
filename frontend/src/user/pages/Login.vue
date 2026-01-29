@@ -1,7 +1,7 @@
 <script setup>
   import { ref, reactive } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user';
+  import { useUserStore } from '../../stores/user';
   import axios from "axios";
 
   const router = useRouter(); // Vue Router instance used to navigate after login page
@@ -81,6 +81,21 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $black: #000000;
+
+  $gray-text: #333;
+  $gray-muted: #555;
+  $gray-border: #ccc;
+
+  $green-main:  #2e7d32;
+  $green-hover: #4caf50;
+  $green-soft:  #66bb6a;
+
+  $red-error: #c62828;
+  $red-error-strong: #d32f2f;
+
+  $transition-base: 0.3s ease;
   .login-container {
     min-height: 100vh;
     display: flex;
@@ -92,16 +107,16 @@
   .login-box {
     width: 360px;
     padding: 32px;
-    background-color: #ffffff;
+    background-color: $white;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
+    box-shadow: 0 8px 20px rgba($green-hover, 0.15);
     display: flex;
     flex-direction: column;
     gap: 16px;
 
     h2 {
       text-align: center;
-      color: #2e7d32;
+      color: $green-main;
       margin-bottom: 8px;
     }
   }
@@ -116,7 +131,7 @@
     label {
       font-size: 14px;
       font-weight: 500;
-      color: #333;
+      color: $gray-text;
     }
   }
 
@@ -124,19 +139,19 @@
     height: 42px;
     padding: 0 12px;
     font-size: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid $gray-border;
     border-radius: 8px;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
+    transition: border $transition-base, box-shadow $transition-base;
 
     &:focus {
       outline: none;
-      border-color: #4caf50;
-      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      border-color: $green-hover;
+      box-shadow: 0 0 0 2px rgba($green-hover, 0.2);
     }
 
     &.error {
-      border-color: #c62828;
-      box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+      border-color: $red-error;
+      box-shadow: 0 0 0 2px rgba($red-error, 0.2);
       text-align: left;
     }
   }
@@ -147,22 +162,22 @@
     padding: 12px;
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #4caf50;
+    color: $white;
+    background-color: $green-hover;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all $transition-base;
 
     &:hover {
-      background-color: #66bb6a;
-      box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+      background-color: $green-soft;
+      box-shadow: 0 0 12px rgba($green-hover, 0.6);
       transform: translateY(-2px);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+      box-shadow: 0 0 6px rgba($green-hover, 0.4);
     }
   }
 
@@ -170,17 +185,17 @@
     margin-top: 10px;
     font-size: 14px;
     text-align: center;
-    color: #555;
+    color: $gray-muted;
 
     span {
-      color: #2e7d32;
+      color: $green-main;
       font-weight: 600;
       cursor: pointer;
       margin-left: 4px;
-      transition: color 0.3s ease;
+      transition: color $transition-base;
 
       &:hover {
-        color: #4caf50;
+        color: $green-hover;
         text-decoration: underline;
       }
     }
@@ -189,7 +204,7 @@
   .error {
     margin-top: 8px;
     text-align: center;
-    color: #d32f2f;
+    color: $red-error-strong;
     font-size: 14px;
   }
 

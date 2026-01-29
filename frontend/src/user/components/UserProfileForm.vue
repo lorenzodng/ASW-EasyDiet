@@ -62,6 +62,15 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $gray-border: grey;
+
+
+  $green-main: #2e7d32;
+  $green-hover: #4caf50;
+
+
+  $transition-fast: 0.2s ease;
 
 .form-field {
   display: flex;
@@ -90,14 +99,14 @@ label {
     padding: 12px 14px;
     font-size: 15px;
     border-radius: 10px;
-    border: 1px solid grey;
-    background-color: #ffffff;
-    transition: all 0.2s ease;
+    border: 1px solid $gray-border;
+    background-color: $white;
+    transition: all $transition-fast;
 
     &:focus {
       outline: none;
-      border-color: #4caf50;
-      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.18);
+      border-color: $green-hover;
+      box-shadow: 0 0 0 4px rgba($green-hover, 0.18);
     }
   }
 

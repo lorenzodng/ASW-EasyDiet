@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted } from "vue"
-    import { useUserStore } from '../stores/user'
+    import { useUserStore } from '../../stores/user'
     import axios from "axios"
 
     const publicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY
@@ -107,15 +107,29 @@
 </template>
 
 <style scoped lang="scss">
+    $white: #ffffff;
+    $black: #000000;
+    $gray-border: #ccc;
+
+
+    $green-main: #2e7d32;
+    $green-light: #e8f5e9;
+
+
+    $red-error: #c62828;
+    $red-light: #ffebee;
+
+
+    $transition-fast: 0.2s ease;
     .notification-banner {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: white;
-        border: 1px solid #ccc;
+        background-color: $white;
+        border: 1px solid $gray-border;
         padding: 15px;
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 10px rgba($black, 0.2);
         max-width: 300px;
         z-index: 1000;
         text-align: center;
@@ -138,10 +152,10 @@
     }
 
     .error {
-        color: red;
+        color: $red-error;
     }
 
     .success {
-        color: green;
+        color: $green-main;
     }
 </style>

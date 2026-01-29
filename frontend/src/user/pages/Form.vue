@@ -1,10 +1,10 @@
 <script setup>
   import { reactive, onMounted } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user'
+  import { useUserStore } from '../../stores/user'
   import axios from "axios"
-  import UserProfileForm from "./UserProfileForm.vue"
-  import HeaderHome from "./HeaderHome.vue"
+  import UserProfileForm from "../components/UserProfileForm.vue"
+  import HeaderHome from "../components/HeaderHome.vue"
 
 
   const router = useRouter();
@@ -71,7 +71,17 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $black: #000000;
 
+  $gray-border: #ccc;
+  $gray-muted: #666;
+
+  $green-dark:  #2e7d32;
+  $green-hover: #4caf50;
+  $green-light: #e8f5e9;
+
+  $transition-fast: 0.2s ease;
   .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -86,8 +96,8 @@
     max-width: 700px;
     padding: 22px;
     border-radius: 16px;
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: $white;
+    box-shadow: 0 10px 30px rgba($black, 0.08);
     margin-top: 200px;
     margin-bottom: 100px;
 
@@ -108,19 +118,19 @@
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      background-color: #e8f5e9;
-      color: #2e7d32;
+      transition: all $transition-fast;
+      background-color: $green-light;
+      color: $green-dark;
 
       &:hover:enabled {
-        background-color: #4caf50;
+        background-color: $green-hover;
         color: white;
-        border-color: #3da73f;
+        border-color: $green-dark;
       }
 
       &:disabled {
-        background-color: #ccc;
-        color: #666;
+        background-color: $gray-border;
+        color: $gray-muted;
         cursor: not-allowed;
       }
     }

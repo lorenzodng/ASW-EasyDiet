@@ -1,6 +1,6 @@
 <script setup>
   import NavBar from './NavBar.vue';
-  import logo from '../assets/images/logo-easydiet.png'
+  import logo from '../../assets/images/logo-easydiet.png'
 
   const props = defineProps({
     userName: {
@@ -38,6 +38,10 @@
 </template>
 
 <style scoped lang="scss">
+  $header-height: 105px;
+  $green-main: #3da73f;
+  $white: #ffffff;
+
   .header {
     position: fixed;
     top: 0;
@@ -45,9 +49,9 @@
     right: 0;
     display: flex;
     align-items: center;
-    height: 105px;
-    background-color: #3da73f;
-    color: white;
+    height: $header-height;
+    background-color: $green-main;
+    color: $white;
     z-index: 3;
   }
 

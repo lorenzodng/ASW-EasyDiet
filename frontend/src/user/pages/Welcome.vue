@@ -1,6 +1,6 @@
 <script setup>
   import { useRouter } from "vue-router"
-  import logo from "./assets/images/logo-easydiet.png"
+  import logo from "../../assets/images/logo-easydiet.png"
 
   const router = useRouter()
 
@@ -25,21 +25,27 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
 
+  $green-main:  #4caf50;
+  $green-hover: #66bb6a;
+  $green-light: #e8f5e9;
+
+  $transition-medium: 0.3s ease;
   .login-button {
     margin-top: 50px;
     padding: 12px 28px;
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #4caf50;
+    color: $white;
+    background-color: $green-main;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all $transition-medium;
 
     &:hover {
-      background-color: #66bb6a;
+      background-color: $green-hover;
       box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
       transform: translateY(-2px);
     }
@@ -57,7 +63,7 @@
     gap: 8px;
     text-align: center;
     padding: 80px;
-    background-color: #e8f5e9;
+    background-color: $green-light;
     min-height: 100vh;
     box-sizing: border-box;
   }

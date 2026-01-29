@@ -1,10 +1,8 @@
-<!-- componente area dieta -->
-
 <script setup>
   import { ref, onMounted } from "vue";
   import axios from "axios";
-  import { useUserStore } from "../stores/user";
-  import { useDietStore } from "../stores/diet";
+  import { useUserStore } from "../../stores/user";
+  import { useDietStore } from "../../stores/diet";
 
   const userStore = useUserStore();
   const dietStore = useDietStore();
@@ -67,16 +65,12 @@
 <template>
   <div class="area-dieta">
 
-    <!-- LOADING -->
     <p v-if="loading">Caricamento dieta...</p>
 
-    <!-- ERROR -->
     <p v-else-if="error">{{ error }}</p>
 
-    <!-- CONTENUTO -->
     <div v-else class="day-navigation">
 
-      <!-- BOTTONI DI NAVIGAZIONE -->
       <div class="nav-buttons">
         <button @click="prevDay" :disabled="currentDayIndex === 0">
           ◀
@@ -87,7 +81,6 @@
         </button>
       </div>
 
-      <!-- GIORNO CORRENTE -->
       <div class="day-block">
         <h2>{{ days[currentDayIndex] }}</h2>
 
@@ -122,16 +115,37 @@
 </template>
 
 <style scoped lang="scss">
+
+  $white: #ffffff;
+  $text-dark: #2c3e50;
+  $text-muted: #888;
+
+  $border-light: #e0e6ef;
+
+
+  $green-main: #3da73f;
+  $green-hover: #43a047;
+
+
+  $bg-day-start: #def5e0;
+  $bg-day-end: #dff1df;
+
+  $colazione-color: #36abbb;
+  $pranzo-color: #f89604;
+  $merenda-color: #4caf50;
+  $cena-color: #5564b6;
+
+  $transition-fast: 0.2s ease;
+  
   .area-dieta {
     max-width: 700px;
     margin: 0 auto;
   }
 
-  //CARD GIORNO
   .day-block {
     margin-bottom: 32px;
     border-radius: 16px;
-    background: linear-gradient(180deg, #def5e0, #dff1df);
+    background: linear-gradient(180deg, $bg-day-start, $bg-day-end);
     box-shadow: 0 8px 100px rgba(0, 0, 0, 0.06);
 
     h2 {
@@ -139,27 +153,25 @@
       text-transform: capitalize;
       font-size: 29px;
       color: #2c3e50;
-      border-bottom: 1px solid #e0e6ef;
+      border-bottom: 1px solid $border-light;
       padding-bottom: 8px;
     }
   }
 
-  //LISTA PASTI
   .meal-block {
     margin-bottom: 15px;
     padding: 30px;
     border-radius: 12px;
-    background-color: #ffffff;
+    background-color: $white;
     gap: 8px;
     text-align: left;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform $transition-fast, box-shadow $transition-fast;
 
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
 
-    //badge del pasto
     .meal-badge {
       display: block;
       padding: 6px 14px;
@@ -167,30 +179,29 @@
       font-size: 17px;
       font-weight: 600;
       text-transform: capitalize;
-      color: white;
+      color: $white;
       text-align: center;
       width: 150px;
       margin: 6px auto 40px auto;
 
 
       &.colazione {
-        background-color: #36abbb;
+        background-color:$colazione-color;
       }
 
       &.meal-badge.pranzo {
-        background-color: #f89604;
+        background-color: $pranzo-color;
       }
 
       &.meal-badge.merenda {
-        background-color: #4caf50;
+        background-color: $merenda-color;
       }
 
       &.meal-badge.cena {
-        background-color: #5564b6;
+        background-color: $cena-color;
       }
     }
 
-    //paragrafi e liste
     p {
       margin: 4px 0;
       font-size: 16px;
@@ -206,21 +217,18 @@
       }
     }
 
-    //stato vuoto del pasto
     .empty {
       font-style: italic;
-      color: #888;
+      color: $text-muted;
     }
   }
 
-  //NAVIGAZIONE GIORNI
   .day-navigation {
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 16px;
 
-    //header navigazione
     .nav-buttons {
       position: absolute;
       top: 50%;
@@ -237,17 +245,17 @@
         border-radius: 999px;
         border: none;
         cursor: pointer;
-        background-color: #3da73f;
-        color: white;
-        transition: background-color 0.2s ease, opacity 0.2s ease;
-
+        background-color: $green-main;
+        color: $white;
+        transition: background-color $transition-fast, opacity $transition-fast;
+        
         &:disabled {
           opacity: 0.4;
           cursor: not-allowed;
         }
 
         &:hover:not(:disabled) {
-          background-color: #43a047;
+          background-color: $green-hover;
         }
 
         &:first-child {

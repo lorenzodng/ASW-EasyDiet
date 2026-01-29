@@ -1,11 +1,11 @@
 <script setup>
   import { ref, onMounted } from "vue"
-  import { useUserStore } from "../stores/user"
-  import { useDietStore } from "../stores/diet"
+  import { useUserStore } from "../../stores/user"
+  import { useDietStore } from "../../stores/diet"
   import { useRouter } from "vue-router";
   import axios from "axios"
-  import HeaderHome from "./HeaderHome.vue"
-  import UserProfileForm from "./UserProfileForm.vue"
+  import HeaderHome from "../components/HeaderHome.vue"
+  import UserProfileForm from "../components/UserProfileForm.vue"
 
   const router = useRouter();
   const userStore = useUserStore()  // to request from the backend the data of the specific user 
@@ -103,7 +103,20 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $black: #000000;
 
+  $green-light: #e8f5e9;
+  $green-main:  #2e7d32;
+  $green-hover: #4caf50;
+  $green-border: #3da73f;
+
+  $red-light:  #ffebee;
+  $red-error:   #c62828;
+  $red-hover:  #e53935;
+  $red-dark:   #b71c1c;
+
+$transition-fast: 0.2s ease;
   .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -118,8 +131,8 @@
     max-width: 700px;
     padding: 22px;
     border-radius: 16px;
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: $white;
+    box-shadow: 0 10px 30px rgba($black, 0.08);
 
     &.editing {
       margin-top: 200px;
@@ -136,25 +149,25 @@
     }
 
     .save {
-      background-color: #e8f5e9;
-      color: #2e7d32;
-
+      background-color: $green-light;
+      color: $green-main;
 
       &:hover {
-        background-color: #4caf50;
-        color: white;
-        border-color: #3da73f;
+        background-color: $green-hover;
+        color: $white;
+        border-color: $green-border;
       }
     }
 
     .cancel {
-      background-color: #ffebee;
-      color: #c62828;
+    .cancel {
+      background-color: $red-light;
+      color: $red-error;
 
       &:hover {
-        background-color: #e53935;
-        color: white;
-        border-color: #b71c1c;
+        background-color: $red-hover;
+        color: $white;
+        border-color: $red-dark;
       }
     }
   }
@@ -168,7 +181,7 @@
     padding: 10px 18px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all $transition-fast;
 
   }
 
@@ -178,4 +191,5 @@
     gap: 55px;
     margin-top: 70px;
   }
+}
 </style>

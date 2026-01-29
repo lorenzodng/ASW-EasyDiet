@@ -1,9 +1,9 @@
 <script setup>
   import { reactive, ref, onMounted, computed } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user';
+  import { useUserStore } from '../../stores/user';
   import axios from "axios";
-  import HeaderHome from "./HeaderHome.vue"
+  import HeaderHome from "../components/HeaderHome.vue"
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -264,6 +264,34 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $black: #000000;
+
+  $gray-text: #333;
+  $gray-border: #ccc;
+  $gray-muted: #888;
+
+  $green-main:  #2e7d32; 
+  $green-hover: #4caf50; 
+  $green-light: #e8f5e9; 
+  $green-dark:  #1b5e20;
+  
+  $colazione-color: #36abbb;
+  $pranzo-color:    #f89604;
+  $merenda-color:   #4caf50;
+  $cena-color:      #5564b6;
+
+  $red-error:  #c62828;
+  $red-light: #ffebee;
+  $red-hover: #e53935;
+
+  $orange-main:  #e46e0d;
+  $orange-light: #fff3e0;
+
+  $bg-day-start: #def5e0;
+  $bg-day-end:   #dff1df;
+
+  $transition-fast: 0.2s ease;
   .componi-dieta {
     max-width: 900px;
     margin: 0 auto;
@@ -272,8 +300,8 @@
     .day-block {
       margin-bottom: 32px;
       border-radius: 16px;
-      background: linear-gradient(180deg, #def5e0, #dff1df);
-      box-shadow: 0 8px 100px rgba(0, 0, 0, 0.06);
+      background: linear-gradient(180deg, $bg-day-start, $bg-day-end);
+      box-shadow: 0 8px 100px rgba($black, 0.06);
       padding-top: 3px;
       padding-bottom: 3px;
 
@@ -298,17 +326,17 @@
           align-items: center;
           gap: 8px;
           font-size: 13px;
-          background: #ffffff;
+          background: $white;
           padding: 8px 12px;
           border-radius: 999px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 4px 12px rgba($black, 0.05);
           font-weight: 500;
 
           .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: #4caf50;
+            background: $green-hover;
           }
         }
       }
@@ -317,24 +345,24 @@
         margin-bottom: 28px;
         padding: 20px;
         border-radius: 16px;
-        background: #ffffff;
+        background: $white;
         border: 3px solid #36abbb;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 6px 16px rgba($black, 0.04);
 
         &.colazione {
-          border-color: #36abbb;
+          border-color: $colazione-color; 
         }
 
         &.pranzo {
-          border-color: #f89604;
+          border-color: $pranzo-color;
         }
 
         &.merenda {
-          border-color: #4caf50;
+          border-color: $merenda-color;
         }
 
         &.cena {
-          border-color: #5564b6;
+          border-color: $cena-color;
         }
 
         h3 {
@@ -360,7 +388,7 @@
       gap: 8px;
       margin-bottom: 30px;
       padding: 6px 12px;
-      background: #f1f8f4;
+      background: $green-light;
       border-radius: 999px;
 
       label {
@@ -371,7 +399,7 @@
         border: none;
         background: transparent;
         font-size: 14px;
-        color: #1b5e20;
+        color: $green-dark;
         padding: 0;
 
         &:focus {
@@ -415,25 +443,25 @@
         margin: 12px auto 0;
         padding: 16px 18px;
         max-width: 400px;
-        background: #f1f8f4;
+        background: $green-light;
         border-radius: 14px;
         border-left: 4px solid;
-        animation: fadeIn 0.25s ease;
+        animation: fadeIn $transition-fast;
 
         &.colazione {
-          border-left-color: #36abbb;
+          border-left-color: $colazione-color;
         }
 
         &.pranzo {
-          border-left-color: #f89604;
+          border-left-color: $pranzo-color;
         }
 
         &.merenda {
-          border-left-color: #4caf50;
+          border-left-color: $merenda-color;
         }
 
         &.cena {
-          border-left-color: #5564b6;
+          border-left-color: $cena-color;
         }
 
         h4 {
@@ -471,19 +499,19 @@
             justify-content: space-between;
             padding-bottom: 10px;
             padding-top: 5px;
-            border-bottom: 1px dashed #999;
+            border-bottom: 1px dashed $gray-muted;
 
             &:last-child {
               border-bottom: none;
             }
 
             .ing-name {
-              color: #000000;
+              color: $black;
               font-weight: 500;
             }
 
             .ing-weight {
-              color: #000000;
+              color: $black;
               font-weight: 600;
             }
           }
@@ -527,23 +555,23 @@
         flex: 1;
         padding: 14px 18px;
         border-radius: 14px;
-        background: #64cb37;
-        color: #1b5e20;
+        background: $green-hover;
+        color: $green-dark;
         font-size: 15px;
         font-weight: 700;
-        border: 2px solid #c8e6c9;
+        border: 2px solid $green-light;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: all $transition-fast;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
 
         &:hover:not(:disabled) {
-          background: #e8f5e9;
-          border-color: #4caf50;
+          background: $green-light;
+          border-color: $green-hover;
           transform: translateY(-2px);
-          box-shadow: 0 8px 18px rgba(76, 175, 80, 0.2);
+          box-shadow: 0 8px 18px rgba($green-hover, 0.2);
         }
 
         &:disabled {
@@ -561,13 +589,13 @@
       padding: 14px 28px;
       font-size: 16px;
       border-radius: 14px;
-      background: #4caf50;
-      color: white;
+      background: $green-hover;
+      color: $white;
       font-weight: 700;
       border: none;
 
       &:hover {
-        background: #388e3c;
+        background: $green-main;
       }
     }
   }

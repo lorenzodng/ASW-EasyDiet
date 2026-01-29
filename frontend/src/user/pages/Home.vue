@@ -1,13 +1,13 @@
 <script setup>
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../stores/user'
-  import { useDietStore } from "../stores/diet"
+  import { useUserStore } from '../../stores/user'
+  import { useDietStore } from "../../stores/diet"
   import { ref, computed, onMounted } from "vue";
   import axios from 'axios';
-  import AreaDieta from "./AreaDieta.vue";
-  import HeaderHome from "./HeaderHome.vue";
-  import LLMChat from "./LLMChat.vue";
-  import NotificationBanner from "../user/NotificationBanner.vue";
+  import AreaDieta from "../components/AreaDieta.vue";
+  import HeaderHome from "../components/HeaderHome.vue";
+  import LLMChat from "../components/LLMChat.vue";
+  import NotificationBanner from "../components/NotificationBanner.vue";
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -87,6 +87,18 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $black: #000000;
+
+  $gray-text: #333;
+  $gray-muted: #555;
+
+  $green-main:  #2e7d32;
+  $green-hover: #4caf50;
+  $green-dark:  #1b5e20;
+  $green-border: #3da73f;
+
+$transition-fast: 0.2s ease;
   .home-container {
     width: 100%;
     position: relative;
@@ -104,13 +116,13 @@
 
     h2 {
       font-size: 25px;
-      color: #2e7d32;
+     color: $green-main;
       margin-bottom: 12px;
     }
 
     p {
       font-size: 19px;
-      color: #555;
+      color: $gray-muted;
       margin-bottom: 30px;
     }
   }
@@ -128,19 +140,19 @@
     align-items: center;
     gap: 12px;
     font-size: 17px;
-    color: #333;
+    color: $gray-text;
   }
 
   .componi-btn {
-    background: white;
-    border: 2px solid #3da73f;
+    background: $white;
+    border: 2px solid $green-border;
     text-align: center;
     font-size: 21px;
     margin-top: 20px;
     box-sizing: border-box;
 
     &:hover {
-      outline: 1px solid #00ff00;
+      outline: 1px solid $green-hover;
     }
   }
 
@@ -161,17 +173,17 @@
     bottom: 50px;
     right: 70px;
 
-    background-color: #3da73f;
-    color: white;
+    background-color: $green-border;
+    color: $white;
     border: none;
     font-size: 22px;
     cursor: pointer;
 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 20px rgba($black, 0.25);
     z-index: 1;
 
     &:hover {
-      background-color: #09940c;
+      background-color: $green-dark;
     }
   }
 </style>

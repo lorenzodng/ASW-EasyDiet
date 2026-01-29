@@ -120,6 +120,16 @@
 </template>
 
 <style scoped lang="scss">
+    $chat-bg: #f9f9f9;
+    $chat-border: #ccc;
+    $chat-header-bg: #eee;
+
+
+    $user-bubble-bg: #cce5ff;
+    $assistant-bubble-bg: #d0f1bd;
+
+
+    $bubble-radius: 12px;
     .resizer {
         width: 5px;
         cursor: ew-resize;
@@ -134,8 +144,8 @@
         top: 100px;
         right: 0;
         height: calc(100vh - 91px);
-        background: #f9f9f9;
-        border-left: 1px solid #ccc;
+        background: $chat-bg;
+        border-left: 1px solid $chat-border;
         display: flex;
         flex-direction: column;
         z-index: 2;
@@ -145,11 +155,11 @@
 
     .chat-header {
         height: 70px;
-        background: #eee;
+        background: $chat-header-bg;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid $chat-border;
         padding-left: 20px;
         padding-right: 20px;
     }
@@ -199,8 +209,8 @@
         align-items: flex-end;
 
         .bubble {
-            background-color: #cce5ff;
-            margin-left: auto;
+            background-color: $user-bubble-bg;
+            border-radius: $bubble-radius;
         }
     }
 
@@ -208,7 +218,7 @@
         align-items: flex-start;
 
         .bubble {
-            background-color: #d0f1bd;
+            background-color: $assistant-bubble-bg;
             margin-right: auto;
         }
     }

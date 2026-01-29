@@ -1,10 +1,10 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from "../stores/user"
-  import { useDietStore } from "../stores/diet"
+  import { useUserStore } from "../../stores/user"
+  import { useDietStore } from "../../stores/diet"
   import axios from "axios";
-  import HeaderHome from "./HeaderHome.vue"
+  import HeaderHome from "../components/HeaderHome.vue"
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -152,10 +152,22 @@
 </template>
 
 <style scoped lang="scss">
+  $white: #ffffff;
+
+  $gray-text: #555;
+  $gray-muted: #888;
+  $gray-soft: #eee;
+  $gray-list: #f5f5f5;
+
+  $green-main:  #2e7d32;
+  $green-hover: #4caf50;
+  $green-light: #e8f5e9;
+
+  $transition-medium: 0.4s ease;
 
   .page {
     min-height: 100vh;
-    background-color: #e8f5e9;
+    background-color: $green-light;
     padding-top: 105px;
     box-sizing: border-box;
   }
@@ -182,7 +194,7 @@
       padding: 8px 12px;
       margin-bottom: 6px;
       border-radius: 6px;
-      background-color: #f5f5f5;
+      background-color: $gray-list;
       font-size: 14px;
     }
   }
@@ -192,16 +204,16 @@
   }
 
   .date {
-    color: #555;
+    color: $gray-text;
   }
 
   .peso {
-    color: #2e7d32;
+    color: $green-main;
   }
 
   .empty {
     text-align: center;
-    color: #888;
+    color: $gray-muted;
     font-style: italic;
   }
 
@@ -219,7 +231,7 @@
       font-size: 16px;
 
       &.obiettivo strong {
-        color: #2e7d32;
+        color: $green-main;
         font-weight: 700;
       }
     }
@@ -233,17 +245,17 @@
   .progress-bar {
     width: 100%;
     height: 20px;
-    background-color: #eee;
+    background-color: $gray-soft;
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid #888;
+    border: 1px solid $gray-muted;
   }
 
   .progress-fill {
     height: 100%;
-    background-color: #4caf50;
+    background-color: $green-hover;
     border-radius: 10px;
-    transition: width 0.4s ease;
+    transition: width $transition-medium;
   }
 
   .confetti-container {
@@ -292,7 +304,7 @@
     display: block;
     background: none;
     border: none;
-    color: #2e7d32;
+    color: $green-main;
     font-weight: 600;
     cursor: pointer;
     font-size: 14px;

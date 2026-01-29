@@ -1,8 +1,8 @@
 <script setup>
   import { ref, onMounted, onBeforeUnmount } from "vue"
   import { useRouter } from "vue-router"
-  import { useUserStore } from "../stores/user"
-  import { useDietStore } from "../stores/diet"
+  import { useUserStore } from "../../stores/user"
+  import { useDietStore } from "../../stores/diet"
 
   const router = useRouter();
   const isOpen = ref(false);
@@ -113,6 +113,29 @@
 
 
 <style scoped lang="scss">
+  $white: #ffffff;
+  $black: #000000;
+  $gray-text: #333;
+  
+  $green-light: #e8f5e9;
+  $green-hover: #4caf50;
+  $green-dark:#2e7d32;
+
+
+  $red-error: #c62828;
+  $red-light: #ffebee;
+  $red-hover: #e53935;
+
+
+  $orange-main: #e46e0d;
+  $orange-light: #fff3e0;
+  $border-color:#b71c1c;
+
+  $red-hover-light: #ffcdd2;
+  $orange-hover-light: #ffe0b2;
+
+
+  $transition-fast: 0.2s ease;
   .navbar {
     position: relative;
   }
@@ -121,13 +144,13 @@
     width: 28px;
     height: 15px;
     object-fit: contain;
-    fill: #333;
+    fill: $gray-text;
   }
 
   .menu-btn {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba($white, 0.2);
     border: 2px solid transparent;
     border-radius: 12px;
     padding: 10px 5px;
@@ -135,12 +158,12 @@
     cursor: pointer;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba($white, 0.3);
     }
 
     &.active {
-      background: rgba(255, 255, 255, 0.3);
-      border-color: #000000;
+      background: rgba($white, 0.3);
+      border-color: $black;
     }
 
     &:focus {
@@ -154,12 +177,12 @@
     top: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
-    background: #ffffff;
+    background: $white;
     border-radius: 14px;
     padding: 12px;
     min-width: 250px;
 
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 12px 30px rgba($black, 0.18);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -174,29 +197,29 @@
 
     //router link
     a {
-      color: #333;
+      color: $gray-text;
       padding: 10px 12px;
       border-radius: 8px;
       padding: 11px 12px;
       text-align: left;
 
       &:hover {
-        background: #e8f5e9;
-        color: #2e7d32;
+        background: $green-light;
+        color: $green-dark;
       }
     }
   }
 
   .delete-diet {
-    background: #fbe9e7;
-    color: #c62828;
+    background: $red-light;
+    color: $red-error;
     border: none;
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
 
     &:hover {
-      background: #ffcdd2;
+      background:$red-hover-light;
       ;
     }
   }
@@ -204,7 +227,7 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba($black, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -212,7 +235,7 @@
   }
 
   .modal {
-    background: #ffffff;
+    background: $white;
     padding: 24px;
     border-radius: 12px;
     width: 400px;
@@ -223,12 +246,12 @@
 
     h2 {
       margin-bottom: 32px;
-      color: #2e7d32;
+      color: $green-dark;
     }
 
     p {
       font-size: 17px;
-      color: #333;
+      color: $gray-text;
     }
 
     .actions {
@@ -251,31 +274,31 @@
     }
 
     .confirm {
-      background-color: #e8f5e9;
-      color: #2e7d32;
+      background-color: $green-light;
+      color: $green-dark;
 
       &:hover {
-        background-color: #4caf50;
-        color: white;
-        border-color: #3da73f;
+        background-color: $green-hover;
+        color: $white;
+        border-color: $green-dark;
       }
     }
 
     .cancel {
-      background-color: #ffebee;
-      color: #c62828;
+      background-color: $red-light;
+      color: $red-error;
 
       &:hover {
-        background-color: #e53935;
-        color: white;
-        border-color: #b71c1c;
+        background-color: $red-hover;
+        color: $white;
+        border-color: $border-color;
       }
     }
   }
 
   .logout {
-    background: #fff3e0;
-    color: #e46e0d;
+    background: $orange-light;
+    color: $orange-main;
     border: none;
     padding: 10px;
     border-radius: 8px;
@@ -283,7 +306,7 @@
     cursor: pointer;
 
     &:hover {
-      background: #ffe0b2;
+      background: $orange-hover-light;
 
     }
   }
