@@ -24,11 +24,11 @@
                 <p><strong>Categoria:</strong> {{ recipe.categoria }}</p>
                 <p><strong>Kcal totali:</strong> {{ recipe.kcal }}</p>
 
-                <h3>Ingredienti</h3>
+                <h3 class="ingredienti-title">Ingredienti</h3>
 
                 <ul class="ingredient-list">
                     <li v-for="(ing, index) in recipe.ingredienti" :key="index">
-                        <span>{{ ing.nome }}: </span>
+                        <span>{{ ing.nome.charAt(0).toUpperCase() + ing.nome.slice(1) }}: </span>
                         <span>{{ ing.peso }}g </span>
                         <span>({{ ing.kcal }} kcal)</span>
                     </li>
@@ -36,15 +36,17 @@
 
                 <h3>Note</h3>
 
-                <p v-if="recipe.info?.length">
-                    {{recipe.info.find(i => i.descrizioneKcal)?.descrizioneKcal}}
-                </p>
-                <p v-if="recipe.info?.length">
-                    {{recipe.info.find(i => i.descrizioneTipoDieta)?.descrizioneTipoDieta}}
-                </p>
-                <p v-if="recipe.info?.length">
-                    {{recipe.info.find(i => i.descrizioneIntolleranze)?.descrizioneIntolleranze}}
-                </p>
+                <div class="notes">
+                    <p v-if="recipe.info?.length">
+                        {{recipe.info.find(i => i.descrizioneKcal)?.descrizioneKcal}}
+                    </p>
+                    <p v-if="recipe.info?.length">
+                        {{recipe.info.find(i => i.descrizioneTipoDieta)?.descrizioneTipoDieta}}
+                    </p>
+                    <p v-if="recipe.info?.length">
+                        {{recipe.info.find(i => i.descrizioneIntolleranze)?.descrizioneIntolleranze}}
+                    </p>
+                </div>
 
             </div>
 
@@ -76,28 +78,34 @@
 
     .modal {
         background: $white;
-        padding: 24px;
+        padding: 5px 24px 35px 24px;
         border-radius: $border-radius-medium;
         width: 400px;
         max-height: 80vh;
         overflow-y: auto;
         box-shadow: $box-shadow-modal;
 
+
         h2 {
             margin-bottom: 16px;
             color: $green-dark;
             text-align: center;
+            font-size: 30px;
         }
 
         h3 {
-            margin-top: 16px;
-            margin-bottom: 8px;
+            margin-top: 20px;
+            margin-bottom: 10px;
             color: $green-dark;
             text-align: center;
+
+            .ingredienti-title {
+                margin-bottom: 17px;
+            }
         }
 
         p {
-            font-size: 14px;
+            font-size: 15px;
             margin-bottom: 6px;
             color: $black-light;
         }
@@ -115,16 +123,36 @@
                 background-color: $green-button-hover;
             }
         }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
     }
 
-    .modal ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .ingredient-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        p {
+            font-size: 14px;
+            padding-left: 8px;
+        }
     }
 
-    .ingredient-list p {
-        font-size: 14px;
-        padding-left: 8px;
+    .notes {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: -11px;
+
+        margin-bottom: 10px;
+
+        p {
+            margin: 0;
+        }
     }
+
 </style>
