@@ -61,14 +61,14 @@
     router.replace({ name: "Login" });
   };
 
+  onBeforeUnmount(() => {
+    document.removeEventListener("click", handleClickOutside);
+  });
 
   onMounted(() => {
     document.addEventListener("click", handleClickOutside);
   });
 
-  onBeforeUnmount(() => {
-    document.removeEventListener("click", handleClickOutside);
-  });
 </script>
 
 <template>
@@ -116,26 +116,24 @@
   $white: #ffffff;
   $black: #000000;
   $gray-text: #333;
-  
+
   $green-light: #e8f5e9;
   $green-hover: #4caf50;
-  $green-dark:#2e7d32;
-
+  $green-dark: #2e7d32;
 
   $red-error: #c62828;
   $red-light: #ffebee;
   $red-hover: #e53935;
 
-
   $orange-main: #e46e0d;
   $orange-light: #fff3e0;
-  $border-color:#b71c1c;
+  $border-color: #b71c1c;
 
   $red-hover-light: #ffcdd2;
   $orange-hover-light: #ffe0b2;
 
-
   $transition-fast: 0.2s ease;
+
   .navbar {
     position: relative;
   }
@@ -181,13 +179,15 @@
     border-radius: 14px;
     padding: 12px;
     min-width: 250px;
-
     box-shadow: 0 12px 30px rgba($black, 0.18);
     display: flex;
     flex-direction: column;
     gap: 6px;
-
     z-index: 100;
+
+    > :nth-last-child(2) {
+      margin-bottom: 5px;
+    }
 
     a,
     button {
@@ -195,7 +195,6 @@
       font-family: inherit;
     }
 
-    //router link
     a {
       color: $gray-text;
       padding: 10px 12px;
@@ -217,9 +216,10 @@
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
+    margin-top: 10px;
 
     &:hover {
-      background:$red-hover-light;
+      background: $red-hover-light;
       ;
     }
   }

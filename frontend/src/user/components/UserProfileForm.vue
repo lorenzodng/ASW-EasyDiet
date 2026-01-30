@@ -1,11 +1,11 @@
 <script setup>
-// Receives and updates the parent form state via v-model
-const props = defineProps({
-  modelValue: {
-    type: Object,
-    required: true
-  }
-})
+  // Receives and updates the parent form state via v-model
+  const props = defineProps({
+    modelValue: {
+      type: Object,
+      required: true
+    }
+  })
 </script>
 
 <template>
@@ -65,35 +65,33 @@ const props = defineProps({
   $white: #ffffff;
   $gray-border: grey;
 
-
   $green-main: #2e7d32;
   $green-hover: #4caf50;
 
-
   $transition-fast: 0.2s ease;
 
-.form-field {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  margin: 0 auto 20px;
-}
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto 20px;
+  }
 
-label,
-input,
-select {
-  font-size: inherit;
-}
+  label,
+  input,
+  select {
+    font-size: inherit;
+  }
 
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 15px;
-  font-weight: 600;
-}
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+    font-weight: 600;
+  }
 
- input,
- select {
+  input,
+  select {
     width: 100%;
     box-sizing: border-box;
     padding: 12px 14px;

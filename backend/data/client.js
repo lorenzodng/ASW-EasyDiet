@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve('../.env') });
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const uri = process.env.MONGO_URI;

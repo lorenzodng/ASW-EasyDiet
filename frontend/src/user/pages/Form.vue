@@ -6,7 +6,6 @@
   import UserProfileForm from "../components/UserProfileForm.vue"
   import HeaderHome from "../components/HeaderHome.vue"
 
-
   const router = useRouter();
   const userStore = useUserStore();
 
@@ -58,7 +57,7 @@
     <div class="info-container">
       <h2>Completa il tuo profilo</h2>
 
-      <UserProfileForm />
+      <UserProfileForm v-model="userInfo" />
 
       <div class="actions">
         <button class="save" @click="saveInfo"
@@ -77,11 +76,12 @@
   $gray-border: #ccc;
   $gray-muted: #666;
 
-  $green-dark:  #2e7d32;
+  $green-dark: #2e7d32;
   $green-hover: #4caf50;
   $green-light: #e8f5e9;
 
   $transition-fast: 0.2s ease;
+
   .page-wrapper {
     display: flex;
     flex-direction: column;

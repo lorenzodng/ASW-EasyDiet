@@ -9,11 +9,11 @@
 
   const router = useRouter();
   const userStore = useUserStore()  // to request from the backend the data of the specific user 
-  const dietStore = useDietStore()  
+  const dietStore = useDietStore()
   const info = ref(null)
-  const loading = ref(true)  
+  const loading = ref(true)
   const error = ref(null)
-  const isEditing = ref(false);  
+  const isEditing = ref(false);
   const editInfo = ref(null); // copy of the user info used while editing
 
   const getProfileInfo = async () => {
@@ -37,7 +37,7 @@
       const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, editInfo.value);
 
       if (data.status) {
-        info.value = { ...editInfo.value }; 
+        info.value = { ...editInfo.value };
         isEditing.value = false;
       } else {
         alert("Errore: " + data.message);
@@ -74,7 +74,7 @@
       <p v-else-if="error">{{ error }}</p>
 
       <div v-else>
- 
+
         <template v-if="!isEditing">
           <p><strong>Età:</strong> {{ info.eta }}</p>
           <p><strong>Peso:</strong> {{ info.peso }} kg</p>
@@ -107,16 +107,17 @@
   $black: #000000;
 
   $green-light: #e8f5e9;
-  $green-main:  #2e7d32;
+  $green-main: #2e7d32;
   $green-hover: #4caf50;
   $green-border: #3da73f;
 
-  $red-light:  #ffebee;
-  $red-error:   #c62828;
-  $red-hover:  #e53935;
-  $red-dark:   #b71c1c;
+  $red-light: #ffebee;
+  $red-error: #c62828;
+  $red-hover: #e53935;
+  $red-dark: #b71c1c;
 
-$transition-fast: 0.2s ease;
+  $transition-fast: 0.2s ease;
+
   .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -160,7 +161,6 @@ $transition-fast: 0.2s ease;
     }
 
     .cancel {
-    .cancel {
       background-color: $red-light;
       color: $red-error;
 
@@ -170,26 +170,25 @@ $transition-fast: 0.2s ease;
         border-color: $red-dark;
       }
     }
-  }
 
-  .save,
-  .cancel {
-    min-width: 120px;
-    font-size: 16px;
-    border: 1px solid transparent;
-    font-weight: 600;
-    padding: 10px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all $transition-fast;
+    .save,
+    .cancel {
+      min-width: 120px;
+      font-size: 16px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all $transition-fast;
 
-  }
+    }
 
-  .actions {
-    display: flex;
-    justify-content: center;
-    gap: 55px;
-    margin-top: 70px;
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 55px;
+      margin-top: 70px;
+    }
   }
-}
 </style>

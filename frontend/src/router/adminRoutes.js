@@ -13,23 +13,23 @@ export const adminRoutes = [
   {
     path: "/admin/home",
     name: "AdminHome",
-    component: AdminHome,
-    meta: { requiresAdmin: true }
+    component: AdminHome
   },
   {
     path: "/admin/users",
     name: "GestioneUtenti",
     component: GestioneUtenti,
-    meta: { requiresAdmin: true }
+
   },
   {
     path: "/admin/diete",
     name: "GestioneDiete",
-    component: GestioneDiete
+    component: GestioneDiete,
+
   },
   {
     path: "/admin/ricette",
     name: "GestioneRicette",
-    component: GestioneRicette
+    component: GestioneRicette,
   }
 ]

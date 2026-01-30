@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
-import { userRoutes } from "./user.routes"
-import { adminRoutes } from "./admin.routes"
+import { userRoutes } from "./userRoutes"
+import { adminRoutes } from "./adminRoutes"
 
 const routes = [
   {
@@ -14,6 +14,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
 export default router

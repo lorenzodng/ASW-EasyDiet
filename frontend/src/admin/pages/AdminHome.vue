@@ -49,10 +49,12 @@
   $green-dark: #2e7d32;
   $white: #fff;
   $gray-text: #555;
-  $gray-text-light: #dadada;
   $gray-shadow: rgba(0, 0, 0, 0.06);
   $gray-box-shadow-green: rgba(76, 175, 80, 0.4);
-  $shadow-light: 0 5px 10px rgba(0, 0, 0, 0.15);
+
+  $orange-main: #e46e0d;
+  $orange-light: #fff3e0;
+  $orange-hover-light: #ffe0b2;
 
   .admin-actions {
     display: flex;
@@ -134,18 +136,18 @@
   .logout-btn {
     font-size: 16px;
     font-weight: 600;
-    padding: 16px 18px;
-    background: $gray-text-light;
-    color: #333;
+    padding: 14px 15px;
+    background: $orange-light;
+    color: $orange-main;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin-right: 150px;
+    margin-right: 63px;
     transition: all 0.2s ease;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: $shadow-light;
+      background: $orange-hover-light;
     }
   }
+
 </style>
