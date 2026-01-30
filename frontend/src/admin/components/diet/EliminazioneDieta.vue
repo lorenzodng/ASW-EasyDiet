@@ -24,7 +24,7 @@
     if (!conferma) return;
 
     try {
-      await dietStore.deleteDiet(props.userId)
+      await dietStore.deleteDiet(props.userId);
 
       emit("deleted", props.userId);
 

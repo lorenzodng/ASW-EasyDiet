@@ -159,7 +159,7 @@ export const notifyWeight = async (user, nuovoPeso) => {
         if (nuovoPeso <= obiettivoPeso) {
             payload = {
                 title: "🎯 Obiettivo raggiunto!",
-                body: `Hai raggiunto il tuo peso target di ${obiettivoPeso} kg! Complimenti!`
+                body: `Hai raggiunto il tuo obiettivo di ${obiettivoPeso} kg! Complimenti!`
             }
         } else if (nuovoPeso < pesoPrecedente) {
             payload = {
@@ -178,7 +178,7 @@ export const notifyWeight = async (user, nuovoPeso) => {
         if (nuovoPeso >= obiettivoPeso) {
             payload = {
                 title: "🎯 Obiettivo raggiunto!",
-                body: `Hai raggiunto il tuo peso target di ${obiettivoPeso} kg! Complimenti!`
+                body: `Hai raggiunto il tuo obiettivo di ${obiettivoPeso} kg! Complimenti!`
             };
         } else if (nuovoPeso > pesoPrecedente) {
             payload = {

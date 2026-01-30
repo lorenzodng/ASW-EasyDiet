@@ -19,7 +19,7 @@
     showForm.value = true;
   };
 
-  const saveRecipe = async (data) => {
+  const modifyRecipe = async (data) => {
     try {
       await axios.put(`http://localhost:5000/admin/recipes/${props.recipe._id}`, data);
       showForm.value = false;
@@ -36,7 +36,7 @@
 
   <div v-if="showForm" class="modal-overlay" @click="showForm = false">
     <div class="modal-content" @click.stop>
-      <Form :model-value="editRecipe" @save="saveRecipe" @cancel="showForm = false" :isModal="true"
+      <Form :model-value="editRecipe" @save="modifyRecipe" @cancel="showForm = false" :isModal="true"
         class="modal-form" />
     </div>
   </div>

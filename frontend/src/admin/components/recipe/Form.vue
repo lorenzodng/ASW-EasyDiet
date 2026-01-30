@@ -73,7 +73,7 @@
         <textarea v-model="form.info[2].descrizioneIntolleranze" placeholder="Intolleranze" />
 
         <div class="form-buttons">
-            <button class="submit" type="submit">Salva</button>
+            <button class="submit" type="submit" @click="submit">Salva</button>
             <button type="button" class="cancel" @click="$emit('cancel')">Annulla</button>
         </div>
     </form>

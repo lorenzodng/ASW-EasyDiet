@@ -46,7 +46,7 @@ const processSingleMeal = async (user, dieta, categoriaPasto, currentDay, curren
     if (ora === currentHour && minuto === currentMinute) {
         const corpo = buildMealMessage(categoriaPasto);
         const payload = {
-            title: "Promemoria pasto",
+            title: "Promemoria",
             body: corpo,
         };
         await notificationService.sendNotificationToUser(user.userId, payload);
