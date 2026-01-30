@@ -87,18 +87,7 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $black: #000000;
 
-  $gray-text: #333;
-  $gray-muted: #555;
-
-  $green-main:  #2e7d32;
-  $green-hover: #4caf50;
-  $green-dark:  #1b5e20;
-  $green-border: #3da73f;
-
-$transition-fast: 0.2s ease;
   .home-container {
     width: 100%;
     position: relative;
@@ -116,7 +105,7 @@ $transition-fast: 0.2s ease;
 
     h2 {
       font-size: 25px;
-     color: $green-main;
+      color: $green-main;
       margin-bottom: 12px;
     }
 

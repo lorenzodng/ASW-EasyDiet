@@ -38,9 +38,6 @@
 </template>
 
 <style scoped lang="scss">
-  $header-height: 105px;
-  $green-main: #3da73f;
-  $white: #ffffff;
 
   .header {
     position: fixed;
@@ -49,8 +46,8 @@
     right: 0;
     display: flex;
     align-items: center;
-    height: $header-height;
-    background-color: $green-main;
+    height: 105px;
+    background-color: $green-border;
     color: $white;
     z-index: 3;
   }
@@ -79,7 +76,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    max-width: calc(100% - 250px); 
+    max-width: calc(100% - 250px);
     padding: 0 16px;
     text-align: center;
     display: flex;

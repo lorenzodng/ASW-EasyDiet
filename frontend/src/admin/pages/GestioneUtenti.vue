@@ -83,15 +83,14 @@
   $green-dark: #2e7d32;
   $green-main: #4caf50;
   $green-hover: #f1f8f4;
-  $green-shadow: rgba(76, 175, 80, 0.12);
   $white: #ffffff;
   $bg-table-hover: #f1f8f4;
   $border-table: #e0e0e0;
   $gray-border: #e0e0e0;
   $gray-info: #555;
   $gray-empty: #777;
-  $box-shadow-topbar: 0 6px 16px rgba(0, 0, 0, 0.06);
 
+  $box-shadow-topbar: 0 6px 16px $gray-shadow;
 
   .admin-page {
     padding: 32px;
@@ -142,7 +141,7 @@
     background-color: $white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 20px $green-shadow;
+    box-shadow: 0 8px 20px $green-dark-box-shadow;
 
     thead {
       background-color: $green-main;

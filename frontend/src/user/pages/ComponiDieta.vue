@@ -264,34 +264,11 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $black: #000000;
 
-  $gray-text: #333;
-  $gray-border: #ccc;
-  $gray-muted: #888;
+  $blue-shadow: rgba(109, 200, 212, 0.2);
+  $orange-shadow: rgba(248, 150, 4, 0.15);
+  $blue-dark-shadow: rgba(85, 100, 182, 0.15);
 
-  $green-main:  #2e7d32; 
-  $green-hover: #4caf50; 
-  $green-light: #e8f5e9; 
-  $green-dark:  #1b5e20;
-  
-  $colazione-color: #36abbb;
-  $pranzo-color:    #f89604;
-  $merenda-color:   #4caf50;
-  $cena-color:      #5564b6;
-
-  $red-error:  #c62828;
-  $red-light: #ffebee;
-  $red-hover: #e53935;
-
-  $orange-main:  #e46e0d;
-  $orange-light: #fff3e0;
-
-  $bg-day-start: #def5e0;
-  $bg-day-end:   #dff1df;
-
-  $transition-fast: 0.2s ease;
   .componi-dieta {
     max-width: 900px;
     margin: 0 auto;
@@ -346,11 +323,11 @@
         padding: 20px;
         border-radius: 16px;
         background: $white;
-        border: 3px solid #36abbb;
+        border: 3px solid $colazione-color;
         box-shadow: 0 6px 16px rgba($black, 0.04);
 
         &.colazione {
-          border-color: $colazione-color; 
+          border-color: $colazione-color;
         }
 
         &.pranzo {
@@ -527,19 +504,19 @@
         }
 
         &.colazione .badge {
-          background: rgba(109, 200, 212, 0.2);
+          background: $blue-shadow;
         }
 
         &.pranzo .badge {
-          background: rgba(248, 150, 4, 0.15);
+          background: $orange-shadow;
         }
 
         &.merenda .badge {
-          background: rgba(76, 175, 80, 0.15);
+          background: $green-shadow;
         }
 
         &.cena .badge {
-          background: rgba(85, 100, 182, 0.15);
+          background: $blue-dark-shadow;
         }
       }
     }

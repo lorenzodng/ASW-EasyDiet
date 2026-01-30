@@ -27,7 +27,7 @@
         }
     }
 
-   // Subscribes the user to push notifications
+    // Subscribes the user to push notifications
     const subscribeUser = async () => {
         if ('serviceWorker' in navigator) { // Checks whether the browser supports Service Workers (navigator is a global browser object)
             try {
@@ -107,20 +107,7 @@
 </template>
 
 <style scoped lang="scss">
-    $white: #ffffff;
-    $black: #000000;
-    $gray-border: #ccc;
 
-
-    $green-main: #2e7d32;
-    $green-light: #e8f5e9;
-
-
-    $red-error: #c62828;
-    $red-light: #ffebee;
-
-
-    $transition-fast: 0.2s ease;
     .notification-banner {
         position: fixed;
         bottom: 20px;

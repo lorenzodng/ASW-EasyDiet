@@ -30,13 +30,15 @@
       loading.value = false;
     }
   };
-// Weight history sorted by date (latest first)
+
+  // Weight history sorted by date (latest first)
   const storicoPesi = computed(() => {
     return [...pesi.value].sort(
       (a, b) => new Date(b.data) - new Date(a.data)
     );
   });
-// Visible weights (collapsed or expanded view)
+
+  // Visible weights (collapsed or expanded view)
   const pesiVisibili = computed(() => {
     if (expanded.value) {
       return storicoPesi.value;
@@ -152,18 +154,6 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-
-  $gray-text: #555;
-  $gray-muted: #888;
-  $gray-soft: #eee;
-  $gray-list: #f5f5f5;
-
-  $green-main:  #2e7d32;
-  $green-hover: #4caf50;
-  $green-light: #e8f5e9;
-
-  $transition-medium: 0.4s ease;
 
   .page {
     min-height: 100vh;
@@ -194,7 +184,7 @@
       padding: 8px 12px;
       margin-bottom: 6px;
       border-radius: 6px;
-      background-color: $gray-list;
+      background-color: $gray-soft;
       font-size: 14px;
     }
   }
@@ -224,7 +214,7 @@
     text-align: center;
 
     h2 {
-      margin-bottom: 50px; 
+      margin-bottom: 50px;
     }
 
     p {
@@ -255,7 +245,7 @@
     height: 100%;
     background-color: $green-hover;
     border-radius: 10px;
-    transition: width $transition-medium;
+    transition: width $transition-fast;
   }
 
   .confetti-container {

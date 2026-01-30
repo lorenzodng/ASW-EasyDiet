@@ -62,13 +62,6 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $gray-border: grey;
-
-  $green-main: #2e7d32;
-  $green-hover: #4caf50;
-
-  $transition-fast: 0.2s ease;
 
   .form-field {
     display: flex;
@@ -97,7 +90,7 @@
     padding: 12px 14px;
     font-size: 15px;
     border-radius: 10px;
-    border: 1px solid $gray-border;
+    border: 1px solid $gray-muted;
     background-color: $white;
     transition: all $transition-fast;
 

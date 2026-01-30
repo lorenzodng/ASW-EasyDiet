@@ -81,21 +81,7 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $black: #000000;
 
-  $gray-text: #333;
-  $gray-muted: #555;
-  $gray-border: #ccc;
-
-  $green-main:  #2e7d32;
-  $green-hover: #4caf50;
-  $green-soft:  #66bb6a;
-
-  $red-error: #c62828;
-  $red-error-strong: #d32f2f;
-
-  $transition-base: 0.3s ease;
   .login-container {
     min-height: 100vh;
     display: flex;
@@ -141,7 +127,7 @@
     font-size: 15px;
     border: 1px solid $gray-border;
     border-radius: 8px;
-    transition: border $transition-base, box-shadow $transition-base;
+    transition: border $transition-fast, box-shadow $transition-fast;
 
     &:focus {
       outline: none;
@@ -167,7 +153,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: all $transition-base;
+    transition: all $transition-fast;
 
     &:hover {
       background-color: $green-soft;
@@ -192,7 +178,7 @@
       font-weight: 600;
       cursor: pointer;
       margin-left: 4px;
-      transition: color $transition-base;
+      transition: color $transition-fast;
 
       &:hover {
         color: $green-hover;
@@ -204,7 +190,7 @@
   .error {
     margin-top: 8px;
     text-align: center;
-    color: $red-error-strong;
+    color: $red-error;
     font-size: 14px;
   }
 

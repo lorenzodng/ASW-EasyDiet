@@ -70,17 +70,6 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $black: #000000;
-
-  $gray-border: #ccc;
-  $gray-muted: #666;
-
-  $green-dark: #2e7d32;
-  $green-hover: #4caf50;
-  $green-light: #e8f5e9;
-
-  $transition-fast: 0.2s ease;
 
   .page-wrapper {
     display: flex;
@@ -120,12 +109,12 @@
       cursor: pointer;
       transition: all $transition-fast;
       background-color: $green-light;
-      color: $green-dark;
+      color: $green-main;
 
       &:hover:enabled {
         background-color: $green-hover;
         color: white;
-        border-color: $green-dark;
+        border-color: $green-main;
       }
 
       &:disabled {

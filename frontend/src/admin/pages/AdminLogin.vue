@@ -56,19 +56,14 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $green-main: #4caf50;
-  $green-hover: #66bb6a;
-  $green-dark: #2e7d32;
-  $gray-border: #ccc;
-  $gray-text: #333;
-  $red-error: #c62828;
-  $red-error-text: #d32f2f;
-  $shadow-login: 0 8px 20px rgba(76, 175, 80, 0.15);
-  $shadow-focus-green: 0 0 0 2px rgba(76, 175, 80, 0.2);
-  $shadow-focus-red: 0 0 0 2px rgba(198, 40, 40, 0.2);
-  $shadow-hover-button: 0 0 12px rgba(76, 175, 80, 0.6);
-  $shadow-active-button: 0 0 6px rgba(76, 175, 80, 0.4);
+
+  $greeen-shadow: rgba(76, 175, 80, 0.15);
+  $shadow-login: 0 8px 20px $greeen-shadow;
+  $shadow-focus-green: 0 0 0 2px $gray-box-shadow-green;
+  $red-shadow: rgba(198, 40, 40, 0.2);
+  $shadow-focus-red: 0 0 0 2px $red-shadow;
+  $shadow-hover-button: 0 0 12px $green-box-shadow;
+  $shadow-active-button: 0 0 6px $gray-box-shadow-green;
 
   .login-container {
     min-height: 100vh;
@@ -90,7 +85,7 @@
 
     h2 {
       text-align: center;
-      color: $green-dark;
+      color: $green-main;
       margin-bottom: 8px;
     }
   }
@@ -119,7 +114,7 @@
 
     &:focus {
       outline: none;
-      border-color: $green-main;
+      border-color: $green-hover;
       box-shadow: $shadow-focus-green;
     }
 
@@ -137,14 +132,14 @@
     font-size: 16px;
     font-weight: 600;
     color: $white;
-    background-color: $green-main;
+    background-color: $green-hover;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: $green-hover;
+      background-color: $green-soft;
       box-shadow: $shadow-hover-button;
       transform: translateY(-2px);
     }
@@ -163,7 +158,7 @@
   .error {
     margin-top: 8px;
     text-align: center;
-    color: $red-error-text;
+    color: $red-error;
     font-size: 14px;
   }
 </style>

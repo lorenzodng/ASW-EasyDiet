@@ -103,20 +103,8 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $black: #000000;
 
-  $green-light: #e8f5e9;
-  $green-main: #2e7d32;
-  $green-hover: #4caf50;
-  $green-border: #3da73f;
-
-  $red-light: #ffebee;
-  $red-error: #c62828;
-  $red-hover: #e53935;
   $red-dark: #b71c1c;
-
-  $transition-fast: 0.2s ease;
 
   .page-wrapper {
     display: flex;

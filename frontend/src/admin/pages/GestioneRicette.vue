@@ -103,8 +103,8 @@
   $border-radius-small: 12px;
   $border-radius-medium: 18px;
   $border-table: #e0e0e0;
-  $topbar-box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-  $table-box-shadow: 0 8px 20px rgba(76, 175, 80, 0.12);
+  $topbar-box-shadow: 0 6px 16px $gray-shadow;
+  $table-box-shadow: 0 8px 20px $green-dark-box-shadow;
   $padding-page: 32px;
   $padding-table-cell: 14px 16px;
 

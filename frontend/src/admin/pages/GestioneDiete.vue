@@ -72,18 +72,10 @@
 </template>
 
 <style scoped lang="scss">
-  $green-dark: #2e7d32;
-  $green-button: #4caf50;
-  $white: #ffffff;
-  $red-error: #d32f2f;
   $bg-table-hover: #f1f8f4;
-  $border-radius-small: 12px;
-  $border-radius-medium: 18px;
   $border-table: #e0e0e0;
-  $box-shadow-topbar: 0 6px 16px rgba(0, 0, 0, 0.06);
-  $box-shadow-table: 0 8px 20px rgba(76, 175, 80, 0.12);
-  $padding-page: 32px;
-  $padding-table-cell: 14px 16px;
+  $box-shadow-topbar: 0 6px 16px $gray-shadow;
+  $box-shadow-table: 0 8px 20px $green-dark-box-shadow;
 
   .admin-header {
     margin-bottom: 40px;
@@ -95,7 +87,7 @@
     align-items: center;
     padding: 24px 32px;
     background: $white;
-    border-radius: $border-radius-medium;
+    border-radius: 18px;
     box-shadow: $box-shadow-topbar;
   }
 
@@ -113,13 +105,13 @@
 
     h1 {
       font-size: 33px;
-      color: $green-dark;
+      color: $green-main;
       margin: 0 0 24px 0;
     }
   }
 
   .admin-page {
-    padding: $padding-page;
+    padding: 32px;
   }
 
   .error {
@@ -132,18 +124,18 @@
     width: 100%;
     border-collapse: collapse;
     background-color: $white;
-    border-radius: $border-radius-small;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: $box-shadow-table;
 
     thead {
-      background-color: $green-button;
+      background-color: $green-hover;
       color: $white;
     }
 
     th,
     td {
-      padding: $padding-table-cell;
+      padding: 14px 16px;
       text-align: left;
 
       &:nth-child(2),

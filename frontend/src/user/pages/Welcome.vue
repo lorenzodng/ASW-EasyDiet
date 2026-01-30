@@ -25,34 +25,28 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #ffffff;
 
-  $green-main:  #4caf50;
-  $green-hover: #66bb6a;
-  $green-light: #e8f5e9;
-
-  $transition-medium: 0.3s ease;
   .login-button {
     margin-top: 50px;
     padding: 12px 28px;
     font-size: 18px;
     font-weight: 600;
     color: $white;
-    background-color: $green-main;
+    background-color: $green-border;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: all $transition-medium;
+    transition: all $transition-fast;
 
     &:hover {
       background-color: $green-hover;
-      box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+      box-shadow: 0 0 12px $green-box-shadow;
       transform: translateY(-2px);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+      box-shadow: 0 0 6px $gray-box-shadow-green;
     }
   }
 

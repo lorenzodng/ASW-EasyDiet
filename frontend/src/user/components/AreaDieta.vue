@@ -105,7 +105,7 @@
           </div>
 
           <p v-else class="empty">
-            Nessun pasto selezionato
+            Nessun piatto selezionato
           </p>
         </div>
       </div>
@@ -116,27 +116,6 @@
 
 <style scoped lang="scss">
 
-  $white: #ffffff;
-  $text-dark: #2c3e50;
-  $text-muted: #888;
-
-  $border-light: #e0e6ef;
-
-
-  $green-main: #3da73f;
-  $green-hover: #43a047;
-
-
-  $bg-day-start: #def5e0;
-  $bg-day-end: #dff1df;
-
-  $colazione-color: #36abbb;
-  $pranzo-color: #f89604;
-  $merenda-color: #4caf50;
-  $cena-color: #5564b6;
-
-  $transition-fast: 0.2s ease;
-  
   .area-dieta {
     max-width: 700px;
     margin: 0 auto;
@@ -146,14 +125,14 @@
     margin-bottom: 32px;
     border-radius: 16px;
     background: linear-gradient(180deg, $bg-day-start, $bg-day-end);
-    box-shadow: 0 8px 100px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 8px 100px $gray-shadow;
 
     h2 {
       margin-bottom: 20px;
       text-transform: capitalize;
       font-size: 29px;
       color: #2c3e50;
-      border-bottom: 1px solid $border-light;
+      border-bottom: 1px solid $green-light;
       padding-bottom: 8px;
     }
   }
@@ -169,7 +148,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 14px $gray-shadow;
     }
 
     .meal-badge {
@@ -186,7 +165,7 @@
 
 
       &.colazione {
-        background-color:$colazione-color;
+        background-color: $colazione-color;
       }
 
       &.meal-badge.pranzo {
@@ -219,7 +198,7 @@
 
     .empty {
       font-style: italic;
-      color: $text-muted;
+      color: $gray-muted;
     }
   }
 
@@ -248,7 +227,7 @@
         background-color: $green-main;
         color: $white;
         transition: background-color $transition-fast, opacity $transition-fast;
-        
+
         &:disabled {
           opacity: 0.4;
           cursor: not-allowed;

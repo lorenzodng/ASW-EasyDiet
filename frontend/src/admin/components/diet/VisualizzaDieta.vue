@@ -105,7 +105,7 @@
   $border-light: #e0e0e0;
   $box-shadow-icon: 0 0 0 rgba(0, 0, 0, 0);
   $box-shadow-modal: 0 10px 30px rgba(0, 0, 0, 0.25);
-  $box-shadow-day: 0 4px 12px rgba(76, 175, 80, 0.12);
+  $box-shadow-day: 0 4px 12px $green-dark-box-shadow;
   $box-shadow-close-hover: 0 4px 10px rgba(76, 175, 80, 0.35);
   $padding-page: 16px;
   $padding-cell: 12px 14px;

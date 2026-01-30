@@ -44,17 +44,6 @@
 </template>
 
 <style scoped lang="scss">
-  $green-main: #4caf50;
-  $green-hover: #66bb6a;
-  $green-dark: #2e7d32;
-  $white: #fff;
-  $gray-text: #555;
-  $gray-shadow: rgba(0, 0, 0, 0.06);
-  $gray-box-shadow-green: rgba(76, 175, 80, 0.4);
-
-  $orange-main: #e46e0d;
-  $orange-light: #fff3e0;
-  $orange-hover-light: #ffe0b2;
 
   .admin-actions {
     display: flex;
@@ -68,7 +57,7 @@
       padding: 26px;
       font-size: 18px;
       font-weight: 600;
-      background-color: $green-main;
+      background-color: $green-hover;
       color: $white;
       border: none;
       border-radius: 14px;
@@ -76,7 +65,7 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: $green-hover;
+        background-color: $green-soft;
         transform: translateY(-2px);
         box-shadow: 0 10px 20px $gray-box-shadow-green;
       }
@@ -121,13 +110,13 @@
 
     h1 {
       font-size: 33px;
-      color: $green-dark;
+      color: $green-main;
       margin: 10px 0 0 0;
     }
 
     p {
       font-size: 18px;
-      color: $gray-text;
+      color: $gray-muted;
       margin-top: 10px;
       font-weight: 500;
     }

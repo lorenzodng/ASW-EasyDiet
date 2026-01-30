@@ -2,7 +2,7 @@
     import { ref, onMounted, watch, nextTick } from "vue";
     import { marked } from 'marked';
 
-    const messages = ref([]); 
+    const messages = ref([]);
     const newMessage = ref(""); // Message typed by the user
     const chatWidth = ref(560); // Chat sidebar width
     const messagesContainer = ref(null);
@@ -48,8 +48,8 @@
             };
 
             nextTick().then(() => {
-                if (messagesContainer.value) { 
-                    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight; 
+                if (messagesContainer.value) {
+                    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
                 }
             });
         };
@@ -120,16 +120,12 @@
 </template>
 
 <style scoped lang="scss">
-    $chat-bg: #f9f9f9;
-    $chat-border: #ccc;
-    $chat-header-bg: #eee;
 
+    $chat-bg: #f9f9f9;
 
     $user-bubble-bg: #cce5ff;
     $assistant-bubble-bg: #d0f1bd;
 
-
-    $bubble-radius: 12px;
     .resizer {
         width: 5px;
         cursor: ew-resize;
@@ -145,7 +141,7 @@
         right: 0;
         height: calc(100vh - 91px);
         background: $chat-bg;
-        border-left: 1px solid $chat-border;
+        border-left: 1px solid $gray-border;
         display: flex;
         flex-direction: column;
         z-index: 2;
@@ -155,11 +151,11 @@
 
     .chat-header {
         height: 70px;
-        background: $chat-header-bg;
+        background: $gray-soft;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid $chat-border;
+        border-bottom: 1px solid $gray-border;
         padding-left: 20px;
         padding-right: 20px;
     }
@@ -210,7 +206,7 @@
 
         .bubble {
             background-color: $user-bubble-bg;
-            border-radius: $bubble-radius;
+            border-radius: 12px;
         }
     }
 

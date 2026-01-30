@@ -55,7 +55,6 @@
 <style scoped lang="scss">
     $green-main: #4caf50;
     $green-dark: #2e7d32;
-    $green-shadow: rgba(76, 175, 80, 0.2);
     $white: #fff;
 
     .inline-edit {
@@ -79,7 +78,7 @@
         &:focus {
             outline: none;
             border-color: $green-dark;
-            box-shadow: 0 0 0 3 $green-shadow;
+            box-shadow: 0 0 0 3 $gray-box-shadow-green;
         }
     }
 

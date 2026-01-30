@@ -113,26 +113,8 @@
 
 
 <style scoped lang="scss">
-  $white: #ffffff;
-  $black: #000000;
-  $gray-text: #333;
-
-  $green-light: #e8f5e9;
-  $green-hover: #4caf50;
-  $green-dark: #2e7d32;
-
-  $red-error: #c62828;
-  $red-light: #ffebee;
-  $red-hover: #e53935;
-
-  $orange-main: #e46e0d;
-  $orange-light: #fff3e0;
-  $border-color: #b71c1c;
 
   $red-hover-light: #ffcdd2;
-  $orange-hover-light: #ffe0b2;
-
-  $transition-fast: 0.2s ease;
 
   .navbar {
     position: relative;
@@ -291,7 +273,7 @@
       &:hover {
         background-color: $red-hover;
         color: $white;
-        border-color: $border-color;
+        border-color: $red-error;
       }
     }
   }
