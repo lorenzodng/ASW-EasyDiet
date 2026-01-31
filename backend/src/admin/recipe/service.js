@@ -87,6 +87,8 @@ export const updateRecipe = async (id, data) => {
   recipe.ingredienti = data.ingredienti;
   recipe.kcal = data.kcal;
   recipe.info = data.info;
+  recipe.immagine = data.immagine;
+
 
   await recipe.save();
 
