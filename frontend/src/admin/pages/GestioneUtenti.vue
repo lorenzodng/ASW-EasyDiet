@@ -80,14 +80,6 @@
 </template>
 
 <style scoped lang="scss">
-  $green-dark: #2e7d32;
-  $green-main: #4caf50;
-  $green-hover: #f1f8f4;
-  $white: #ffffff;
-  $bg-table-hover: #f1f8f4;
-  $border-table: #e0e0e0;
-  $gray-border: #e0e0e0;
-  $gray-info: #555;
   $gray-empty: #777;
 
   $box-shadow-topbar: 0 6px 16px $gray-shadow;
@@ -124,13 +116,13 @@
 
     h1 {
       font-size: 33px;
-      color: $green-dark;
+      color: $green-hover;
       margin: 0 0 24px 0;
     }
   }
 
   .info {
-    color: $gray-info;
+    color: $gray-muted;
     font-size: 14px;
   }
 
@@ -144,7 +136,7 @@
     box-shadow: 0 8px 20px $green-dark-box-shadow;
 
     thead {
-      background-color: $green-main;
+      background-color: $green-hover;
       color: $white;
     }
 
@@ -159,7 +151,7 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid $border-table;
+      border-bottom: 1px solid $gray-border;
 
       &:hover {
         background-color: $bg-table-hover;

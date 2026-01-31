@@ -93,20 +93,8 @@
 </template>
 
 <style scoped lang="scss">
-  $green-dark: #2e7d32;
-  $green-light: #388e3c;
-  $green-button: #4caf50;
-  $green-button-hover: #66bb6a;
-  $red-error: #d32f2f;
-  $white: #ffffff;
-  $bg-table-hover: #f1f8f4;
-  $border-radius-small: 12px;
-  $border-radius-medium: 18px;
-  $border-table: #e0e0e0;
   $topbar-box-shadow: 0 6px 16px $gray-shadow;
   $table-box-shadow: 0 8px 20px $green-dark-box-shadow;
-  $padding-page: 32px;
-  $padding-table-cell: 14px 16px;
 
   .header {
     display: flex;
@@ -116,7 +104,7 @@
   }
 
   .admin-page {
-    padding: $padding-page;
+    padding: 32px;
   }
 
   .admin-header {
@@ -129,7 +117,7 @@
     align-items: center;
     padding: 24px 32px;
     background: $white;
-    border-radius: $border-radius-medium;
+    border-radius: 18px;
     box-shadow: $topbar-box-shadow;
   }
 
@@ -147,7 +135,7 @@
 
     h1 {
       font-size: 33px;
-      color: $green-dark;
+      color: $green-main;
       margin: 0 0 24px 0;
     }
   }
@@ -163,18 +151,18 @@
     width: 100%;
     border-collapse: collapse;
     background-color: $white;
-    border-radius: $border-radius-small;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: $table-box-shadow;
 
     thead {
-      background-color: $green-button;
+      background-color: $green-hover;
       color: $white;
     }
 
     th,
     td {
-      padding: $padding-table-cell;
+      padding: 14px 16px;
       text-align: left;
 
       &:first-child {
@@ -187,7 +175,7 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid $border-table;
+      border-bottom: 1px solid $gray-soft;
 
       &:hover {
         background-color: $bg-table-hover;
@@ -212,7 +200,7 @@
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
-      background: $green-dark;
+      background: $green-main;
       color: $white;
       padding: 4px 8px;
       border-radius: 6px;

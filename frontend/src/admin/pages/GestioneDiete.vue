@@ -72,8 +72,6 @@
 </template>
 
 <style scoped lang="scss">
-  $bg-table-hover: #f1f8f4;
-  $border-table: #e0e0e0;
   $box-shadow-topbar: 0 6px 16px $gray-shadow;
   $box-shadow-table: 0 8px 20px $green-dark-box-shadow;
 
@@ -150,7 +148,7 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid $border-table;
+      border-bottom: 1px solid $gray-soft;
 
       &:hover {
         background-color: $bg-table-hover;
