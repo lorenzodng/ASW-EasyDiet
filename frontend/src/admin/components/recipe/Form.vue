@@ -16,14 +16,29 @@
 
     const form = ref({});
 
+    const capitalizeFirst = (str) => {
+        if (!str) return "";
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     //Updates the forms when modelValue changes (modify plate)
     watch(
         () => props.modelValue,
         (val) => {
-            form.value = JSON.parse(JSON.stringify(val));
+            const copy = JSON.parse(JSON.stringify(val));
+
+            if (Array.isArray(copy.ingredienti)) {
+                copy.ingredienti = copy.ingredienti.map((ing) => ({
+                    ...ing,
+                    nome: capitalizeFirst(ing.nome)
+                }));
+            }
+
+            form.value = copy;
         },
         { immediate: true }
     );
+
 
     //Adds a new empty ingredient row to the recipe form
     const addIngredient = () => {

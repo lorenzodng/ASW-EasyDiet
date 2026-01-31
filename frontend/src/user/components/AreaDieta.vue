@@ -2,11 +2,8 @@
   import { ref, onMounted } from "vue";
   import axios from "axios";
   import { useUserStore } from "../../stores/user";
-  import { useDietStore } from "../../stores/diet";
 
   const userStore = useUserStore();
-  const dietStore = useDietStore();
-
   const diet = ref(null);
   const loading = ref(true);
   const error = ref("");

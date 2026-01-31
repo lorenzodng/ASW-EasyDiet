@@ -99,7 +99,7 @@
         p {
             font-size: 15px;
             margin-bottom: 6px;
-            color: $black-text;
+            color: $black;
         }
 
         button {

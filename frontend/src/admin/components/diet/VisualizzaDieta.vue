@@ -21,9 +21,7 @@
       loading.value = true;
       error.value = "";
 
-      const { data } = await axios.get(
-        `http://localhost:5000/diets/${props.userId}`
-      );
+      const { data } = await axios.get(`http://localhost:5000/diets/${props.userId}`);
 
       if (!data.status) {
         error.value = "Dieta non presente";
@@ -130,7 +128,7 @@
 
   .error {
     color: $red-error;
-    font-size:14px;
+    font-size: 14px;
     margin-bottom: 12px;
   }
 
@@ -188,7 +186,7 @@
 
       th,
       td {
-        padding: 12px 14px;
+        padding: 12px 20px;
         font-size: 14px;
       }
 
@@ -212,7 +210,7 @@
       th:nth-child(2),
       td:nth-child(2) {
         text-align: center;
-        padding-right: 52px;
+        padding-right: 65px;
 
       }
 

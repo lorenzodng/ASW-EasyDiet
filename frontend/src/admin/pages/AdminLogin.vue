@@ -42,7 +42,7 @@
         <div class="form-group">
           <label for="token">Token</label>
           <input id="token" type="password" v-model="adminToken" :class="['form-control', { error: errors.token }]"
-            placeholder="Inserisci token" />
+            placeholder="Token" />
         </div>
 
         <button type="submit" class="login-button" :disabled="loading">
