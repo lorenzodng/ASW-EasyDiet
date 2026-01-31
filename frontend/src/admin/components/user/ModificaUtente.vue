@@ -53,9 +53,6 @@
 </template>
 
 <style scoped lang="scss">
-    $green-main: #4caf50;
-    $green-dark: #2e7d32;
-    $white: #fff;
 
     .inline-edit {
         display: inline-flex;
@@ -69,7 +66,7 @@
 
     .edit-input {
         padding: 6px 10px;
-        border: 2px solid $green-main;
+        border: 2px solid $green-hover;
         border-radius: 6px;
         font-size: 14px;
         width: 180px;
@@ -77,7 +74,7 @@
 
         &:focus {
             outline: none;
-            border-color: $green-dark;
+            border-color: $green-main;
             box-shadow: 0 0 0 3 $gray-box-shadow-green;
         }
     }
@@ -99,7 +96,7 @@
             bottom: 130%;
             left: 50%;
             transform: translateX(-50%);
-            background: $green-dark;
+            background: $green-main;
             color: $white;
             padding: 4px 8px;
             border-radius: 6px;

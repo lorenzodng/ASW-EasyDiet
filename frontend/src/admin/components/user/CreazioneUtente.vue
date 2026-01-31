@@ -43,18 +43,11 @@
     <p v-if="error" class="error">{{ error }}</p>
 </template>
 <style scoped lang="scss">
-    $white: #ffffff;
-    $black-soft: #0a0000;
-    $green-main: #4caf50;
-    $green-dark: #2e7d32;
-    $green-hover: #388e3c;
-    $red-error: #d32f2f;
-    $gray-border: #ccc;
 
     .add {
         padding: 10px 16px;
         background-color: $white;
-        color: $black-soft;
+        color: $black;
         border: 2px solid transparent;
         border-radius: 8px;
         font-weight: 600;
@@ -64,7 +57,7 @@
         outline: none;
 
         &:hover {
-            border-color: $green-main;
+            border-color: $green-hover;
         }
     }
 
@@ -83,13 +76,13 @@
 
             &:focus {
                 outline: none;
-                border-color: $green-main;
+                border-color: $green-hover;
             }
         }
 
         button {
             padding: 10px 16px;
-            background-color: $green-dark;
+            background-color: $green-main;
             color: $white;
             border: none;
             border-radius: 8px;
@@ -97,7 +90,7 @@
             cursor: pointer;
 
             &:hover {
-                background-color: $green-hover;
+                background-color: $green-border;
             }
         }
     }

@@ -71,16 +71,9 @@
     </div>
 </template>
 <style scoped lang="scss">
-    $green-dark: #2e7d32;
-    $green-main: #4caf50;
-    $green-light: #66bb6a;
     $green-strong: #38973d;
-    $white: #ffffff;
     $black-overlay: rgba(0, 0, 0, 0.5);
     $black-shadow: rgba(0, 0, 0, 0.25);
-    $gray-text: #333333;
-    $gray-light: #f2f8f3;
-    $gray-info: #555;
 
     .modal-overlay {
         position: fixed;
@@ -107,13 +100,13 @@
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: $green-dark;
+            color: $green-main;
         }
 
         h3 {
             margin-top: 40px;
             margin-bottom: 20px;
-            color: $green-dark;
+            color: $green-main;
             text-align: center;
         }
 
@@ -121,14 +114,14 @@
             display: block;
             margin: 16px auto 0;
             padding: 8px 14px;
-            background-color: $green-main;
+            background-color: $green-hover;
             color: $white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
 
             &:hover {
-                background-color: $green-light;
+                background-color: $green-soft;
             }
         }
     }
@@ -160,19 +153,19 @@
         align-items: center;
         padding: 10px 14px;
         margin-bottom: 8px;
-        background: $gray-light;
+        background: $bg-table-hover;
         border-radius: 8px;
         font-size: 14px;
     }
 
     .weight {
         font-weight: 600;
-        color: $gray-info;
+        color: $gray-muted;
     }
 
     .date {
         font-size: 13px;
-        color: $gray-info;
+        color: $gray-muted;
     }
 
     .icon {
@@ -192,7 +185,7 @@
             bottom: 130%;
             left: 50%;
             transform: translateX(-50%);
-            background: $green-dark;
+            background: $green-main;
             color: $white;
             padding: 4px 8px;
             border-radius: 6px;
