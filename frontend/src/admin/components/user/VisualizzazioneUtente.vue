@@ -72,8 +72,6 @@
 </template>
 <style scoped lang="scss">
     $green-strong: #38973d;
-    $black-overlay: rgba(0, 0, 0, 0.5);
-    $black-shadow: rgba(0, 0, 0, 0.25);
 
     .modal-overlay {
         position: fixed;
@@ -81,7 +79,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: $black-overlay;
+        background: $overlay-bg;
         display: flex;
         justify-content: center;
         align-items: center;

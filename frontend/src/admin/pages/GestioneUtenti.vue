@@ -116,7 +116,7 @@
 
     h1 {
       font-size: 33px;
-      color: $green-hover;
+      color: $green-main;
       margin: 0 0 24px 0;
     }
   }

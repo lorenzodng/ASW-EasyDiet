@@ -56,15 +56,7 @@
 </template>
 
 <style scoped lang="scss">
-    $green-dark: #2e7d32;
-    $green-button: #4caf50;
-    $green-button-hover: #66bb6a;
-    $white: #ffffff;
-    $black-light: #333;
-    $box-shadow-modal: 0 10px 30px rgba(0, 0, 0, 0.25);
-    $overlay-bg: rgba(0, 0, 0, 0.5);
-    $border-radius-small: 6px;
-    $border-radius-medium: 12px;
+    $box-shadow-modal: 0 10px 30px $black-shadow;
 
     .modal-overlay {
         position: fixed;
@@ -79,7 +71,7 @@
     .modal {
         background: $white;
         padding: 5px 24px 35px 24px;
-        border-radius: $border-radius-medium;
+        border-radius: 12px;
         width: 400px;
         max-height: 80vh;
         overflow-y: auto;
@@ -88,7 +80,7 @@
 
         h2 {
             margin-bottom: 16px;
-            color: $green-dark;
+            color: $green-main;
             text-align: center;
             font-size: 30px;
         }
@@ -96,7 +88,7 @@
         h3 {
             margin-top: 20px;
             margin-bottom: 10px;
-            color: $green-dark;
+            color: $green-main;
             text-align: center;
 
             .ingredienti-title {
@@ -107,20 +99,20 @@
         p {
             font-size: 15px;
             margin-bottom: 6px;
-            color: $black-light;
+            color: $black-text;
         }
 
         button {
             margin-top: 16px;
             padding: 8px 14px;
-            background-color: $green-button;
+            background-color: $green-hover;
             color: $white;
             border: none;
-            border-radius: $border-radius-small;
+            border-radius: 6px;
             cursor: pointer;
 
             &:hover {
-                background-color: $green-button-hover;
+                background-color: $green-soft;
             }
         }
 

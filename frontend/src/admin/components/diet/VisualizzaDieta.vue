@@ -94,7 +94,6 @@
   $white: #ffffff;
   $black-light: #333;
   $red-error: #d32f2f;
-  $overlay-bg: rgba(0, 0, 0, 0.5);
   $day-bg: #f9fdf9;
   $bg-hover-row: #f1f8f4;
   $border-radius-small: 6px;
@@ -104,7 +103,7 @@
   $border-radius-day: 14px;
   $border-light: #e0e0e0;
   $box-shadow-icon: 0 0 0 rgba(0, 0, 0, 0);
-  $box-shadow-modal: 0 10px 30px rgba(0, 0, 0, 0.25);
+  $box-shadow-modal: 0 10px 30px $black-shadow;
   $box-shadow-day: 0 4px 12px $green-dark-box-shadow;
   $box-shadow-close-hover: 0 4px 10px rgba(76, 175, 80, 0.35);
   $padding-page: 16px;

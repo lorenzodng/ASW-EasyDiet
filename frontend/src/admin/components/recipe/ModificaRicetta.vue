@@ -43,9 +43,6 @@
 </template>
 
 <style scoped lang="scss">
-  $white: #fff;
-  $modal-bg: rgba(0, 0, 0, 0.5);
-  $modal-shadow: rgba(0, 0, 0, 0.2);
 
   .modal-overlay {
     position: fixed;
@@ -53,7 +50,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: $modal-bg;
+    background-color: $overlay-bg;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -63,7 +60,7 @@
   .modal-content {
     background-color: $white;
     border-radius: 12px;
-    box-shadow: 0 8px 20px $modal-shadow;
+    box-shadow: 0 8px 20px $black-shadow;
     max-width: 600px;
     width: 90%;
     max-height: 100vh;

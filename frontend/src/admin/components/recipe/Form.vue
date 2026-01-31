@@ -80,19 +80,9 @@
 </template>
 
 <style scoped lang="scss">
-    $green-dark: #2e7d32;
-    $green-light: #388e3c;
-    $green-button: #4caf50;
-    $green-button-hover: #66bb6a;
-    $white: #ffffff;
-    $gray-light: #ccc;
-    $gray-medium: #e0e0e0;
     $gray-medium-hover: #d5d5d5;
-    $box-shadow-form: 0 6px 16px rgba(0, 0, 0, 0.08);
-    $green-light-bg: #e1f5e3;
+    $box-shadow-form: 0 6px 16px $gray-shadow;
     $green-light-bg-hover: #c8e6c9;
-    $red-main: #d32f2f;
-    $red-light-bg: #fdecea;
     $red-light-bg-hover: #ffd2d0;
 
     .recipe-form {
@@ -113,20 +103,20 @@
             padding: 10px;
             margin: 0 auto 12px;
             border-radius: 6px;
-            border: 1px solid $gray-light;
+            border: 1px solid $gray-border;
             font-size: 14px;
             box-sizing: border-box;
 
             &:focus {
                 outline: none;
-                border-color: $green-button;
+                border-color: $green-hover;
             }
         }
 
         h3 {
             margin-top: 25px;
             margin-bottom: 15px;
-            color: $green-light;
+            color: $green-border;
             font-size: 20px;
         }
 
@@ -163,8 +153,8 @@
     }
 
     .remove-ingredient {
-        background-color: $red-light-bg;
-        color: $red-main;
+        background-color: $red-light;
+        color: $red-error;
         font-size: 14px;
         border-radius: 999px;
         border: none;
@@ -183,8 +173,8 @@
     }
 
     .add-ingredient {
-        background-color: $green-light-bg;
-        color: $green-dark;
+        background-color: $green-light;
+        color: $green-main;
         font-size: 14px;
         border-radius: 999px;
         padding: 8px 12px;
@@ -205,16 +195,16 @@
         }
 
         .submit {
-            background-color: $green-button;
+            background-color: $green-hover;
             color: $white;
 
             &:hover {
-                background-color: $green-button-hover;
+                background-color: $green-soft;
             }
         }
 
         .cancel {
-            background-color: $gray-medium;
+            background-color: $gray-soft;
 
             &:hover {
                 background-color: $gray-medium-hover;

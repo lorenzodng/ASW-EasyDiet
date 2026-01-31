@@ -37,8 +37,6 @@
 </template>
 
 <style scoped lang="scss">
-  $green-dark: #2e7d32;
-  $white: #ffffff;
 
   .icon {
     border: none;
@@ -57,7 +55,7 @@
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
-      background: $green-dark;
+      background: $green-main;
       color: $white;
       padding: 4px 8px;
       border-radius: 6px;

@@ -63,8 +63,6 @@
 </template>
 
 <style scoped lang="scss">
-    $white: #ffffff;
-    $green-button: #4caf50;
 
     .add-button {
         background-color: $white;
@@ -72,7 +70,7 @@
         outline: none;
 
         &:hover {
-            border-color: $green-button;
+            border-color: $green-hover;
         }
     }
 </style>
