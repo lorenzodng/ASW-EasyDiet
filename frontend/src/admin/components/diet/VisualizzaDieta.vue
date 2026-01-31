@@ -86,32 +86,13 @@
 </template>
 
 <style scoped lang="scss">
-  $green-dark: #2e7d32;
-  $green-light: #388e3c;
-  $green-gradient-start: #43a047;
-  $green-gradient-end: #66bb6a;
   $green-gradient-hover-end: #5cb860;
-  $white: #ffffff;
-  $black-light: #333;
-  $red-error: #d32f2f;
   $day-bg: #f9fdf9;
-  $bg-hover-row: #f1f8f4;
-  $border-radius-small: 6px;
-  $border-radius-medium: 8px;
-  $border-radius-large: 10px;
-  $border-radius-xlarge: 12px;
-  $border-radius-day: 14px;
-  $border-light: #e0e0e0;
-  $box-shadow-icon: 0 0 0 rgba(0, 0, 0, 0);
+  $box-shadow-icon: 0 0 0 $black;
   $box-shadow-modal: 0 10px 30px $black-shadow;
   $box-shadow-day: 0 4px 12px $green-dark-box-shadow;
-  $box-shadow-close-hover: 0 4px 10px rgba(76, 175, 80, 0.35);
-  $padding-page: 16px;
-  $padding-cell: 12px 14px;
-  $font-size-sm: 15px;
-  $font-size-md: 14px;
-  $font-size-lg: 18px;
-  $font-size-xl: 14px;
+  $box-sh-green: rgba(76, 175, 80, 0.35);
+  $box-shadow-close-hover: 0 4px 10px $box-sh-green;
 
   .icon {
     position: relative;
@@ -131,11 +112,11 @@
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
-      background: $green-dark;
+      background: $green-main;
       color: $white;
       padding: 4px 8px;
-      border-radius: $border-radius-small;
-      font-size: $font-size-sm;
+      border-radius: 6px;
+      font-size: 15px;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
@@ -149,7 +130,7 @@
 
   .error {
     color: $red-error;
-    font-size: $font-size-md;
+    font-size:14px;
     margin-bottom: 12px;
   }
 
@@ -166,7 +147,7 @@
   .modal {
     background: $white;
     padding: 24px;
-    border-radius: $border-radius-xlarge;
+    border-radius: 12px;
     width: 90%;
     max-width: 900px;
     max-height: 85vh;
@@ -188,8 +169,8 @@
 
   .day {
     background: $day-bg;
-    border-radius: $border-radius-day;
-    padding: $padding-page;
+    border-radius: 14px;
+    padding: 16px;
     margin-bottom: 24px;
     box-shadow: $box-shadow-day;
 
@@ -198,17 +179,17 @@
       border-collapse: separate;
       border-spacing: 0;
       background: $white;
-      border-radius: $border-radius-large;
+      border-radius: 10px;
       overflow: hidden;
 
       thead {
-        background: linear-gradient(90deg, $green-gradient-start, $green-gradient-end);
+        background: linear-gradient(90deg, $green-hover, $green-soft);
       }
 
       th,
       td {
-        padding: $padding-cell;
-        font-size: $font-size-md;
+        padding: 12px 14px;
+        font-size: 14px;
       }
 
       th {
@@ -219,8 +200,8 @@
       }
 
       td {
-        color: $black-light;
-        border-bottom: 1px solid $border-light;
+        color: $gray-text;
+        border-bottom: 1px solid $gray-soft;
 
         &:first-child {
           font-weight: 600;
@@ -245,7 +226,7 @@
       }
 
       tbody tr:hover {
-        background-color: $bg-hover-row;
+        background-color: $bg-table-hover;
       }
     }
   }
@@ -253,10 +234,10 @@
   .close {
     margin-top: 20px;
     padding: 10px 18px;
-    background: linear-gradient(90deg, $green-gradient-start, $green-gradient-end);
+    background: linear-gradient(90deg, $green-hover, $green-soft);
     color: $white;
-    border-radius: $border-radius-medium;
-    font-size: $font-size-xl;
+    border-radius: 8px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s ease, box-shadow 0.2s ease;
@@ -264,7 +245,7 @@
     margin: 20px auto 0;
 
     &:hover {
-      background: linear-gradient(90deg, $green-light, $green-gradient-hover-end);
+      background: linear-gradient(90deg, $green-border, $green-gradient-hover-end);
       box-shadow: $box-shadow-close-hover;
     }
   }

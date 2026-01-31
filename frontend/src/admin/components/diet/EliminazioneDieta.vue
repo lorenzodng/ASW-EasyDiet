@@ -42,19 +42,13 @@
 </template>
 
 <style scoped lang="scss">
-  $green-dark: #2e7d32;
-  $white: #ffffff;
-  $border-radius: 6px;
-  $transition-fast: 0.2s ease;
-  $icon-font-size: 18px;
-  $tooltip-font-size: 12px;
 
   .delete {
     position: relative;
     background: none;
     border: none;
     cursor: pointer;
-    font-size: $icon-font-size;
+    font-size: 18px;
     transition: transform $transition-fast;
 
     &:hover {
@@ -67,11 +61,11 @@
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
-      background: $green-dark;
+      background: $green-main;
       color: $white;
       padding: 4px 8px;
-      border-radius: $border-radius;
-      font-size: $tooltip-font-size;
+      border-radius: 6px;
+      font-size: 12px;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
