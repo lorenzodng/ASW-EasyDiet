@@ -1,8 +1,7 @@
-//controller che gestisce le richieste sulle ricette
+// Controller that handles dish-related requests
 
 import * as service from "./service.js";
 
-//recupero dei piatti
 export const getRecipesController = async (req, res) => {
     try {
         const recipes = await service.getRecipes();

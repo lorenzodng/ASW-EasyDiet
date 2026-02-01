@@ -1,5 +1,3 @@
-//struttura del profilo utente
-
 import mongoose from "mongoose";
 
 const InfoSchema = new mongoose.Schema({

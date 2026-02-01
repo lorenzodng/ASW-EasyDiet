@@ -1,8 +1,5 @@
-//controller che gestisce le richieste sulle diete
-
 import * as service from "./service.js";
 
-//salvataggio della dieta
 export const saveDietController = async (req, res) => {
   try {
     const dietData = req.body;
@@ -28,7 +25,6 @@ export const saveDietController = async (req, res) => {
   }
 };
 
-//recupero della dieta dell'utente
 export const getDietInfoController = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -63,7 +59,6 @@ export const getDietInfoController = async (req, res) => {
   }
 };
 
-//eliminazione della dieta dell'utente
 export const deleteDietInfoController = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -99,15 +94,15 @@ export const deleteDietInfoController = async (req, res) => {
   }
 };
 
-//chat con LLM per la generazione della dieta
+// Chat with LLM for diet generation
 export const chatController = async (req, res) => {
   const messages = JSON.parse(req.query.messages || "[]");
   let lastMsg = "";
-  if (messages.length > 0 && messages[messages.length - 1].content) { //prende l'ultimo messaggio inviato dall'utente
+  if (messages.length > 0 && messages[messages.length - 1].content) { // Get the last user message
     lastMsg = messages[messages.length - 1].content;
   }
 
-  if (!service.validateMessage(lastMsg)) { //verifica che l'ultimo messaggio è pertinente
+  if (!service.validateMessage(lastMsg)) { // Validate that the message is diet-related
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
@@ -119,20 +114,20 @@ export const chatController = async (req, res) => {
   }
 
   try {
-    //imposta header per streaming SSE
+    // Set headers for SSE streaming
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
-    //genera la risposta come generator async
+    // Generate response as async stream
     const stream = service.generateChatResponse(messages);
 
+    // Send tokens one by one to the client
     for await (const token of stream) {
-      //invia ogni token al frontend
       res.write(`data: ${JSON.stringify({ role: "assistant", content: token })}\n\n`);
     }
 
-    //indica la fine dello stream
+    // Signal end of stream
     res.write(`event: end\ndata: [DONE]\n\n`);
     res.end();
   } catch (err) {

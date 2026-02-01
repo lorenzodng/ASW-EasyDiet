@@ -3,7 +3,7 @@ import * as notificationService from "./service.js";
 import * as userService from "../user/service.js";
 import * as dietService from "../diet/service.js";
 
-// Funzione principale: avvia i promemoria
+// Main function: starts meal reminders
 export const startMealReminders = () => {
     cron.schedule("* * * * *", async () => {
         const currentDateInfo = getCurrentDateInfo();
@@ -15,7 +15,7 @@ export const startMealReminders = () => {
     });
 };
 
-// Recupera giorno corrente, ora e minuti
+// Get current day, hour and minute
 const getCurrentDateInfo = () => {
     const giorni = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
     const currentDate = new Date();
@@ -26,7 +26,7 @@ const getCurrentDateInfo = () => {
     };
 };
 
-// Gestisce tutti i pasti di un singolo utente
+// Handle all meals for a single user
 const processUserMeals = async (user, { currentDay, currentHour, currentMinute }) => {
     const dieta = await dietService.getDietByUserId(user.userId);
     if (!dieta || !dieta.settimana) return;
@@ -37,7 +37,7 @@ const processUserMeals = async (user, { currentDay, currentHour, currentMinute }
     }
 };
 
-// Gestisce un singolo pasto
+// Handle a single meal reminder
 const processSingleMeal = async (user, dieta, categoriaPasto, currentDay, currentHour, currentMinute) => {
     const pasto = dieta.settimana[currentDay][categoriaPasto];
     if (!pasto || !pasto.time) return;
@@ -53,7 +53,7 @@ const processSingleMeal = async (user, dieta, categoriaPasto, currentDay, curren
     }
 };
 
-// Costruisce il messaggio della notifica
+// Build notification message for the meal
 const buildMealMessage = (categoriaPasto) => {
     if (categoriaPasto === "pranzo") {
         return `È ora del tuo ${categoriaPasto}! 😋 `;

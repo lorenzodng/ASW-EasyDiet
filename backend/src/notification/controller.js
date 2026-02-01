@@ -1,8 +1,6 @@
-//controller per le notifiche
-
 import * as service from "./service.js";
 
-//salva/aggiorna la sottoscrizione dell'utente alle notifiche
+// Save or update user notification subscription
 export const saveSubscriptionController = async (req, res) => {
     try {
         const { userId } = req.params;
@@ -31,7 +29,7 @@ export const saveSubscriptionController = async (req, res) => {
     }
 };
 
-//verifica l'eseistenza di una sottoscrizione dell'utente alle notifiche
+// Check if the user has an active notification subscription
 export const getStatusNotificationController = async (req, res) => {
     const { userId } = req.params
     try {

@@ -1,5 +1,3 @@
-//struttura delle diete
-
 import mongoose from "mongoose";
 import { DietRecipeSchema } from "../recipes/liteInfoModel.js";
 

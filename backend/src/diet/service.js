@@ -1,10 +1,8 @@
-//servizio che esegue le richieste sulle diete
-
 import DietInfo from "./infoModel.js";
 import { GoogleGenAI } from "@google/genai";
 import systemPrompt from "./systemPrompt.js";
 
-//parole consentite
+// Allowed keywords for message validation
 const allowedKeywords = [
   "dieta", "diete", "calorie", "kcal", "chilocalorie", "nutrizione",
   "ricetta", "ricette", "pasto", "pasti", "colazione", "colazioni",
@@ -18,14 +16,13 @@ const allowedKeywords = [
 const greetings = ["ciao", "salve", "buongiorno", "buonasera", "buon pomeriggio", "hey"];
 const thanks = ["grazie", "perfetto", "ok"];
 
-//salva la dieta
 export const saveDiet = async (dietData) => {
   try {
     const { userId, settimana } = dietData;
 
     let foundDiet = await DietInfo.findOne({ userId });
-
-    if (foundDiet) { //se la dieta esiste già, la aggiorna
+    // Update existing diet or create a new one
+    if (foundDiet) { 
       foundDiet.settimana = settimana;
     } else {
       foundDiet = new DietInfo({ userId, settimana });
@@ -39,7 +36,6 @@ export const saveDiet = async (dietData) => {
   }
 };
 
-//recupera la dieta
 export const getDietByUserId = async (userId) => {
   try {
     return await DietInfo.findOne({ userId });
@@ -49,7 +45,6 @@ export const getDietByUserId = async (userId) => {
   }
 };
 
-//elimina la dieta
 export const deleteDietByUserId = async (userId) => {
   try {
     return await DietInfo.deleteOne({ userId });
@@ -59,19 +54,18 @@ export const deleteDietByUserId = async (userId) => {
   }
 };
 
-//verifica che il messaggio contiene almeno una parola consentita
+// Validate that the message is related to diet topics
 export function validateMessage(message) {
   const msg = message.toLowerCase();
-  if (greetings.includes(msg)) return true; //se il messaggio è solo un saluto 
-  if (thanks.includes(msg)) return true;  //se il messaggio è solo un ringraziamento 
-  if (allowedKeywords.some(w => msg.includes(w))) return true; //se il messaggio contiene almeno una parola consentita
+  if (greetings.includes(msg)) return true; 
+  if (thanks.includes(msg)) return true;  
+  if (allowedKeywords.some(w => msg.includes(w))) return true; // Check if the message contains at least one allowed keyword
   return false;
 }
 
-//genera la risposta dell'LLM
 export async function* generateChatResponse(messages) {
   try {
-    //concatena systemPrompt + messaggio utente in un unico testo
+    // Combine system prompt and user messages
     const fullPrompt = [
       systemPrompt,
       ...messages.map(m => m.content) //crea un array di messaggi
@@ -87,10 +81,10 @@ export async function* generateChatResponse(messages) {
       ]
     });
 
-    //itera sui chunk di testo
     for await (const chunk of stream) {
       const text = chunk.text || "";
-      yield text; // restituisce pezzi di testo man mano
+      yield text; // Returns text chunks progressively
+
     }
   } catch (err) {
     console.error("Errore Gemini SDK:", err);
@@ -98,5 +92,5 @@ export async function* generateChatResponse(messages) {
   }
 };
 
-//client per comunicare con Gemini
+// Gemini client initialization
 const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }); 

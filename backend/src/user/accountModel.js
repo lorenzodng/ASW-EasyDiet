@@ -1,5 +1,3 @@
-//struttura dell'account utente
-
 import mongoose from "mongoose";
 
 const UserAccountSchema = new mongoose.Schema({
