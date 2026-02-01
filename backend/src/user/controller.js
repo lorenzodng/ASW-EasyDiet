@@ -69,18 +69,6 @@ export const getUserProfileInfoController = async (req, res) => {
     }
 };
 
-// Handles user weight update notifications
-export const notifyWeightController = async (req, res) => {
-    const { userId, nuovoPeso } = req.body;
-    try {
-        const result = await service.notifyWeight(userId, nuovoPeso);
-        res.json(result);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ status: false, message: "Errore server" });
-    }
-};
-
 // Retrieves the user ID and name from the JWT token
 export const getUserIdNameController = async (req, res) => {
     try {
