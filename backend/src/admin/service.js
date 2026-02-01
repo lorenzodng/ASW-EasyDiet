@@ -1,27 +1,28 @@
 import jwt from "jsonwebtoken";
 import AdminAccount from "./infoModel.js";
 
-// Service layer:
-// handles business logic and database operations.
-// Called by controllers and returns structured results.
+/* 
+  Service layer:
+  Handles admin business logic and database operations.
+  Called by controllers and returns structured results.
+*/
 
+// Admin authentication
 export const loginAdmin = async ({ token }) => {
   if (!token) {
     return {
       status: false,
-      message: "Token mancante"
+      message: "Token di login mancante"
     };
   }
-
   const admin = await AdminAccount.findOne({
     token: Number(token),
     ruolo: "admin"
   });
-
   if (!admin) {
     return {
       status: false,
-      message: "Token non valido"
+      message: "Token di login non valido"
     };
   }
 
@@ -36,7 +37,7 @@ export const loginAdmin = async ({ token }) => {
 
   return {
     status: true,
-    message: "Admin validato",
+    message: "Admin autenticato con successo",
     tokenjwt: jwtToken,
     admin: {
       nome: admin.nome,

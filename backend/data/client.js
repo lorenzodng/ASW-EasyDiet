@@ -5,7 +5,7 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const uri = process.env.MONGO_URI;
 
-//crea un client (temporaneo) mongoDB
+// Create a MongoDb client
 const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,

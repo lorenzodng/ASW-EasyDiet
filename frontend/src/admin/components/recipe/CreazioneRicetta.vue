@@ -25,8 +25,8 @@
         ]
     });
 
-    /*Sends the new plate to the backend and resets the form on success.
-    Emits a "saved" event so the parent component can refresh the plates list. */
+    /*Sends the new dish to the backend and resets the form on success.
+    Emits a "saved" event so the parent component can refresh the dishes list. */
     const saveRecipe = async (data) => {
         try {
             const response = await axios.post("http://localhost:5000/admin/recipes", data);

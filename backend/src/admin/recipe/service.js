@@ -1,9 +1,12 @@
 import RecipeInfo from "../../recipes/infoModel.js";
 
-// Service layer:
-// handles business logic and database operations.
-// Called by controllers and returns structured results.
+/* 
+  Service layer:
+  Handles dish business logic and database operations.
+  Called by controllers and returns structured results.
+*/
 
+//Create new dish
 export const createRecipe = async (recipeData) => {
   const {
     nome,
@@ -46,7 +49,7 @@ export const createRecipe = async (recipeData) => {
   };
 };
 
-
+// Delete dish
 export const deleteRecipe = async (recipeId) => {
   if (!recipeId) {
     return {
@@ -71,7 +74,7 @@ export const deleteRecipe = async (recipeId) => {
   };
 };
 
-
+// Update dish
 export const updateRecipe = async (id, data) => {
   const recipe = await RecipeInfo.findById(id);
 

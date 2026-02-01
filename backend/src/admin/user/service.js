@@ -1,12 +1,15 @@
-import UserAccount from "../../user/accountModel.js"
+import UserAccount from "../../user/accountModel.js";
 import User from "../../user/infoModel.js";
 import Diet from "../../diet/infoModel.js";
 import Notification from "../../notification/infoModel.js";
 
-// Service layer:
-// handles business logic and database operations.
-// Called by controllers and returns structured results.
+/* 
+  Service layer:
+  Handles user business logic and database operations.
+  Called by controllers and returns structured results.
+*/
 
+// Get all users
 export const getAllUsers = async () => {
   try {
     const users = await UserAccount.find(
@@ -16,7 +19,7 @@ export const getAllUsers = async () => {
     return users;
   } catch (err) {
     console.error(err);
-    throw new Error("Errore nel recupero delle ricette dal DB");
+    throw new Error("Errore nel recupero dei piatti");
   }
 };
 
@@ -25,10 +28,8 @@ export const getAllUsersWithDiet = async () => {
     path: "userId",
     select: "email"
   });
-
   const userIds = diets.map(d => d.userId._id);
   const profiles = await User.find({ userId: { $in: userIds } }).select("userId obiettivo kcal");
-
   const usersWithDiet = diets.map(d => {
     const profile = profiles.find(p => p.userId.toString() === d.userId._id.toString());
     return {
@@ -42,18 +43,17 @@ export const getAllUsersWithDiet = async () => {
   return usersWithDiet;
 };
 
+// Create new user
 export const createUser = async (userData) => {
   const nome = userData.nome;
   const email = userData.email;
   const password = userData.password;
-
   if (!nome || !email || !password) {
     return {
       status: false,
       message: "Dati mancanti"
     };
   }
-
   const doubleemail = await UserAccount.findOne({ email });
   if (doubleemail) {
     return {
@@ -61,7 +61,6 @@ export const createUser = async (userData) => {
       message: "Email già registrata"
     };
   }
-
   const newUser = new UserAccount({
     nome,
     email,
@@ -80,15 +79,14 @@ export const createUser = async (userData) => {
   };
 };
 
-
-export const updateUserEmail = async (userId, email) => {
+// Update user email
+export const updateEmail = async (userId, email) => {
   if (!email) {
     return {
       status: false,
       message: "Email mancante"
     };
   }
-
   const existing = await UserAccount.findOne({ email });
   if (existing) {
     return {
@@ -96,7 +94,6 @@ export const updateUserEmail = async (userId, email) => {
       message: "Email già in uso"
     };
   }
-
   const updatedUser = await UserAccount.findByIdAndUpdate(
     userId,
     { email },
@@ -109,21 +106,20 @@ export const updateUserEmail = async (userId, email) => {
       message: "Utente non trovato"
     };
   }
-
   return {
     status: true,
     user: updatedUser
   };
 };
 
-export const deleteUserService = async (userId) => {
+// Delete user
+export const deleteUser = async (userId) => {
   if (!userId) {
     return {
       status: false,
       message: "ID utente mancante"
     };
   }
-
   const userAccount = await UserAccount.findById(userId);
   if (!userAccount) {
     return {
@@ -131,37 +127,31 @@ export const deleteUserService = async (userId) => {
       message: "Utente non trovato"
     };
   }
-
   await Notification.deleteMany({ userId });
   await Diet.deleteMany({ userId });
   await User.findOneAndDelete({ userId });
-
   await UserAccount.findByIdAndDelete(userId);
-
   return {
     status: true,
     message: "Utente e dati associati eliminati con successo"
   };
 };
 
-
-export const getUserInfoService = async (userId) => {
+// Get single user info
+export const getUserInfo = async (userId) => {
   if (!userId) {
     return {
       status: false,
       message: "ID utente mancante"
     };
   }
-
   const info = await User.findOne({ userId });
-
   if (!info) {
     return {
       status: false,
       message: "Nessuna informazione personale trovata"
     };
   }
-
   return {
     status: true,
     info

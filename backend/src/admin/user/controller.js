@@ -1,8 +1,9 @@
 import * as service from "./service.js";
 
-// Controllers follow the same structure:
-// they handle HTTP requests, call the service layer
-// and return a JSON response with status and data.
+/*
+  Controller layer:
+  Handles HTTP requests and delegates user-related logic to the service layer.
+*/
 
 // Get all users
 export const getUsersController = async (req, res) => {
@@ -25,7 +26,6 @@ export const getUsersController = async (req, res) => {
 export const createUserController = async (req, res) => {
   try {
     const result = await service.createUser(req.body);
-
     if (result.status) {
       res.json({
         status: true,
@@ -37,7 +37,6 @@ export const createUserController = async (req, res) => {
         message: result.message
       });
     }
-
   } catch (error) {
     console.error("Errore creazione utente:", error);
     res.status(500).json({
@@ -48,13 +47,11 @@ export const createUserController = async (req, res) => {
 };
 
 // Update user email
-export const updateemailUserController = async (req, res) => {
+export const updateEmailUserController = async (req, res) => {
   try {
     const userId = req.params.id;
     const { email } = req.body;
-
-    const result = await service.updateUserEmail(userId, email);
-
+    const result = await service.updateEmail(userId, email);
     if (result.status) {
       res.json({
         status: true,
@@ -67,7 +64,7 @@ export const updateemailUserController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Errore update user:", error);
+    console.error("Errore aggiornamento email:", error);
     res.status(500).json({
       status: false,
       message: "Errore server"
@@ -79,16 +76,15 @@ export const updateemailUserController = async (req, res) => {
 export const deleteUserController = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const result = await service.deleteUserService(id);
-
+    const result = await service.deleteUser(id);
     if (!result.status) {
       return res.status(404).json(result);
     }
 
     return res.json(result);
+
   } catch (error) {
-    console.error("Errore delete user:", error);
+    console.error("Errore eliminazione utente:", error);
     res.status(500).json({
       status: false,
       message: "Errore server"
@@ -101,16 +97,15 @@ export const deleteUserController = async (req, res) => {
 export const getUserInfoController = async (req, res) => {
   try {
     const userId = req.params.id;
-
-    const result = await service.getUserInfoService(userId);
-
+    const result = await service.getUserInfo(userId);
     if (!result.status) {
       return res.status(404).json(result);
     }
 
     return res.status(200).json(result);
+
   } catch (error) {
-    console.error("Errore controller getUserInfo:", error);
+    console.error("Errore recupero informazioni utente:", error);
     return res.status(500).json({
       status: false,
       message: "Errore server"
@@ -119,7 +114,7 @@ export const getUserInfoController = async (req, res) => {
 };
 
 // Get users with diet info
-export const getUsersInfoController = async (req, res) => {
+export const getUsersWithDietController = async (req, res) => {
   try {
     const users = await service.getAllUsersWithDiet();
     res.json({

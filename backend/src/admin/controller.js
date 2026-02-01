@@ -1,13 +1,13 @@
 import * as service from "./service.js";
 
-// Controllers follow the same structure:
-// they handle HTTP requests, call the service layer
-// and return a JSON response with status and data.
+/*
+  Controller layer:
+  Handles HTTP requests and delegates admin-related logic to the service layer.
+*/
 
-//Admin authentication
-export const adminController = async (req, res) => {
+// Admin authentication
+export const loginController = async (req, res) => {
   try {
-    console.log("ADMIN LOGIN BODY:", req.body);
     const result = await service.loginAdmin(req.body);
     if (result.status) {
       res.send({

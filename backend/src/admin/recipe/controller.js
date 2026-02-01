@@ -1,10 +1,11 @@
 import * as service from "./service.js";
 
-// Controllers follow the same structure:
-// they handle HTTP requests, call the service layer
-// and return a JSON response with status and data.
+/*
+  Controller layer:
+  Handles HTTP requests and delegates dish-related logic to the service layer.
+*/
 
-//Create new recipe
+//Create new dish
 export const createRecipeController = async (req, res) => {
   try {
     const result = await service.createRecipe(req.body);
@@ -19,9 +20,8 @@ export const createRecipeController = async (req, res) => {
         message: result.message
       });
     }
-
   } catch (error) {
-    console.error("Errore creazione ricetta:", error);
+    console.error("Errore creazione piatto:", error);
     res.status(500).json({
       status: false,
       message: "Errore server"
@@ -29,17 +29,15 @@ export const createRecipeController = async (req, res) => {
   }
 };
 
-// Delete recipe
+// Delete dish
 export const deleteRecipeController = async (req, res) => {
   try {
     const recipeId = req.params.id;
-
     const result = await service.deleteRecipe(recipeId);
-
     if (result.status) {
       res.json({
         status: true,
-        message: "Ricetta eliminata con successo"
+        message: "Piatto eliminato con successo"
       });
     } else {
       res.json({
@@ -47,9 +45,8 @@ export const deleteRecipeController = async (req, res) => {
         message: result.message
       });
     }
-
   } catch (error) {
-    console.error("Errore eliminazione ricetta:", error);
+    console.error("Errore eliminazione piatto:", error);
     res.status(500).json({
       status: false,
       message: "Errore server"
@@ -57,14 +54,13 @@ export const deleteRecipeController = async (req, res) => {
   }
 };
 
-// Update recipe
+// Update dish
 export const updateRecipeController = async (req, res) => {
   try {
     const result = await service.updateRecipe(
       req.params.id,
       req.body
     );
-
     if (!result.status) {
       return res.status(400).json(result);
     }
@@ -72,7 +68,7 @@ export const updateRecipeController = async (req, res) => {
     res.json(result);
 
   } catch (error) {
-    console.error("Errore modifica ricetta:", error);
+    console.error("Errore modifica piatto:", error);
     res.status(500).json({
       status: false,
       message: "Errore server"

@@ -1,4 +1,4 @@
-import express from "express"
+import express from "express";
 import * as controller from "../../src/admin/recipe/controller.js";
 
 const router = express.Router();
