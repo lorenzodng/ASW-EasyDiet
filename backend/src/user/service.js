@@ -1,13 +1,11 @@
-//servizio che esegue le richieste sull'utente
-
 import jwt from 'jsonwebtoken';
 import UserAccount from "./accountModel.js";
 import UserInfo from "./infoModel.js";
 import { sendNotificationToUser } from "../notification/service.js";
 
-//login e verifica della presenza delle informazioni personali
+// User login and profile existence check
 export const loginUser = async (userData) => {
-    const foundUser = await UserAccount.findOne({ email: userData.email }); //cerca nel db un utente la cui email corrisponde a quella indicata dall'utente
+    const foundUser = await UserAccount.findOne({ email: userData.email }); // Search user by email
 
     if (!foundUser) {
         return {
@@ -16,27 +14,27 @@ export const loginUser = async (userData) => {
         };
     }
 
-    if (userData.password !== foundUser.password) { //cerca nel db un utente la cui password corrisponde a quella indicata dall'utente
+    if (userData.password !== foundUser.password) { 
         return {
             status: false,
             message: "Invalid password"
         };
     }
 
-    //generazione token JWT
+    // JWT token generation (1 hour expiration)
     const token = jwt.sign({
         id: foundUser._id,
         nome: foundUser.nome
     },
-        process.env.JWT_SECRET, { expiresIn: "1h" } //il token dura 1h(dopo l'utente dovrà rifare il login per visualizzare i dati)
+        process.env.JWT_SECRET, { expiresIn: "1h" } 
     );
 
-    const profile = await UserInfo.findOne({ userId: foundUser._id }); //verifica la presenza dell'utente nella collezione "users"
+    const profile = await UserInfo.findOne({ userId: foundUser._id }); 
 
     return {
         status: true,
         message: "User validated",
-        hasProfileInfo: !!profile, //"!!" converte "profile" in un boolean
+        hasProfileInfo: !!profile, // convert profile to boolean
         token,
         user: {
             id: foundUser._id.toString(),
@@ -45,16 +43,16 @@ export const loginUser = async (userData) => {
     };
 };
 
-//recupera le informazioni personali
+
 export const getUserProfileInfo = async (userId) => {
     const user = await UserInfo.findOne({ userId });
 
-    if (!user) return null; //se l'utente non esiste
+    if (!user) return null; 
 
     let ultimoPeso = null;
 
     if (user.pesi.length > 0) {
-        ultimoPeso = user.pesi[user.pesi.length - 1].peso; //prende l'ultimo elemento dell'array "pesi" e il suo valore
+        ultimoPeso = user.pesi[user.pesi.length - 1].peso; // Get last recorded weight
     } else {
         ultimoPeso = null;
     }
@@ -65,12 +63,10 @@ export const getUserProfileInfo = async (userId) => {
     };
 };
 
-//recupera tutti gli utenti
 export const getAllUsers = async () => {
     return await UserInfo.find();
 };
 
-//salvataggio delle informazioni personali
 export const saveUserProfileInfo = async (userId, profileInfo) => {
     try {
         const { peso } = profileInfo;
@@ -79,10 +75,9 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
             return { status: false, message: "Peso inserito non valido" };
         }
 
-        //cerca il profilo esistente
         const existingProfile = await UserInfo.findOne({ userId });
 
-        if (existingProfile) { //se il profilo esiste
+        if (existingProfile) { 
 
             existingProfile.eta = profileInfo.eta;
             existingProfile.peso = profileInfo.peso;
@@ -98,7 +93,7 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
 
             await existingProfile.save();
         } else {
-            const newProfile = { //se il profilo non esiste
+            const newProfile = { 
                 ...profileInfo,
                 userId,
                 pesi: [{ peso: profileInfo.peso, data: new Date() }],
@@ -147,7 +142,7 @@ const TDEE = (bmr, livelloAttivitaFisica) => {
     return bmr * fattori[livelloAttivitaFisica];
 };
 
-//invia la notifica all'utente sull'andamento del peso
+// Send notification based on weight progress
 export const notifyWeight = async (user, nuovoPeso) => {
     const pesoPrecedente = user.pesi[user.pesi.length - 1].peso;
     const obiettivo = user.obiettivo;
@@ -207,7 +202,6 @@ export const notifyWeight = async (user, nuovoPeso) => {
     await sendNotificationToUser(user.userId, payload);
 };
 
-//recupera l'id e il nome 
 export const getUserIdName = async (userId) => {
     const user = await UserAccount.findById(userId).select('_id nome');
     if (!user) throw new Error('Utente non trovato');

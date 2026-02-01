@@ -1,5 +1,3 @@
-//controller che gestisce le richieste sull'utente
-
 import * as service from "./service.js";
 
 //login
@@ -28,7 +26,7 @@ export const loginController = async (req, res) => {
     }
 };
 
-//salvataggio dei dati dell'utente
+
 export const saveUserProfileInfoController = async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -55,7 +53,6 @@ export const saveUserProfileInfoController = async (req, res) => {
     }
 };
 
-//recupero delle informazioni del'utente
 export const getUserProfileInfoController = async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -72,7 +69,7 @@ export const getUserProfileInfoController = async (req, res) => {
     }
 };
 
-//notifica l'utente sull'aggiornamento del peso
+// Handles user weight update notifications
 export const notifyWeightController = async (req, res) => {
     const { userId, nuovoPeso } = req.body;
     try {
@@ -84,10 +81,10 @@ export const notifyWeightController = async (req, res) => {
     }
 };
 
-//recupera l'id e il nome tramite il token jwt
+// Retrieves the user ID and name from the JWT token
 export const getUserIdNameController = async (req, res) => {
     try {
-        const userId = req.user.id; //recupera l'id e il nome che arriva dal middleware
+        const userId = req.user.id; // extracted from the JWT middleware
         const userData = await service.getUserIdName(userId);
         res.json(userData);
     } catch (err) {

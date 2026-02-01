@@ -1,5 +1,3 @@
-//servizio che esegue le richieste sulle ricette
-
 import RecipeInfo from "./infoModel.js";
 
 export const getRecipes = async () => {
