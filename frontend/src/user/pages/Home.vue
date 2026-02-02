@@ -37,13 +37,14 @@
     chatOpen.value = !chatOpen.value;
   };
 
-  onMounted(async () => {
-    await userStore.fetchUser(router);
-    if (userStore.id) {
-      await dietStore.fetchDiet(userStore.id);
-      await fetchUserSesso(userStore.id);
-    }
-  });
+onMounted(async () => {
+  await userStore.fetchUser(router);
+  if (userStore.id) {
+    await dietStore.fetchDiet(userStore.id);
+    await fetchUserSesso(userStore.id);
+  }
+});
+
 </script>
 
 <template>

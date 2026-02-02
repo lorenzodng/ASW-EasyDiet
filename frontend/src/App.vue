@@ -5,9 +5,9 @@
   <router-view />
 </template>
 
-<style>
+<style scoped lang="scss">
   #app {
-    background-color: #e8f5e9;
+    background-color: $green-light;
     min-height: 100vh;
     box-sizing: border-box;
   }

@@ -1,22 +1,15 @@
 <script setup>
-  import { ref, onMounted } from "vue";
-  import axios from "axios";
+  import { ref, computed, onMounted } from "vue";
   import { useUserStore } from "../../stores/user";
+  import { useDietStore } from "../../stores/diet";
 
   const userStore = useUserStore();
-  const diet = ref(null);
+  const dietStore = useDietStore();
+  const dietaPulita = computed(() => dietStore.dieta?.data ?? null);
   const loading = ref(true);
   const error = ref("");
   const currentDayIndex = ref(0);
-  const days = [
-    "lunedì",
-    "martedì",
-    "mercoledì",
-    "giovedì",
-    "venerdì",
-    "sabato",
-    "domenica"
-  ];
+  const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
 
   const nextDay = () => {
     if (currentDayIndex.value < days.length - 1) {
@@ -35,27 +28,9 @@
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  //PRENDERE FETCH DIET DALLO STORE
-  const fetchDiet = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/diets/${userStore.id}`);
-      console.log("USER ID:", userStore.id);
-
-      if (res.data.status) {
-        diet.value = res.data.data;
-      } else {
-        error.value = "Nessuna dieta trovata";
-      }
-    } catch (err) {
-      error.value = "Errore nel recupero della dieta";
-      console.error(err);
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  onMounted(() => {
-    fetchDiet();
+  onMounted(async () => {
+    await dietStore.fetchDiet(userStore.id);
+    loading.value = false;
   });
 </script>
 
@@ -86,18 +61,16 @@
             {{ meal }}
           </span>
 
-
-          <div v-if="diet.settimana[days[currentDayIndex]][meal].recipe">
+          <div v-if="dietaPulita && dietaPulita.settimana[days[currentDayIndex]][meal].recipe">
             <p>
               <strong>
-                {{ diet.settimana[days[currentDayIndex]][meal].recipe.nome }}
+                {{ dietaPulita.settimana[days[currentDayIndex]][meal].recipe.nome }}
               </strong>
             </p>
 
             <ul>
-              <li v-for="(ing, i) in diet.settimana[days[currentDayIndex]][meal].recipe.ingredienti" :key="i">
-                {{ capitalizeFirst(ing.nome) }} – {{ ing.peso }} g
-              </li>
+              <li v-for="(ing, i) in dietaPulita.settimana[days[currentDayIndex]][meal].recipe.ingredienti" :key="i"> {{
+                capitalizeFirst(ing.nome) }} – {{ ing.peso }} g </li>
             </ul>
           </div>
 

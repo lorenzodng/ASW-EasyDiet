@@ -42,13 +42,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #ffffff;
+  background-color: $white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: $link-color;
 }
 
 button:focus,
@@ -68,6 +68,6 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: $text-light;
-    background-color: $bg-light;
+    background-color: $white;
   }
 }
