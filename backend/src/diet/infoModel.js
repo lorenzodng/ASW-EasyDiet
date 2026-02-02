@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DietRecipeSchema } from "../recipes/liteInfoModel.js";
+import { DietDishSchema } from "../dishes/liteInfoModel.js";
 
 const DietSchema = new mongoose.Schema(
   {
@@ -13,133 +13,133 @@ const DietSchema = new mongoose.Schema(
     settimana: {
       lunedì: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       },
 
       martedì: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       },
 
       mercoledì: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       },
 
       giovedì: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       },
 
       venerdì: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       },
 
       sabato: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       },
 
       domenica: {
         colazione: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         pranzo: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         merenda: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         },
         cena: {
-          recipe: DietRecipeSchema,
+          dish: DietDishSchema,
           time: String
         }
       }

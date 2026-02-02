@@ -1,33 +1,33 @@
 <script setup>
     const props = defineProps({
         show: Boolean,
-        recipe: Object
+        dish: Object
     });
 
     const emit = defineEmits(["close"]);
 
-    const closeRecipeModal = () => {
+    const closeDishModal = () => {
         emit("close");
     };
 </script>
 
 <template>
-    <div v-if="show" class="modal-overlay" @click.self="closeRecipeModal">
+    <div v-if="show" class="modal-overlay" @click.self="closeDishModal">
         <div class="modal">
-            <h2>{{ recipe?.nome }}</h2>
+            <h2>{{ dish?.nome }}</h2>
 
-            <div v-if="!recipe">
+            <div v-if="!dish">
                 <p>Nessuna informazione disponibile</p>
             </div>
 
             <div v-else>
-                <p><strong>Categoria:</strong> {{ recipe.categoria }}</p>
-                <p><strong>Kcal totali:</strong> {{ recipe.kcal }}</p>
+                <p><strong>Categoria:</strong> {{ dish.categoria }}</p>
+                <p><strong>Kcal totali:</strong> {{ dish.kcal }}</p>
 
                 <h3 class="ingredienti-title">Ingredienti</h3>
 
                 <ul class="ingredient-list">
-                    <li v-for="(ing, index) in recipe.ingredienti" :key="index">
+                    <li v-for="(ing, index) in dish.ingredienti" :key="index">
                         <span>{{ ing.nome.charAt(0).toUpperCase() + ing.nome.slice(1) }}: </span>
                         <span>{{ ing.peso }}g </span>
                         <span>({{ ing.kcal }} kcal)</span>
@@ -37,20 +37,20 @@
                 <h3>Note</h3>
 
                 <div class="notes">
-                    <p v-if="recipe.info?.length">
-                        {{recipe.info.find(i => i.descrizioneKcal)?.descrizioneKcal}}
+                    <p v-if="dish.info?.length">
+                        {{dish.info.find(i => i.descrizioneKcal)?.descrizioneKcal}}
                     </p>
-                    <p v-if="recipe.info?.length">
-                        {{recipe.info.find(i => i.descrizioneTipoDieta)?.descrizioneTipoDieta}}
+                    <p v-if="dish.info?.length">
+                        {{dish.info.find(i => i.descrizioneTipoDieta)?.descrizioneTipoDieta}}
                     </p>
-                    <p v-if="recipe.info?.length">
-                        {{recipe.info.find(i => i.descrizioneIntolleranze)?.descrizioneIntolleranze}}
+                    <p v-if="dish.info?.length">
+                        {{dish.info.find(i => i.descrizioneIntolleranze)?.descrizioneIntolleranze}}
                     </p>
                 </div>
 
             </div>
 
-            <button @click="closeRecipeModal">Chiudi</button>
+            <button @click="closeDishModal">Chiudi</button>
         </div>
     </div>
 </template>

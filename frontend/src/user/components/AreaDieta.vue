@@ -61,15 +61,15 @@
             {{ meal }}
           </span>
 
-          <div v-if="dietaPulita && dietaPulita.settimana[days[currentDayIndex]][meal].recipe">
+          <div v-if="dietaPulita && dietaPulita.settimana[days[currentDayIndex]][meal].dish">
             <p>
               <strong>
-                {{ dietaPulita.settimana[days[currentDayIndex]][meal].recipe.nome }}
+                {{ dietaPulita.settimana[days[currentDayIndex]][meal].dish.nome }}
               </strong>
             </p>
 
             <ul>
-              <li v-for="(ing, i) in dietaPulita.settimana[days[currentDayIndex]][meal].recipe.ingredienti" :key="i"> {{
+              <li v-for="(ing, i) in dietaPulita.settimana[days[currentDayIndex]][meal].dish.ingredienti" :key="i"> {{
                 capitalizeFirst(ing.nome) }} – {{ ing.peso }} g </li>
             </ul>
           </div>

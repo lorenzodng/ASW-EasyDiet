@@ -2,36 +2,36 @@
   import { ref, onMounted } from "vue";
   import axios from "axios";
   import logo from "../../assets/images/logo-easydiet.png";
-  import EliminazioneRicetta from "../components/recipe/EliminazioneRicetta.vue";
-  import ModificaRicetta from "../components/recipe/ModificaRicetta.vue";
-  import CreazioneRicetta from "../components/recipe/CreazioneRicetta.vue";
-  import VisualizzazioneRicetta from "../components/recipe/VisualizzazioneRicetta.vue";
+  import EliminazionePiatto from "../components/dish/EliminazionePiatto.vue";
+  import ModificaPiatto from "../components/dish/ModificaPiatto.vue";
+  import CreazionePiatto from "../components/dish/CreazionePiatto.vue";
+  import VisualizzazionePiatto from "../components/dish/VisualizzazionePiatto.vue";
 
-  const recipes = ref([]);
+  const dishes = ref([]);
   const loading = ref(true);
   const error = ref("");
-  const showRecipeModal = ref(false);
-  const recipeDetail = ref(null);
+  const showDishModal = ref(false);
+  const dishDetail = ref(null);
 
-  const openRecipeModal = (recipe) => {
-    recipeDetail.value = recipe;
-    showRecipeModal.value = true;
+  const openDishModal = (dish) => {
+    dishDetail.value = dish;
+    showDishModal.value = true;
   };
 
-  const closeRecipeModal = () => {
-    showRecipeModal.value = false;
-    recipeDetail.value = null;
+  const closeDishModal = () => {
+    showDishModal.value = false;
+    dishDetail.value = null;
   };
   /**
     * This method is reused after create, update and delete operations
     * to keep the list in sync.
    */
-  const loadRecipes = async () => {
+  const loadDishes = async () => {
     try {
       loading.value = true;
-      const { data } = await axios.get("http://localhost:5000/recipes");
+      const { data } = await axios.get("http://localhost:5000/dishes");
       if (data.status)
-        recipes.value = data.recipes;
+        dishes.value = data.dishes;
       else
         error.value = "Errore nel recupero dei piatti";
     } catch {
@@ -41,7 +41,7 @@
     }
   };
 
-  onMounted(loadRecipes);
+  onMounted(loadDishes);
 
 </script>
 
@@ -61,9 +61,9 @@
     <p v-if="loading">Caricamento piatti...</p>
     <p v-if="error" class="error">{{ error }}</p>
 
-    <CreazioneRicetta @saved="loadRecipes" />
+    <CreazionePiatto @saved="loadDishes" />
 
-    <table v-if="!loading && recipes.length" class="recipes-table">
+    <table v-if="!loading && dishes.length" class="dishes-table">
       <thead>
         <tr>
           <th>Pasto</th>
@@ -73,22 +73,22 @@
       </thead>
 
       <tbody>
-        <tr v-for="recipe in recipes" :key="recipe._id">
-          <td>{{ recipe.categoria }}</td>
-          <td>{{ recipe.nome }}</td>
+        <tr v-for="dish in dishes" :key="dish._id">
+          <td>{{ dish.categoria }}</td>
+          <td>{{ dish.nome }}</td>
           <td class="actions">
-            <button class="icon" data-label="Visualizza" @click="openRecipeModal(recipe)">👁️</button>
-            <ModificaRicetta :recipe="recipe" @updated="loadRecipes" />
-            <EliminazioneRicetta :recipeId="recipe._id" @deleted="loadRecipes" />
+            <button class="icon" data-label="Visualizza" @click="openDishModal(dish)">👁️</button>
+            <ModificaPiatto :dish="dish" @updated="loadDishes" />
+            <EliminazionePiatto :dishId="dish._id" @deleted="loadDishes" />
           </td>
         </tr>
       </tbody>
     </table>
 
-    <p v-if="!loading && recipes.length === 0">
-      Nessuna ricetta trovata
+    <p v-if="!loading && dishes.length === 0">
+      Nessun piatto trovato
     </p>
-    <VisualizzazioneRicetta :show="showRecipeModal" :recipe="recipeDetail" @close="closeRecipeModal" />
+    <VisualizzazionePiatto :show="showDishModal" :dish="dishDetail" @close="closeDishModal" />
   </div>
 </template>
 
@@ -146,7 +146,7 @@
     margin-bottom: 12px;
   }
 
-  .recipes-table {
+  .dishes-table {
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;

@@ -2,7 +2,7 @@ import AdminLogin from "../admin/pages/AdminLogin.vue"
 import AdminHome from "../admin/pages/AdminHome.vue"
 import GestioneUtenti from "../admin/pages/GestioneUtenti.vue"
 import GestioneDiete from "../admin/pages/GestioneDiete.vue"
-import GestioneRicette from "../admin/pages/GestioneRicette.vue"
+import GestionePiatti from "../admin/pages/GestionePiatti.vue"
 
 export const adminRoutes = [
   {
@@ -28,8 +28,8 @@ export const adminRoutes = [
 
   },
   {
-    path: "/admin/ricette",
-    name: "GestioneRicette",
-    component: GestioneRicette,
+    path: "/admin/piatti",
+    name: "GestionePiatti",
+    component: GestionePiatti,
   }
 ]

@@ -11,7 +11,7 @@ import systemPrompt from "./systemPrompt.js";
 // Allowed keywords for message validation
 const allowedKeywords = [
   "dieta", "diete", "calorie", "kcal", "chilocalorie", "nutrizione",
-  "ricetta", "ricette", "pasto", "pasti", "colazione", "colazioni",
+  "piatto", "piatti", "pasto", "pasti", "colazione", "colazioni",
   "merenda", "merende", "pranzo", "pranzi", "cena", "cene", "menu",
   "ingrediente", "ingredienti", "settimana", "settimane", "peso",
   "pesi", "dimagrire", "ingrassare", "kg", "anni", "intolleranze",

@@ -6,7 +6,7 @@
     const showForm = ref(false);
     const emit = defineEmits(["saved"]);
 
-    const recipe = ref({
+    const dish = ref({
         nome: "",
         categoria: "",
         immagine: "",
@@ -27,13 +27,13 @@
 
     /*Sends the new dish to the backend and resets the form on success.
     Emits a "saved" event so the parent component can refresh the dishes list. */
-    const saveRecipe = async (data) => {
+    const saveDish = async (data) => {
         try {
-            const response = await axios.post("http://localhost:5000/admin/recipes", data);
+            const response = await axios.post("http://localhost:5000/admin/dishes", data);
 
             emit("saved", response.data);
 
-            recipe.value = {
+            dish.value = {
                 nome: "",
                 categoria: "",
                 immagine: "",
@@ -59,7 +59,7 @@
         ➕ Aggiungi piatto
     </button>
 
-    <Form v-if="showForm" :model-value="recipe" @save="saveRecipe" @cancel="showForm = false" />
+    <Form v-if="showForm" :model-value="dish" @save="saveDish" @cancel="showForm = false" />
 </template>
 
 <style scoped lang="scss">

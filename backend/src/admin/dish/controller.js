@@ -6,13 +6,13 @@ import * as service from "./service.js";
 */
 
 //Create new dish
-export const createRecipeController = async (req, res) => {
+export const createDishController = async (req, res) => {
   try {
-    const result = await service.createRecipe(req.body);
+    const result = await service.createDish(req.body);
     if (result.status) {
       res.json({
         status: true,
-        recipe: result.recipe
+        dish: result.dish
       });
     } else {
       res.json({
@@ -30,10 +30,10 @@ export const createRecipeController = async (req, res) => {
 };
 
 // Delete dish
-export const deleteRecipeController = async (req, res) => {
+export const deleteDishController = async (req, res) => {
   try {
-    const recipeId = req.params.id;
-    const result = await service.deleteRecipe(recipeId);
+    const dishId = req.params.id;
+    const result = await service.deleteDish(dishId);
     if (result.status) {
       res.json({
         status: true,
@@ -55,9 +55,9 @@ export const deleteRecipeController = async (req, res) => {
 };
 
 // Update dish
-export const updateRecipeController = async (req, res) => {
+export const updateDishController = async (req, res) => {
   try {
-    const result = await service.updateRecipe(
+    const result = await service.updateDish(
       req.params.id,
       req.body
     );

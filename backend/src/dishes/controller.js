@@ -6,12 +6,12 @@ import * as service from "./service.js";
 */
 
 //Get all dishes
-export const getRecipesController = async (req, res) => {
+export const getDishesController = async (req, res) => {
     try {
-        const recipes = await service.getRecipes();
+        const dishes = await service.getDishes();
         res.json({
             status: true,
-            recipes: recipes
+            dishes: dishes
         });
     } catch (error) {
         console.error("Errore recupero piatti:", error);

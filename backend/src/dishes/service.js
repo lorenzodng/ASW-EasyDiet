@@ -1,4 +1,4 @@
-import RecipeInfo from "./infoModel.js";
+import DishInfo from "./infoModel.js";
 
 /* 
   Service layer:
@@ -7,10 +7,10 @@ import RecipeInfo from "./infoModel.js";
 */
 
 //Get all dishes
-export const getRecipes = async () => {
+export const getDishes = async () => {
     try {
-        const foundRecipes = await RecipeInfo.find();
-        return foundRecipes;
+        const foundDishes = await DishInfo.find();
+        return foundDishes;
     } catch (err) {
         console.error(err);
         throw new Error("Errore nel recupero dei piatti");

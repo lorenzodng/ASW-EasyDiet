@@ -70,7 +70,7 @@
             <tbody>
               <tr v-for="(pasto, nomePasto) in giorno" :key="nomePasto">
                 <td>{{ nomePasto }}</td>
-                <td>{{ pasto.recipe?.nome || "—" }}</td>
+                <td>{{ pasto.dish?.nome || "—" }}</td>
                 <td>{{ pasto.time || "—" }}</td>
               </tr>
             </tbody>

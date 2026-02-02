@@ -1,8 +1,8 @@
-// Recipe structure for diets
+// Dish structure for diets
 
 import mongoose from "mongoose";
 
-export const DietRecipeSchema = new mongoose.Schema({
+export const DietDishSchema = new mongoose.Schema({
     nome: {
         type: String,
         required: true

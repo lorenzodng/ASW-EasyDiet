@@ -4,7 +4,7 @@
   import Form from "./Form.vue";
 
   const props = defineProps({
-    recipe: {
+    dish: {
       type: Object,
       required: true
     }
@@ -12,16 +12,16 @@
 
   const emit = defineEmits(["updated"]);
   const showForm = ref(false);
-  const editRecipe = ref({ ...props.recipe });
+  const editDish = ref({ ...props.dish });
 
   const openForm = () => {
-    editRecipe.value = JSON.parse(JSON.stringify(props.recipe));
+    editDish.value = JSON.parse(JSON.stringify(props.dish));
     showForm.value = true;
   };
 
-  const modifyRecipe = async (data) => {
+  const modifyDish = async (data) => {
     try {
-      await axios.put(`http://localhost:5000/admin/recipes/${props.recipe._id}`, data);
+      await axios.put(`http://localhost:5000/admin/dishes/${props.dish._id}`, data);
       showForm.value = false;
       emit("updated");
     } catch (err) {
@@ -36,7 +36,7 @@
 
   <div v-if="showForm" class="modal-overlay" @click="showForm = false">
     <div class="modal-content" @click.stop>
-      <Form :model-value="editRecipe" @save="modifyRecipe" @cancel="showForm = false" :isModal="true"
+      <Form :model-value="editDish" @save="modifyDish" @cancel="showForm = false" :isModal="true"
         class="modal-form" />
     </div>
   </div>

@@ -37,7 +37,7 @@
       🍎 Gestione Diete
     </button>
 
-    <button @click="goTo('GestioneRicette')">
+    <button @click="goTo('GestionePiatti')">
       📖 Gestione Piatti
     </button>
   </div>

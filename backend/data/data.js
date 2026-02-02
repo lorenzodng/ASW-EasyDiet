@@ -1,6 +1,6 @@
 import { client } from './client.js';
 import accounts from './accounts.json' with { type: 'json' };
-import recipes from './recipes.json' with { type: 'json' };
+import dishes from './dishes.json' with { type: 'json' };
 
 // Insert data into the database
 async function insertData() {
@@ -8,7 +8,7 @@ async function insertData() {
         const db = client.db("dietDb");
 
         await db.collection("accounts").insertMany(accounts);
-        await db.collection("recipes").insertMany(recipes);
+        await db.collection("dishes").insertMany(dishes);
 
         console.log("Dati aggiunti al db");
     } catch (err) {

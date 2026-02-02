@@ -72,7 +72,7 @@
         if (messages.value.length === 0) {
             messages.value.push({
                 role: "assistant",
-                content: "Ciao! Sono qui per aiutarti a gestire al meglio la tua alimentazione. Hai bisogno di generare una dieta, consigli su ricette o idee per i tuoi pasti? 😋"
+                content: "Ciao! Sono qui per aiutarti a gestire al meglio la tua alimentazione. Hai bisogno di generare una dieta, consigli su piatti o idee per i tuoi pasti? 😋"
             });
         }
         window.addEventListener("mousemove", doResize); // Calls "doResize" while the user moves the mouse

@@ -2,36 +2,36 @@
   import axios from "axios";
 
   // Props received from the parent component
-  // Contains the ID of the recipe to be deleted
+  // Contains the ID of the dish to be deleted
   const props = defineProps({
-    recipeId: {
+    dishId: {
       type: String,
       required: true
     }
   });
 
   const emit = defineEmits(["deleted"]);
-  //Deletes the selected recipe after user confirmation.
-  const deleteRecipe = async () => {
-    const conferma = confirm("Sei sicuro di voler eliminare questa ricetta?");
+  //Deletes the selected dish after user confirmation.
+  const deleteDish = async () => {
+    const conferma = confirm("Sei sicuro di voler eliminare questo piatto?");
     if (!conferma) return;
 
     try {
       await axios.delete(
-        `http://localhost:5000/admin/recipes/${props.recipeId}`
+        `http://localhost:5000/admin/dishes/${props.dishId}`
       );
 
-      emit("deleted", props.recipeId);
+      emit("deleted", props.dishId);
 
     } catch (error) {
-      console.error("Errore eliminazione ricetta:", error);
+      console.error("Errore eliminazione piatto:", error);
       alert("Errore durante l'eliminazione");
     }
   };
 </script>
 
 <template>
-  <button class="icon" data-label="Elimina" @click="deleteRecipe">
+  <button class="icon" data-label="Elimina" @click="deleteDish">
     🗑️
   </button>
 </template>

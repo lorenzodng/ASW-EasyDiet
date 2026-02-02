@@ -12,9 +12,9 @@
   const userDiet = reactive({}); // diet built by the user, organized by day
   const selectedDayIndex = ref(0); // index of the currently selected day 
   const currentDay = computed(() => days[selectedDayIndex.value]); // current day labe
-  const openRecipes = ref(new Set());
+  const openDishes = ref(new Set());
 
-  // contains all recipes fetched from the database, grouped by meal type
+  // contains all dishes fetched from the database, grouped by meal type
   const mealsByType = reactive({
     colazione: [],
     pranzo: [],
@@ -29,10 +29,10 @@
 
   days.forEach((day) => { // for each day of the week
     userDiet[day] = { // creates a key-value pair with the weekday as key and meal categories as value
-      colazione: { recipe: null, time: "" },
-      pranzo: { recipe: null, time: "" },
-      merenda: { recipe: null, time: "" },
-      cena: { recipe: null, time: "" }
+      colazione: { dish: null, time: "" },
+      pranzo: { dish: null, time: "" },
+      merenda: { dish: null, time: "" },
+      cena: { dish: null, time: "" }
     };
   });
 
@@ -42,19 +42,19 @@
       kcalUser.value = resProfile.data.kcal;
       console.log("KCAL USER:", kcalUser.value);
     } catch (error) {
-      console.error("Errore caricamento ricette:", error);
+      console.error("Errore caricamento piatti:", error);
     }
   }
 
-  const getRecipes = async () => {
+  const getDishes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/recipes");
-      res.data.recipes.forEach((ricetta) => {
-        const ricettaScalata = scaleRecipe(ricetta, ricetta.categoria);
-        mealsByType[ricetta.categoria].push(ricettaScalata); // insert the recipe into the correct category array
+      const res = await axios.get("http://localhost:5000/dishes");
+      res.data.dishes.forEach((piatto) => {
+        const piattoScalato = scaleDish(piatto, piatto.categoria);
+        mealsByType[piatto.categoria].push(piattoScalato); // insert the dish into the correct category array
       });
     } catch (error) {
-      console.error("Errore caricamento ricette:", error);
+      console.error("Errore caricamento piatti:", error);
     }
   }
 
@@ -89,22 +89,22 @@
     }
   };
 
-  // collapsible menu for recipe details
-  const toggleRecipe = (id) => {
-    if (openRecipes.value.has(id)) { // if the recipe is already open
-      openRecipes.value.delete(id); // close that recipe's details
-    } else { // otherwise open the recipe details
-      openRecipes.value.add(id);
+  // collapsible menu for dish details
+  const toggleDish = (id) => {
+    if (openDishes.value.has(id)) { // if the dish is already open
+      openDishes.value.delete(id); // close that dish's details
+    } else { // otherwise open the dish details
+      openDishes.value.add(id);
     }
   };
 
-  const scaleRecipe = (ricetta, categoria) => {
+  const scaleDish = (piatto, categoria) => {
     const targetKcal = getTargetKcal(categoria);
-    if (!targetKcal || !ricetta.kcal) return { ...ricetta, kcalTotali: ricetta.kcal };
+    if (!targetKcal || !piatto.kcal) return { ...piatto, kcalTotali: piatto.kcal };
 
-    const fattore = targetKcal / ricetta.kcal;
+    const fattore = targetKcal / piatto.kcal;
 
-    const ingredientiScalati = ricetta.ingredienti.map(ing => ({
+    const ingredientiScalati = piatto.ingredienti.map(ing => ({
       ...ing,
       peso: Math.round(ing.peso * fattore),
       kcal: Math.round(ing.kcal * fattore)
@@ -113,19 +113,19 @@
     const kcalTotali = ingredientiScalati.reduce((acc, ing) => acc + ing.kcal, 0);
 
     return {
-      ...ricetta,
+      ...piatto,
       ingredienti: ingredientiScalati,
       kcalTotali // add the kcalTotali property
     };
   };
 
-  const descrizioneKcal = (ricetta) => {
-    if (!ricetta.kcalTotali || !ricetta.categoria) {
+  const descrizioneKcal = (piatto) => {
+    if (!piatto.kcalTotali || !piatto.categoria) {
       return '';
     }
 
-    const target = getTargetKcal(ricetta.categoria);
-    const percentuale = ((ricetta.kcalTotali - target) / target) * 100;
+    const target = getTargetKcal(piatto.categoria);
+    const percentuale = ((piatto.kcalTotali - target) / target) * 100;
 
     if (percentuale < -10) return "Opzione leggera";
     if (percentuale <= 10) return "Opzione equilibrata";
@@ -135,7 +135,7 @@
   const goToPreviousDay = () => {
     if (selectedDayIndex.value > 0) {
       selectedDayIndex.value--;
-      openRecipes.value.clear();
+      openDishes.value.clear();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -143,13 +143,13 @@
   const goToNextDay = () => {
     if (selectedDayIndex.value < days.length - 1) {
       selectedDayIndex.value++;
-      openRecipes.value.clear();
+      openDishes.value.clear();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const getRecipeImage = (imageName) => {
-    return imageName ? `/images/recipes/${imageName}` : '';
+  const getDishImage = (imageName) => {
+    return imageName ? `/images/dishes/${imageName}` : '';
   };
 
 
@@ -157,7 +157,7 @@
     const init = async () => {
       await userStore.fetchUser(router);
       await getKcal();
-      await getRecipes();
+      await getDishes();
     };
     init();
   });
@@ -197,45 +197,45 @@
         </div>
 
 
-        <div v-for="ricetta in mealsByType[mealCategory]" :key="ricetta._id" class="recipe-option">
+        <div v-for="piatto in mealsByType[mealCategory]" :key="piatto._id" class="dish-option">
           <!--Radio buttons allow a single choice per meal.
           :name creates a unique group per day and meal.
-          :value binds the selected recipe.
-          v-model saves the recipe for the selected day and meal.-->
-          <div class="recipe-header">
-            <label class="recipe-label">
-              <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="ricetta"
-                v-model="userDiet[currentDay][mealCategory].recipe" />
+          :value binds the selected dish.
+          v-model saves the dish for the selected day and meal.-->
+          <div class="dish-header">
+            <label class="dish-label">
+              <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="piatto"
+                v-model="userDiet[currentDay][mealCategory].dish" />
 
-              <img class="recipe-img" :src="getRecipeImage(ricetta.immagine)" :alt="ricetta.nome" />
+              <img class="dish-img" :src="getDishImage(piatto.immagine)" :alt="piatto.nome" />
 
 
-              {{ ricetta.nome }}
+              {{ piatto.nome }}
             </label>
 
-            <button class="toggle-btn" @click="toggleRecipe(ricetta._id)">
-              {{ openRecipes.has(ricetta._id) ? '▲' : '▼' }}
+            <button class="toggle-btn" @click="toggleDish(piatto._id)">
+              {{ openDishes.has(piatto._id) ? '▲' : '▼' }}
             </button>
           </div>
 
-          <div v-if="openRecipes.has(ricetta._id)" :class="['recipe-details', mealCategory]">
+          <div v-if="openDishes.has(piatto._id)" :class="['dish-details', mealCategory]">
 
             <div class="ingredients">
               <h4>Ingredienti</h4>
               <ul>
-                <li v-for="(ing, i) in ricetta.ingredienti" :key="i">
+                <li v-for="(ing, i) in piatto.ingredienti" :key="i">
                   <span class="ing-name">{{ capitalizeFirst(ing.nome) }}</span>
                   <span class="ing-weight">{{ ing.peso }} g</span>
                 </li>
               </ul>
             </div>
 
-            <div v-if="ricetta.info" class="recipe-info">
+            <div v-if="piatto.info" class="dish-info">
               <h4>Note nutrizionali</h4>
               <ul>
-                <li class="badge">{{ descrizioneKcal(ricetta) }}</li>
-                <li>{{ ricetta.info[1].descrizioneTipoDieta }}</li>
-                <li>{{ ricetta.info[2].descrizioneIntolleranze }}</li>
+                <li class="badge">{{ descrizioneKcal(piatto) }}</li>
+                <li>{{ piatto.info[1].descrizioneTipoDieta }}</li>
+                <li>{{ piatto.info[2].descrizioneIntolleranze }}</li>
               </ul>
             </div>
           </div>
@@ -385,22 +385,22 @@
       }
     }
 
-    .recipe-option {
+    .dish-option {
       margin-bottom: 26px;
 
-      .recipe-header {
+      .dish-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        .recipe-label {
+        .dish-label {
           display: flex;
           align-items: center;
           gap: 12px;
           cursor: pointer;
           font-weight: 500;
 
-          .recipe-img {
+          .dish-img {
             width: 65px;
             height: 65px;
             object-fit: cover;
@@ -416,7 +416,7 @@
         }
       }
 
-      .recipe-details {
+      .dish-details {
         margin: 12px auto 0;
         padding: 16px 18px;
         max-width: 400px;
@@ -449,7 +449,7 @@
         }
 
         .ingredients,
-        .recipe-info {
+        .dish-info {
           ul {
             list-style: none;
             padding: 0;
@@ -466,7 +466,7 @@
           }
         }
 
-        .recipe-info {
+        .dish-info {
           margin-top: 30px;
         }
 

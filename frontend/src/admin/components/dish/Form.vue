@@ -40,7 +40,7 @@
     );
 
 
-    //Adds a new empty ingredient row to the recipe form
+    //Adds a new empty ingredient row to the dish form
     const addIngredient = () => {
         form.value.ingredienti.push({
             nome: "",
@@ -60,7 +60,7 @@
 
 
 <template>
-    <form :class="['recipe-form', { modal: isModal }]">
+    <form :class="['dish-form', { modal: isModal }]">
         <h3>Dati</h3>
         <input v-model="form.nome" placeholder="Nome piatto" required />
         <input v-model="form.immagine" placeholder="Nome file immagine (es. pasta.png)" required />
@@ -100,7 +100,7 @@
     $green-light-bg-hover: #c8e6c9;
     $red-light-bg-hover: #ffd2d0;
 
-    .recipe-form {
+    .dish-form {
         background: $white;
         padding: 5px 67px 36px 18px;
         margin: 16px auto 32px;

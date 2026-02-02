@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import webpush from "web-push";
 import cors from "cors";
 import usersRouter from "./route/usersRoutes.js";
-import recipesRouter from "./route/recipesRoutes.js";
+import dishesRouter from "./route/dishesRoutes.js";
 import dietsRouter from "./route/dietsRoutes.js";
 import notificationsRouter from "./route/notificationRoutes.js";
 import adminRouter from "./route/admin/index.js";
@@ -30,7 +30,7 @@ app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 // Mount routers for different resources
 app.use(usersRouter);
-app.use(recipesRouter);
+app.use(dishesRouter);
 app.use(dietsRouter);
 app.use(notificationsRouter);
 app.use("/admin", adminRouter);
