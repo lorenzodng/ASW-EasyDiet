@@ -91,18 +91,18 @@
     margin: 0 auto;
   }
 
- .day-block {
+  .day-block {
     margin-bottom: 32px;
     border-radius: 16px;
-    background: linear-gradient(180deg, #def5e0, #dff1df);
-    box-shadow: 0 8px 100px rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, $bg-day-start, $bg-day-end);
+    box-shadow: 0 8px 100px $gray-shadow;
 
     h2 {
       margin-bottom: 20px;
       text-transform: capitalize;
       font-size: 29px;
       color: #2c3e50;
-      border-bottom: 1px solid #e0e6ef;
+      border-bottom: 1px solid $green-light;
       padding-bottom: 8px;
     }
   }
