@@ -12,6 +12,6 @@ const UserAccountSchema = new mongoose.Schema({
   }
 }, { versionKey: false });
 
-const UserAccount = mongoose.model("AdminAccount", UserAccountSchema, "accounts");
+const UserAccount = mongoose.model("Account", UserAccountSchema, "accounts");
 
 export default UserAccount;

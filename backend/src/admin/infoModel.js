@@ -8,6 +8,6 @@ const AdminAccountSchema = new mongoose.Schema({
   }
 }, { versionKey: false });
 
-const AdminAccount = mongoose.model("Account", AdminAccountSchema);
+const AdminAccount = mongoose.model("AccountAdmin", AdminAccountSchema);
 
 export default AdminAccount;

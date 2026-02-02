@@ -151,7 +151,7 @@
     }
 
     tbody tr {
-      border-bottom: 1px solid $gray-border;
+      border-bottom: 1px solid $gray-soft;
 
       &:hover {
         background-color: $bg-table-hover;
