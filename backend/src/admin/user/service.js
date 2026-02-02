@@ -23,6 +23,7 @@ export const getAllUsers = async () => {
   }
 };
 
+// Get all users with diet
 export const getAllUsersWithDiet = async () => {
   const diets = await Diet.find().populate({
     path: "userId",
