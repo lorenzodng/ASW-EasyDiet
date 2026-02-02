@@ -1,10 +1,15 @@
 import * as service from "./service.js";
 
+/*
+  Controller layer:
+  Handles HTTP requests and delegates diet-related logic to the service layer.
+*/
+
+// Save a new diet
 export const saveDietController = async (req, res) => {
   try {
     const dietData = req.body;
     const result = await service.saveDiet(dietData);
-
     if (result.status) {
       res.send({
         status: true,
@@ -25,31 +30,27 @@ export const saveDietController = async (req, res) => {
   }
 };
 
+// Get diet information for a single user
 export const getDietInfoController = async (req, res) => {
   try {
     const { userId } = req.params;
-
     if (!userId) {
       return res.status(400).json({
         status: false,
         message: "UserId mancante"
       });
     }
-
     const diet = await service.getDietByUserId(userId);
-
     if (!diet) {
       return res.status(404).json({
         status: false,
         message: "Nessuna dieta trovata per questo utente"
       });
     }
-
     return res.status(200).json({
       status: true,
       data: diet
     });
-
   } catch (error) {
     console.error("Errore recupero dieta:", error);
     return res.status(500).json({
@@ -59,32 +60,28 @@ export const getDietInfoController = async (req, res) => {
   }
 };
 
+// Delete a user's diet
 export const deleteDietInfoController = async (req, res) => {
   try {
     const { userId } = req.params;
-
     if (!userId) {
       return res.status(400).json({
         status: false,
         message: "UserId mancante"
       });
     }
-
     const diet = await service.deleteDietByUserId(userId);
-
     if (!diet) {
       return res.status(404).json({
         status: false,
         message: "Nessuna dieta trovata per questo utente"
       });
     }
-
     return res.status(200).json({
       status: true,
       message: "Dieta eliminata con successo",
       data: diet
     });
-
   } catch (error) {
     console.error("Errore eliminazione dieta:", error);
     return res.status(500).json({
@@ -101,7 +98,6 @@ export const chatController = async (req, res) => {
   if (messages.length > 0 && messages[messages.length - 1].content) { // Get the last user message
     lastMsg = messages[messages.length - 1].content;
   }
-
   if (!service.validateMessage(lastMsg)) { // Validate that the message is diet-related
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
@@ -112,14 +108,13 @@ export const chatController = async (req, res) => {
     res.end();
     return;
   }
-
   try {
     // Set headers for SSE streaming
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
-    // Generate response as async stream
+    // Generate LLM response
     const stream = service.generateChatResponse(messages);
 
     // Send tokens one by one to the client

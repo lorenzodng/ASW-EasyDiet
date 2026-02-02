@@ -1,6 +1,4 @@
-//server
-
-import 'dotenv/config'; //libreria che legge le variabili nel file .env
+import "dotenv/config"; // Load environment variables from .env file
 import express from "express";
 import mongoose from "mongoose";
 import webpush from "web-push";
@@ -12,30 +10,32 @@ import notificationsRouter from "./route/notificationRoutes.js";
 import adminRouter from "./route/admin/index.js";
 import { startMealReminders } from "./src/notification/scheduler.js";
 
+const app = express();
+const uri = process.env.MONGO_URI;
+
+// Configure VAPID keys for push notifications
 const publicKey = process.env.VAPID_PUBLIC_KEY;
 const privateKey = process.env.VAPID_PRIVATE_KEY;
-
-//configura il server all'invio delle notifiche
 webpush.setVapidDetails(
-  "mailto:easydiet@project.local", //email indicativa del mittente (inventata)
-  publicKey, //chiave inviata al browser quando l’utente si iscrive alle notifiche
-  privateKey //chiave per firmare le notifiche push che il server invia
+  "mailto:easydiet@project.local", // Sender email (example)
+  publicKey,
+  privateKey
 );
 
-const uri = process.env.MONGO_URI; //url del db su mongodb atlas
-const app = express();
-
+// Enable JSON parsing for incoming requests
 app.use(express.json());
 
-//abilita la comunicazione tra frontend (porta 5173) e server (porta 5000)
+// Enable CORS between frontend (port 5173) and server (port 5000)
 app.use(cors({ origin: process.env.FRONTEND_URL }));
+
+// Mount routers for different resources
 app.use(usersRouter);
 app.use(recipesRouter);
 app.use(dietsRouter);
 app.use(notificationsRouter);
 app.use("/admin", adminRouter);
 
-//connette il server al db
+// Connect to MongoDB and start scheduled meal reminders
 try {
   await mongoose.connect(uri);
   console.log("MongoDB connected");
@@ -44,7 +44,7 @@ try {
   console.error("MongoDB connection error:", error);
 }
 
-//avvia il server
+// Start the Express server
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port " + process.env.PORT);
 });

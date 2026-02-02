@@ -3,9 +3,14 @@ import * as notificationService from "./service.js";
 import * as userService from "../user/service.js";
 import * as dietService from "../diet/service.js";
 
+/* 
+  Notification scheduler:
+  Periodically checks users' diets and sends meal reminders to users.
+*/
+
 // Main function: starts meal reminders
 export const startMealReminders = () => {
-    cron.schedule("* * * * *", async () => {
+    cron.schedule("* * * * *", async () => { // Every minute
         const currentDateInfo = getCurrentDateInfo();
         const users = await userService.getAllUsers();
 
@@ -30,7 +35,6 @@ const getCurrentDateInfo = () => {
 const processUserMeals = async (user, { currentDay, currentHour, currentMinute }) => {
     const dieta = await dietService.getDietByUserId(user.userId);
     if (!dieta || !dieta.settimana) return;
-
     const categoriePasto = ["colazione", "pranzo", "merenda", "cena"];
     for (let categoriaPasto of categoriePasto) {
         await processSingleMeal(user, dieta, categoriaPasto, currentDay, currentHour, currentMinute);
@@ -41,7 +45,6 @@ const processUserMeals = async (user, { currentDay, currentHour, currentMinute }
 const processSingleMeal = async (user, dieta, categoriaPasto, currentDay, currentHour, currentMinute) => {
     const pasto = dieta.settimana[currentDay][categoriaPasto];
     if (!pasto || !pasto.time) return;
-
     const [ora, minuto] = pasto.time.split(":").map(Number);
     if (ora === currentHour && minuto === currentMinute) {
         const corpo = buildMealMessage(categoriaPasto);

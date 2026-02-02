@@ -1,6 +1,11 @@
 import * as service from "./service.js";
 
-//login
+/*
+  Controller layer:
+  Handles HTTP requests and delegates user-related logic to the service layer.
+*/
+
+// User authentication
 export const loginController = async (req, res) => {
     var result = null;
     try {
@@ -26,13 +31,12 @@ export const loginController = async (req, res) => {
     }
 };
 
-
+// Save profile information for a single user
 export const saveUserProfileInfoController = async (req, res) => {
     try {
         const userId = req.params.userId;
         const profileInfo = req.body;
         const result = await service.saveUserProfileInfo(userId, profileInfo);
-
         if (result.status) {
             res.send({
                 status: true,
@@ -53,26 +57,24 @@ export const saveUserProfileInfoController = async (req, res) => {
     }
 };
 
+// Get profile information for a single user
 export const getUserProfileInfoController = async (req, res) => {
     try {
         const userId = req.params.userId;
-
         const info = await service.getUserProfileInfo(userId);
-
         if (!info) {
-            return res.status(404).json({ message: "Info non trovate" });
+            return res.status(404).json({ message: "Informazioni utente non trovate" });
         }
-
         res.json(info);
     } catch (err) {
         res.status(500).json({ message: "Errore server" });
     }
 };
 
-// Retrieves the user ID and name from the JWT token
+// Get the user ID and name
 export const getUserIdNameController = async (req, res) => {
     try {
-        const userId = req.user.id; // extracted from the JWT middleware
+        const userId = req.user.id; // Extracted from the JWT middleware
         const userData = await service.getUserIdName(userId);
         res.json(userData);
     } catch (err) {

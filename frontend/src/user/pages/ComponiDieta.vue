@@ -272,7 +272,7 @@
   .componi-dieta {
     max-width: 900px;
     margin: 0 auto;
-    padding: 160px 16px 0;
+    padding: 160px 16px 1px;
 
     .day-block {
       margin-bottom: 32px;

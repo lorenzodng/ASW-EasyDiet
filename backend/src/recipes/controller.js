@@ -1,7 +1,11 @@
-// Controller that handles dish-related requests
-
 import * as service from "./service.js";
 
+/*
+  Controller layer:
+  Handles HTTP requests and delegates dish-related logic to the service layer.
+*/
+
+//Get all dishes
 export const getRecipesController = async (req, res) => {
     try {
         const recipes = await service.getRecipes();

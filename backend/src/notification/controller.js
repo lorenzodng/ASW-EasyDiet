@@ -1,17 +1,20 @@
 import * as service from "./service.js";
 
+/*
+  Controller layer:
+  Handles HTTP requests and delegates notification-related logic to the service layer.
+*/
+
 // Save or update user notification subscription
 export const saveSubscriptionController = async (req, res) => {
     try {
         const { userId } = req.params;
         const { subscription, notificationsEnabled } = req.body;
-
         const result = await service.saveSubscription({ userId, subscription, notificationsEnabled });
-
         if (result.status) {
             res.status(201).json({
                 status: true,
-                message: "Subscription salvata con successo",
+                message: "Sottoscrizione alle notifiche salvata con successo",
                 id: result.id
             });
         } else {
@@ -21,7 +24,7 @@ export const saveSubscriptionController = async (req, res) => {
             });
         }
     } catch (err) {
-        console.error("Errore nel controller delle notifiche:", err);
+        console.error("Errore nella sottoscrizione delle notifiche: ", err);
         res.status(500).json({
             status: false,
             message: "Errore server"
@@ -36,7 +39,7 @@ export const getStatusNotificationController = async (req, res) => {
         const status = await service.getStatusNotification(userId);
         res.json(status);
     } catch (err) {
-        console.error('Errore controller:', err)
+        console.error("Errore nel recupero della sottoscrizione alle notifiche: ", err)
         res.status(500).json({ error: "Errore server" })
     }
 };

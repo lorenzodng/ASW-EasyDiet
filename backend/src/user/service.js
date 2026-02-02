@@ -3,18 +3,22 @@ import UserAccount from "./accountModel.js";
 import UserInfo from "./infoModel.js";
 import { sendNotificationToUser } from "../notification/service.js";
 
+/* 
+  Service layer:
+  Handles user business logic and database operations.
+  Called by the controller and returns structured results.
+*/
+
 // User login and profile existence check
 export const loginUser = async (userData) => {
     const foundUser = await UserAccount.findOne({ email: userData.email }); // Search user by email
-
     if (!foundUser) {
         return {
             status: false,
             message: "Invalid email or password"
         };
     }
-
-    if (userData.password !== foundUser.password) { 
+    if (userData.password !== foundUser.password) {
         return {
             status: false,
             message: "Invalid password"
@@ -26,15 +30,13 @@ export const loginUser = async (userData) => {
         id: foundUser._id,
         nome: foundUser.nome
     },
-        process.env.JWT_SECRET, { expiresIn: "1h" } 
+        process.env.JWT_SECRET, { expiresIn: "1h" }
     );
-
-    const profile = await UserInfo.findOne({ userId: foundUser._id }); 
-
+    const profile = await UserInfo.findOne({ userId: foundUser._id });
     return {
         status: true,
         message: "User validated",
-        hasProfileInfo: !!profile, // convert profile to boolean
+        hasProfileInfo: !!profile,
         token,
         user: {
             id: foundUser._id.toString(),
@@ -43,11 +45,11 @@ export const loginUser = async (userData) => {
     };
 };
 
-
+// Get profile information for a single user
 export const getUserProfileInfo = async (userId) => {
     const user = await UserInfo.findOne({ userId });
 
-    if (!user) return null; 
+    if (!user) return null;
 
     let ultimoPeso = null;
 
@@ -63,22 +65,20 @@ export const getUserProfileInfo = async (userId) => {
     };
 };
 
+// Get all users
 export const getAllUsers = async () => {
     return await UserInfo.find();
 };
 
+// Save profile information for a single user
 export const saveUserProfileInfo = async (userId, profileInfo) => {
     try {
         const { peso } = profileInfo;
-
         if (typeof peso !== "number" || isNaN(peso) || peso <= 0 || peso > 500) {
             return { status: false, message: "Peso inserito non valido" };
         }
-
         const existingProfile = await UserInfo.findOne({ userId });
-
-        if (existingProfile) { 
-
+        if (existingProfile) {
             existingProfile.eta = profileInfo.eta;
             existingProfile.peso = profileInfo.peso;
             existingProfile.altezza = profileInfo.altezza;
@@ -86,14 +86,12 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
             existingProfile.obiettivo = profileInfo.obiettivo;
             existingProfile.obiettivoPeso = profileInfo.obiettivoPeso;
             existingProfile.livelloAttivitaFisica = profileInfo.livelloAttivitaFisica;
-            await notifyWeight(existingProfile, peso);
+            await notifyWeight(existingProfile, peso); // Sends weight notify
             existingProfile.pesi.push({ peso: profileInfo.peso, data: new Date() });
-
             existingProfile.kcal = Math.round(kcalCalculator(profileInfo.eta, profileInfo.peso, profileInfo.sesso, profileInfo.altezza, profileInfo.livelloAttivitaFisica, profileInfo.obiettivo));
-
             await existingProfile.save();
         } else {
-            const newProfile = { 
+            const newProfile = {
                 ...profileInfo,
                 userId,
                 pesi: [{ peso: profileInfo.peso, data: new Date() }],
@@ -102,7 +100,6 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
             const newUser = new UserInfo(newProfile);
             await newUser.save();
         }
-
         return { status: true };
     } catch (err) {
         console.error(err);
@@ -110,11 +107,10 @@ export const saveUserProfileInfo = async (userId, profileInfo) => {
     }
 };
 
+// Calculate daily calorie need
 const kcalCalculator = (eta, peso, sesso, altezza, livelloAttivitaFisica, obiettivo) => {
-
     const bmr = BMR(eta, peso, sesso, altezza);
     const tdee = TDEE(bmr, livelloAttivitaFisica);
-
     if (obiettivo === "dimagrimento") {
         return tdee - 300;
     } else if (obiettivo === "mantenimento") {
@@ -124,6 +120,7 @@ const kcalCalculator = (eta, peso, sesso, altezza, livelloAttivitaFisica, obiett
     }
 };
 
+// Calculates Basal Metabolic Rate (BMR) 
 const BMR = (eta, peso, sesso, altezza) => {
     if (sesso === "maschio") {
         return 10 * peso + 6.25 * altezza - 5 * eta + 5;
@@ -132,6 +129,7 @@ const BMR = (eta, peso, sesso, altezza) => {
     }
 };
 
+// Calculates Total Daily Energy Expenditure (TDEE)
 const TDEE = (bmr, livelloAttivitaFisica) => {
     const fattori = {
         basso: 1.2,
@@ -147,14 +145,12 @@ export const notifyWeight = async (user, nuovoPeso) => {
     const pesoPrecedente = user.pesi[user.pesi.length - 1].peso;
     const obiettivo = user.obiettivo;
     const obiettivoPeso = user.obiettivoPeso;
-
     let payload;
-
     if (obiettivo === "dimagrimento") {
         if (nuovoPeso <= obiettivoPeso) {
             payload = {
                 title: "🎯 Obiettivo raggiunto!",
-                body: `Hai raggiunto il tuo obiettivo di ${obiettivoPeso} kg! Complimenti!`
+                body: `Complimenti! Hai raggiunto il tuo obiettivo di ${obiettivoPeso} kg! `
             }
         } else if (nuovoPeso < pesoPrecedente) {
             payload = {
@@ -173,7 +169,7 @@ export const notifyWeight = async (user, nuovoPeso) => {
         if (nuovoPeso >= obiettivoPeso) {
             payload = {
                 title: "🎯 Obiettivo raggiunto!",
-                body: `Hai raggiunto il tuo obiettivo di ${obiettivoPeso} kg! Complimenti!`
+                body: `Complimenti! Hai raggiunto il tuo obiettivo di ${obiettivoPeso} kg! `
             };
         } else if (nuovoPeso > pesoPrecedente) {
             payload = {
@@ -198,10 +194,10 @@ export const notifyWeight = async (user, nuovoPeso) => {
             return;
         }
     }
-
     await sendNotificationToUser(user.userId, payload);
 };
 
+// Get the user ID and name from the JWT
 export const getUserIdName = async (userId) => {
     const user = await UserAccount.findById(userId).select('_id nome');
     if (!user) throw new Error('Utente non trovato');

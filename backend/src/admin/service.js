@@ -4,7 +4,7 @@ import AdminAccount from "./infoModel.js";
 /* 
   Service layer:
   Handles admin business logic and database operations.
-  Called by controllers and returns structured results.
+  Called by the controller and returns structured results.
 */
 
 // Admin authentication

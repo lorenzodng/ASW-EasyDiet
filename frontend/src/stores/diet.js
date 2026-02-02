@@ -1,21 +1,17 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
+import { defineStore } from "pinia";
+import axios from "axios";
 
 export const useDietStore = defineStore('diets', {
+
+    // Hold the current diet object
     state: () => ({
         dieta: null,
     }),
 
-    getters: {
-        // Returns true if a diet is currently loaded
-        exists: (state) => !!state.dieta
-    },
-
+    // Methods for diet state
     actions: {
 
-        //Fetches the user's diet from the backend.The JWT token is used for security purposes, 
-        // ensuring that only the authenticated user can access their own diet.
-
+        // Get the diet for a specific user
         async fetchDiet(userId) {
             if (!userId)
                 return
@@ -24,8 +20,7 @@ export const useDietStore = defineStore('diets', {
                 return
 
             try {
-                const { data } = await axios.get(`http://localhost:5000/diets/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
-                // Assign the diet if it exists, otherwise reset it
+                const { data } = await axios.get(`http://localhost:5000/diets/${userId}`, { headers: { Authorization: `Bearer ${token}` } }); // Protected request: the token is sent in the Authorization header
                 this.dieta = data ?? null
             } catch (err) {
                 console.error("Errore nel recupero della dieta", err)
@@ -33,6 +28,7 @@ export const useDietStore = defineStore('diets', {
             }
         },
 
+        // Delete the diet for a specific user
         async deleteDiet(userId) {
             try {
                 await axios.delete(`http://localhost:5000/diets/${userId}`);
@@ -42,6 +38,7 @@ export const useDietStore = defineStore('diets', {
             }
         },
 
+        // Reset the diet state
         reset() {
             this.dieta = null
         }

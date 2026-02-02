@@ -2,7 +2,6 @@
   import { useDietStore } from "../../../stores/diet.js";
 
   const dietStore = useDietStore();
-
   const props = defineProps({
     userId: {
       type: String,
@@ -12,10 +11,10 @@
 
   const emit = defineEmits(["deleted"]);
 
-  /**
-  * Deletes the diet associated with the given user.
-  * Asks for confirmation before proceeding.
-  * Emits a "deleted" event on success.
+  /*
+    Deletes the diet associated with the given user.
+    Asks for confirmation before proceeding.
+    Emits a "deleted" event on success.
   */
 
   const deleteDiet = async () => {

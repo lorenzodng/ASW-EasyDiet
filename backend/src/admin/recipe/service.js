@@ -3,7 +3,7 @@ import RecipeInfo from "../../recipes/infoModel.js";
 /* 
   Service layer:
   Handles dish business logic and database operations.
-  Called by controllers and returns structured results.
+  Called by the controller and returns structured results.
 */
 
 //Create new dish

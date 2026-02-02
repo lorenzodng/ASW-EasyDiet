@@ -1,4 +1,4 @@
-// Recipe structure inside diets
+// Recipe structure for diets
 
 import mongoose from "mongoose";
 
