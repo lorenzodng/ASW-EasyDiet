@@ -102,7 +102,6 @@ export const chatController = async (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
-
     res.write(`data: ${JSON.stringify({ role: "assistant", content: "Posso aiutarti solo con domande su dieta, nutrizione e pasti. 😊" })}\n\n`);
     res.write(`event: end\ndata: [DONE]\n\n`);
     res.end();
@@ -126,7 +125,7 @@ export const chatController = async (req, res) => {
     res.write(`event: end\ndata: [DONE]\n\n`);
     res.end();
   } catch (err) {
-    console.error("Errore LLM:", err);
+    console.error("Errore LLM: ", err);
     res.status(500).json({ error: "Errore interno" });
   }
 };

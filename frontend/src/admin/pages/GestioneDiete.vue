@@ -9,6 +9,11 @@
   const loading = ref(true);
   const error = ref("");
 
+  const capitalizeFirst = (text) => {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   // Load all the users with diet and diet informations
   const loadUsers = async () => {
     try {
@@ -54,7 +59,7 @@
       <tbody>
         <tr v-for="u in users" :key="u._id">
           <td>{{ u.email }}</td>
-          <td>{{ u.obiettivo }}</td>
+          <td>{{ capitalizeFirst(u.obiettivo) }}</td>
           <td>{{ u.kcal }}</td>
           <td class="actions">
             <VisualizzaDieta :userId="u._id" />
@@ -139,10 +144,6 @@
       &:nth-child(3) {
         text-align: center;
         padding-right: 145px;
-      }
-
-      &:nth-child(2) {
-        text-transform: capitalize;
       }
     }
 

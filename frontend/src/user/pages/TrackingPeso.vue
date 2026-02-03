@@ -37,7 +37,7 @@
   });
 
   // Visible weights
-  const pesiVisibili = computed(() => {
+  const VisibleWeights = computed(() => {
     if (expanded.value) {
       return weightHistory.value;
     } else {
@@ -65,7 +65,7 @@
       const achieved = initialWeight.value - currentWeight.value;
       percent = (achieved / total) * 100;
     }
-    if (weight.value === "aumento_peso") {
+    if (weight.value === "aumento peso") {
       const total = weightTarget.value - initialWeight.value;
       const achieved = currentWeight.value - initialWeight.value;
       percent = (achieved / total) * 100;
@@ -124,7 +124,7 @@
           <h3>Storico</h3>
 
           <ul v-if="weightHistory.length > 0">
-            <li v-for="(p, index) in pesiVisibili" :key="p.data" :class="{ 'current-weight': index === 0 }">
+            <li v-for="(p, index) in VisibleWeights" :key="p.data" :class="{ 'current-weight': index === 0 }">
               <span class="date">{{ new Date(p.data).toLocaleDateString() }}</span>
               <span class="peso">{{ p.peso }} kg</span>
             </li>

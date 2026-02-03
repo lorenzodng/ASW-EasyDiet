@@ -42,6 +42,6 @@ export const useUserStore = defineStore('user', {
         reset() {
             this.id = null
             this.nome = null
-        },
+        }
     }
 })

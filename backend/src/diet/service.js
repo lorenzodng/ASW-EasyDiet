@@ -97,7 +97,7 @@ export async function* generateChatResponse(messages) {
 
     }
   } catch (err) {
-    console.error("Errore Gemini SDK:", err);
+    console.error("Errore Gemini SDK: ", err);
     throw err;
   }
 };

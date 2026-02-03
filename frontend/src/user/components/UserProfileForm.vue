@@ -42,7 +42,7 @@
         <option disabled value="">Seleziona</option>
         <option value="dimagrimento">Dimagrimento</option>
         <option value="mantenimento">Mantenimento</option>
-        <option value="aumento_peso">Aumento di peso</option>
+        <option value="aumento peso">Aumento di peso</option>
       </select>
     </div>
 

@@ -33,7 +33,7 @@ const InfoSchema = new mongoose.Schema({
     },
     obiettivo: {
         type: String,
-        enum: ["dimagrimento", "mantenimento", "aumento_peso"],
+        enum: ["dimagrimento", "mantenimento", "aumento peso"],
         required: true
     },
     livelloAttivitaFisica: {

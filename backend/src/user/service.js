@@ -115,7 +115,7 @@ const kcalCalculator = (eta, peso, sesso, altezza, livelloAttivitaFisica, obiett
         return tdee - 300;
     } else if (obiettivo === "mantenimento") {
         return tdee;
-    } else if (obiettivo === "aumento_peso") {
+    } else if (obiettivo === "aumento peso") {
         return tdee + 300;
     }
 };
@@ -165,7 +165,7 @@ export const notifyWeight = async (user, nuovoPeso) => {
         } else {
             return;
         }
-    } else if (obiettivo === "aumento_peso") {
+    } else if (obiettivo === "aumento peso") {
         if (nuovoPeso >= obiettivoPeso) {
             payload = {
                 title: "🎯 Obiettivo raggiunto!",
