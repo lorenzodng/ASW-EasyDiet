@@ -11,6 +11,7 @@
   });
 
   const emit = defineEmits(["updated"]);
+
   const showForm = ref(false);
   const editDish = ref({ ...props.dish });
 
@@ -19,6 +20,7 @@
     showForm.value = true;
   };
 
+  // Update an existing dish
   const modifyDish = async (data) => {
     try {
       await axios.put(`http://localhost:5000/admin/dishes/${props.dish._id}`, data);
@@ -36,8 +38,7 @@
 
   <div v-if="showForm" class="modal-overlay" @click="showForm = false">
     <div class="modal-content" @click.stop>
-      <Form :model-value="editDish" @save="modifyDish" @cancel="showForm = false" :isModal="true"
-        class="modal-form" />
+      <Form :model-value="editDish" @save="modifyDish" @cancel="showForm = false" :isModal="true" class="modal-form" />
     </div>
   </div>
 </template>

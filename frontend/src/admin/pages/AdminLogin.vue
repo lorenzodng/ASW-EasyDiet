@@ -11,15 +11,16 @@
   const errors = reactive({
     token: false
   });
+
+  // Log in the admin
   const loginAdmin = async () => {
     error.value = "";
     loading.value = true;
-
     try {
       const { data } = await axios.post("http://localhost:5000/admin/login", { token: adminToken.value });
       if (data.status) {
-        localStorage.setItem("adminToken", data.tokenjwt);
-        router.push({ name: "AdminHome" }); // 
+        localStorage.setItem("adminToken", data.tokenjwt); // Store the admin JWT in localStorage to keep the session
+        router.push({ name: "AdminHome" });
       } else {
         error.value = "Token non valido";
         errors.token = true;

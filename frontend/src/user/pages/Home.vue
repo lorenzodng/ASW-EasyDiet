@@ -1,9 +1,9 @@
 <script setup>
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../../stores/user'
-  import { useDietStore } from "../../stores/diet"
+  import { useUserStore } from "../../stores/user";
+  import { useDietStore } from "../../stores/diet";
   import { ref, computed, onMounted } from "vue";
-  import axios from 'axios';
+  import axios from "axios";
   import AreaDieta from "../components/AreaDieta.vue";
   import HeaderHome from "../components/HeaderHome.vue";
   import LLMChat from "../components/LLMChat.vue";
@@ -13,17 +13,18 @@
   const userStore = useUserStore();
   const dietStore = useDietStore();
   const chatOpen = ref(false);
-  const userSesso = ref(null);
-  const userName = computed(() => userStore.nome); /// automatically updates when userStore.nome changes
+  const userSex = ref(null);
+  const userName = computed(() => userStore.nome); // Automatically updates when userStore.nome changes
 
   const readyText = computed(() => {
-    return userSesso.value === "maschio" ? "Sei pronto" : "Sei pronta";
+    return userSex.value === "maschio" ? "Sei pronto" : "Sei pronta";
   });
 
-  const fetchUserSesso = async (userId) => {
+  // Fetch the user's sex
+  const fetchUserSex = async (userId) => {
     try {
       const { data } = await axios.get(`http://localhost:5000/users/${userId}/profile`);
-      userSesso.value = data.sesso;
+      userSex.value = data.sesso;
     } catch (err) {
       console.error("Errore nel recupero del sesso:", err);
     }
@@ -37,13 +38,13 @@
     chatOpen.value = !chatOpen.value;
   };
 
-onMounted(async () => {
-  await userStore.fetchUser(router);
-  if (userStore.id) {
-    await dietStore.fetchDiet(userStore.id);
-    await fetchUserSesso(userStore.id);
-  }
-});
+  onMounted(async () => {
+    await userStore.fetchUser(router);
+    if (userStore.id) {
+      await dietStore.fetchDiet(userStore.id);
+      await fetchUserSex(userStore.id);
+    }
+  });
 
 </script>
 
@@ -79,11 +80,11 @@ onMounted(async () => {
       💬
     </button>
 
-    <AreaDieta v-if="dietStore.dieta" class="area-dieta-spacing" /> <!-- shown only if a diet exists -->
+    <AreaDieta v-if="dietStore.dieta" class="area-dieta-spacing" /> <!-- Shown only if a diet exists -->
 
     <LLMChat v-show="chatOpen" @close="chatOpen = false" />
 
-    <NotificationBanner v-if="userStore.id" /> <!-- shown only when the user ID exists -->
+    <NotificationBanner v-if="userStore.id" /> <!-- Shown only when the user ID exists -->
   </div>
 </template>
 

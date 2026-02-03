@@ -1,23 +1,25 @@
 <script setup>
-  import { useRouter } from "vue-router"
-  import logo from "../../assets/images/logo-easydiet.png"
+  import { useRouter } from "vue-router";
+  import logo from "./assets/images/logo-easydiet.png";
 
-  const router = useRouter()
+  // Welcome page of the application
+
+  const router = useRouter();
 
   const goToLogin = () => {
     router.push({ name: "Login" })
   }
 </script>
+
 <template>
   <div class="welcome">
     <img :src="logo" alt="EasyDiet logo" class="logo" />
-    <p class="subtitle">
-      Benvenuto su EasyDiet
-    </p>
+    <h1 class="subtitle">Benvenuto su EasyDiet</h1>
 
-    <p class="description">
+    <p class="description fadeInUp">
       Con EasyDiet puoi comporre la tua dieta personalizzata giorno per giorno,
-      scegliendo i piatti che preferisci in base alle tue preferenze e al tuo stile di vita.
+      scegliendo i piatti che preferisci in base alle tue preferenze e al tuo stile di vita,
+      e monitorare i tuoi progressi nel tempo per raggiungere i tuoi obiettivi di benessere.
     </p>
 
     <button class="login-button" @click="goToLogin">Accedi</button>
@@ -37,6 +39,9 @@
     border-radius: 10px;
     cursor: pointer;
     transition: all $transition-fast;
+    opacity: 0;
+    animation: fadeInUp 1.5s ease-out forwards;
+    animation-delay: 1.2s;
 
     &:hover {
       background-color: $green-hover;
@@ -63,22 +68,38 @@
   }
 
   .logo {
-    width: 350px;
-    height: auto;
-    margin-bottom: 8px;
+    width: 340px;
+    margin-bottom: 20px;
+    transform: translateX(-10px);
+  }
+
+  .fadeInUp {
+    animation: fadeInUp 1.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .subtitle {
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 12px;
+    font-size: 29px;
+    font-weight: 700;
+    margin-bottom: 16px;
   }
 
   .description {
-    max-width: 500px;
+    max-width: 540px;
     font-size: 18px;
-    line-height: 1.5;
-    opacity: 0.9;
-    margin-bottom: 20px;
+    line-height: 1.6;
+    opacity: 0.85;
   }
 </style>

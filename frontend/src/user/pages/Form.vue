@@ -1,14 +1,15 @@
 <script setup>
   import { reactive, onMounted } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../../stores/user'
-  import axios from "axios"
-  import UserProfileForm from "../components/UserProfileForm.vue"
-  import HeaderHome from "../components/HeaderHome.vue"
+  import { useUserStore } from "../../stores/user";
+  import axios from "axios";
+  import UserProfileForm from "../components/UserProfileForm.vue";
+  import HeaderHome from "../components/HeaderHome.vue";
 
   const router = useRouter();
   const userStore = useUserStore();
 
+  // User's profile information
   const userInfo = reactive({
     eta: "",
     peso: "",
@@ -19,8 +20,8 @@
     obiettivoPeso: ""
   });
 
+  // Saves user's informations
   const saveInfo = async () => {
-    // check that all fields have been filled in
     if (
       !userInfo.eta ||
       !userInfo.peso ||
@@ -33,10 +34,8 @@
       alert("Compila tutti i campi");
       return;
     }
-
     try {
-      const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, userInfo)
-
+      const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, userInfo);
       if (data.status) {
         router.push({ name: "Home" });
       }

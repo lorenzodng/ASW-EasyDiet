@@ -1,8 +1,6 @@
 <script setup>
   import axios from "axios";
 
-  // Props received from the parent component
-  // Contains the ID of the dish to be deleted
   const props = defineProps({
     dishId: {
       type: String,
@@ -11,21 +9,19 @@
   });
 
   const emit = defineEmits(["deleted"]);
-  //Deletes the selected dish after user confirmation.
-  const deleteDish = async () => {
-    const conferma = confirm("Sei sicuro di voler eliminare questo piatto?");
-    if (!conferma) return;
 
+  // Delete the selected dish
+  const deleteDish = async () => {
+    const conf = confirm("Sei sicuro di voler eliminare questo piatto?");
+    if (!conf) return;
     try {
       await axios.delete(
         `http://localhost:5000/admin/dishes/${props.dishId}`
       );
-
       emit("deleted", props.dishId);
-
     } catch (error) {
-      console.error("Errore eliminazione piatto:", error);
-      alert("Errore durante l'eliminazione");
+      console.error("Errore eliminazione piatto: ", error);
+      alert("Errore eliminazione");
     }
   };
 </script>

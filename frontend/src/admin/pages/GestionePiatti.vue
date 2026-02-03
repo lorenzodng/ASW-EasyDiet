@@ -22,10 +22,8 @@
     showDishModal.value = false;
     dishDetail.value = null;
   };
-  /**
-    * This method is reused after create, update and delete operations
-    * to keep the list in sync.
-   */
+
+  // Load all the dishes
   const loadDishes = async () => {
     try {
       loading.value = true;

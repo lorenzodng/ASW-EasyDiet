@@ -1,11 +1,11 @@
 <script setup>
-  import { ref, onMounted } from "vue"
-  import { useUserStore } from "../../stores/user"
-  import { useDietStore } from "../../stores/diet"
+  import { ref, onMounted } from "vue";
+  import { useUserStore } from "../../stores/user";
+  import { useDietStore } from "../../stores/diet";
   import { useRouter } from "vue-router";
-  import axios from "axios"
-  import HeaderHome from "../components/HeaderHome.vue"
-  import UserProfileForm from "../components/UserProfileForm.vue"
+  import axios from "axios";
+  import HeaderHome from "../components/HeaderHome.vue";
+  import UserProfileForm from "../components/UserProfileForm.vue";
 
   const router = useRouter();
   const userStore = useUserStore()  // to request from the backend the data of the specific user 
@@ -16,6 +16,17 @@
   const isEditing = ref(false);
   const editInfo = ref(null); // copy of the user info used while editing
 
+  const edit = () => {
+    editInfo.value = { ...info.value };
+    isEditing.value = true;
+  };
+
+  const cancelInfo = () => {
+    editInfo.value = null;
+    isEditing.value = false;
+  };
+
+  // Load user's infromations
   const getProfileInfo = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`)
@@ -27,11 +38,7 @@
     }
   }
 
-  const edit = () => {
-    editInfo.value = { ...info.value };
-    isEditing.value = true;
-  };
-
+  // Update user's informations
   const saveInfo = async () => {
     try {
       const { data } = await axios.post(`http://localhost:5000/users/${userStore.id}/profile`, editInfo.value);
@@ -46,19 +53,11 @@
       alert("Errore nel salvataggio");
     }
   };
-  // cancel editing and restore original data
-  const cancelInfo = () => {
-    isEditing.value = false;
-    editInfo.value = null;
-  };
 
-  onMounted(() => {
-    const init = async () => {
-      await userStore.fetchUser(router);
-      await getProfileInfo();
-      await dietStore.fetchDiet(userStore.id);
-    };
-    init();
+  onMounted(async () => {
+    await userStore.fetchUser(router);
+    await getProfileInfo();
+    await dietStore.fetchDiet(userStore.id);
   });
 </script>
 
@@ -96,7 +95,7 @@
       </div>
 
       <div class="actions" v-if="!isEditing">
-        <button @click="edit">✏️ Modifica</button>
+        <button @click="edit" class="modify">✏️ Modifica</button>
       </div>
     </div>
   </div>
@@ -135,6 +134,7 @@
 
     p {
       font-size: 16px;
+      line-height: 1.8;
     }
 
     .save {
@@ -177,6 +177,26 @@
       justify-content: center;
       gap: 55px;
       margin-top: 70px;
+
+      .modify {
+        margin-top: -20px;
+        min-width: 120px;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 10px 18px 10px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all $transition-fast;
+
+        border: 1px solid $green-main;
+        background-color: $white;
+        color: $green-main;
+
+        &:hover {
+          background-color: $green-main;
+          color: $white;
+        }
+      }
     }
   }
 </style>

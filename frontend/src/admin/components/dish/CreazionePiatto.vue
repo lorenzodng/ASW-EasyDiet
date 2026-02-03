@@ -3,9 +3,9 @@
     import axios from "axios";
     import Form from "./Form.vue";
 
-    const showForm = ref(false);
     const emit = defineEmits(["saved"]);
 
+    const showForm = ref(false);
     const dish = ref({
         nome: "",
         categoria: "",
@@ -25,14 +25,11 @@
         ]
     });
 
-    /*Sends the new dish to the backend and resets the form on success.
-    Emits a "saved" event so the parent component can refresh the dishes list. */
+    // Save the new dish created
     const saveDish = async (data) => {
         try {
             const response = await axios.post("http://localhost:5000/admin/dishes", data);
-
             emit("saved", response.data);
-
             dish.value = {
                 nome: "",
                 categoria: "",
@@ -45,7 +42,6 @@
                     { descrizioneIntolleranze: "" }
                 ]
             };
-
             showForm.value = false;
         } catch (err) {
             console.error(err);

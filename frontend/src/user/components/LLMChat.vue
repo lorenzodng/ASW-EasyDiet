@@ -1,13 +1,16 @@
 <script setup>
-    import { ref, onMounted, watch, nextTick } from "vue";
-    import { marked } from 'marked';
+    import { ref, onMounted, nextTick } from "vue";
+    import { marked } from "marked";
+
+    const emit = defineEmits(["close"]);
+    const closeChat = () => emit("close"); // Emit close event
 
     const messages = ref([]);
-    const newMessage = ref(""); // Message typed by the user
-    const chatWidth = ref(560); // Chat sidebar width
+    const newMessage = ref("");
+    const chatWidth = ref(560);
     const messagesContainer = ref(null);
     const isResizing = ref(false);
-    const isSending = ref(false); // Prevents sending multiple messages while waiting for the LLM response
+    const isSending = ref(false);
     const formatMessage = (text) => marked.parse(text);
 
     const startResize = (e) => {
@@ -24,16 +27,14 @@
         chatWidth.value = window.innerWidth - e.clientX;
     };
 
-    // Send message to the backend
+    // Send the message to the LLM
     const sendMessage = () => {
-        if (!newMessage.value.trim() || isSending.value) return;
-
+        if (!newMessage.value.trim() || isSending.value)
+            return;
         messages.value.push({ role: "user", content: newMessage.value });
         newMessage.value = "";
         isSending.value = true;
-
-        const evtSource = new EventSource("http://localhost:5000/chat?messages=" + encodeURIComponent(JSON.stringify(messages.value))); //apre una connessione in streaming con il backend
-
+        const evtSource = new EventSource("http://localhost:5000/chat?messages=" + encodeURIComponent(JSON.stringify(messages.value))); // Opens a streaming connection with the backend
         let assistantMessage = { role: "assistant", content: "" }; // Create an empty assistant message
         messages.value.push(assistantMessage); //Push placeholder to show "Assistente:" immediately
 
@@ -47,6 +48,7 @@
                 content: messages.value[messages.value.length - 1].content + data.content
             };
 
+            // Scroll the chat container to the bottom after the DOM updates
             nextTick().then(() => {
                 if (messagesContainer.value) {
                     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
@@ -67,20 +69,22 @@
             evtSource.close();
         };
     };
+
     // Initialize the chat with a welcome message
-    onMounted(() => {
+    const initializeChat = () => {
         if (messages.value.length === 0) {
             messages.value.push({
                 role: "assistant",
                 content: "Ciao! Sono qui per aiutarti a gestire al meglio la tua alimentazione. Hai bisogno di generare una dieta, consigli su piatti o idee per i tuoi pasti? 😋"
             });
         }
-        window.addEventListener("mousemove", doResize); // Calls "doResize" while the user moves the mouse
-        window.addEventListener("mouseup", stopResize); // Stops resizing when the mouse is released
-    });
 
-    const emit = defineEmits(["close"]); // Define events emitted to the parent component
-    const closeChat = () => emit("close"); // Emit close event
+        // Add event listeners for resizing the chat
+        window.addEventListener("mousemove", doResize);
+        window.addEventListener("mouseup", stopResize);
+    };
+
+    onMounted(initializeChat);
 </script>
 
 <template>
@@ -96,6 +100,7 @@
         <div class="chat-messages" ref="messagesContainer">
             <div v-for="(msg, i) in messages" :key="i" :class="['message', msg.role]">
                 <div class="message-content">
+
                     <!-- User message bubble -->
                     <span v-if="msg.role === 'user'" class="bubble user">
                         <strong>Tu:</strong>
@@ -122,7 +127,6 @@
 <style scoped lang="scss">
 
     $chat-bg: #f9f9f9;
-
     $user-bubble-bg: #cce5ff;
     $assistant-bubble-bg: #d0f1bd;
 

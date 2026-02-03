@@ -1,7 +1,6 @@
 <script setup>
   import { useDietStore } from "../../../stores/diet.js";
 
-  const dietStore = useDietStore();
   const props = defineProps({
     userId: {
       type: String,
@@ -11,22 +10,15 @@
 
   const emit = defineEmits(["deleted"]);
 
-  /*
-    Deletes the diet associated with the given user.
-    Asks for confirmation before proceeding.
-    Emits a "deleted" event on success.
-  */
+  const dietStore = useDietStore();
 
+  // Delete the diet associated with the selected user
   const deleteDiet = async () => {
-
-    const conferma = confirm("Sei sicuro di voler eliminare la dieta di questo utente?");
-    if (!conferma) return;
-
+    const conf = confirm("Sei sicuro di voler eliminare la dieta di questo utente?");
+    if (!conf) return;
     try {
       await dietStore.deleteDiet(props.userId);
-
       emit("deleted", props.userId);
-
     } catch (error) {
       console.error("Errore eliminazione dieta:", error);
       alert("Errore durante l'eliminazione");

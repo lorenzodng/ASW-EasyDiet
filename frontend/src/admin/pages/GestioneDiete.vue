@@ -9,13 +9,11 @@
   const loading = ref(true);
   const error = ref("");
 
+  // Load all the users with diet and diet informations
   const loadUsers = async () => {
     try {
       loading.value = true;
       const { data } = await axios.get("http://localhost:5000/admin/users/info");
-      console.log("RISPOSTA API:", data.users);
-    console.log("PRIMO UTENTE:", data.users?.[0]);
-    console.log("EMAIL:", data.users?.[0]?.email);
       users.value = data.users.filter(u => u.obiettivo && u.kcal);
     } catch (err) {
       error.value = "Errore nel caricamento delle diete";
@@ -24,9 +22,7 @@
     }
   };
 
-  onMounted(() => {
-    loadUsers();
-  });
+  onMounted(loadUsers);
 </script>
 
 <template>

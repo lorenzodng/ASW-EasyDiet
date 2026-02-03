@@ -1,6 +1,6 @@
 <script setup>
-  import { useRouter } from "vue-router"
-  import logo from "../../assets/images/logo-easydiet.png"
+  import { useRouter } from "vue-router";
+  import logo from "../../assets/images/logo-easydiet.png";
 
   const router = useRouter();
 

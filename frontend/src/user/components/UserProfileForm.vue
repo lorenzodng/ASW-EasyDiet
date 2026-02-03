@@ -1,5 +1,7 @@
 <script setup>
-  // Receives and updates the parent form state via v-model
+
+  /* Reusable user informations form */
+
   const props = defineProps({
     modelValue: {
       type: Object,
@@ -9,7 +11,6 @@
 </script>
 
 <template>
-  <!-- Personal information form -->
   <div>
     <div class="form-field">
       <label>Età</label>

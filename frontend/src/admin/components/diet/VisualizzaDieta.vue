@@ -14,23 +14,18 @@
   const error = ref("");
   const diet = ref(null);
 
-  //Loads the weekly diet for the selected user.
-  //Opens the modal if the diet is found.
+  // Load the weekly diet for the selected user
   const loadDiet = async () => {
     try {
       loading.value = true;
       error.value = "";
-
       const { data } = await axios.get(`http://localhost:5000/diets/${props.userId}`);
-
       if (!data.status) {
         error.value = "Dieta non presente";
         return;
       }
-
       diet.value = data.data;
       showModal.value = true;
-
     } catch (err) {
       console.error(err);
       error.value = "Errore nel caricamento della dieta";

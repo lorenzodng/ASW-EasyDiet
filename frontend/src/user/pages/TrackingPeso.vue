@@ -1,29 +1,27 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from "../../stores/user"
-  import { useDietStore } from "../../stores/diet"
+  import { useUserStore } from "../../stores/user";
+  import { useDietStore } from "../../stores/diet";
   import axios from "axios";
-  import HeaderHome from "../components/HeaderHome.vue"
+  import HeaderHome from "../components/HeaderHome.vue";
 
   const router = useRouter();
   const userStore = useUserStore();
   const dietStore = useDietStore();
-
-  // Reactive state
-  const pesi = ref([]);
-  const obiettivoPeso = ref(0);
-  const obiettivo = ref("");
+  const weights = ref([]);
+  const weightTarget = ref(0);
+  const weight = ref("");
   const loading = ref(true);
   const expanded = ref(false);
 
+  // Load user's informations
   const loadUserInfo = async () => {
     try {
       const { data } = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
-
-      pesi.value = data.pesi || [];
-      obiettivoPeso.value = data.obiettivoPeso;
-      obiettivo.value = data.obiettivo;
+      weights.value = data.pesi || [];
+      weightTarget.value = data.obiettivoPeso;
+      weight.value = data.obiettivo;
     } catch (err) {
       console.error("Errore caricamento dati", err);
     } finally {
@@ -31,72 +29,66 @@
     }
   };
 
-  // Weight history sorted by date (latest first)
-  const storicoPesi = computed(() => {
-    return [...pesi.value].sort(
+  // Weight history
+  const weightHistory = computed(() => {
+    return [...weights.value].sort(
       (a, b) => new Date(b.data) - new Date(a.data)
     );
   });
 
-  // Visible weights (collapsed or expanded view)
+  // Visible weights
   const pesiVisibili = computed(() => {
     if (expanded.value) {
-      return storicoPesi.value;
+      return weightHistory.value;
     } else {
-      return storicoPesi.value.slice(0, 6);
+      return weightHistory.value.slice(0, 6);
     }
   });
 
-  const pesoIniziale = computed(() => {
-    return pesi.value.length ? pesi.value[0].peso : 0;
+  const initialWeight = computed(() => {
+    return weights.value.length ? weights.value[0].peso : 0;
   });
 
-  const pesoAttuale = computed(() => {
-    return pesi.value.length
-      ? pesi.value[pesi.value.length - 1].peso
+  const currentWeight = computed(() => {
+    return weights.value.length
+      ? weights.value[weights.value.length - 1].peso
       : 0;
   });
 
   // Progress percentage based on user goal
   const progress = computed(() => {
-    if (!pesi.value.length || !obiettivoPeso.value) return 0;
-
+    if (!weights.value.length || !weightTarget.value)
+      return 0;
     let percent = 0;
-
-    if (obiettivo.value === "dimagrimento") {
-      const totale = pesoIniziale.value - obiettivoPeso.value;
-      const fatto = pesoIniziale.value - pesoAttuale.value;
-      percent = (fatto / totale) * 100;
+    if (weight.value === "dimagrimento") {
+      const total = initialWeight.value - weightTarget.value;
+      const achieved = initialWeight.value - currentWeight.value;
+      percent = (achieved / total) * 100;
     }
-    if (obiettivo.value === "aumento_peso") {
-      const totale = obiettivoPeso.value - pesoIniziale.value;
-      const fatto = pesoAttuale.value - pesoIniziale.value;
-      percent = (fatto / totale) * 100;
+    if (weight.value === "aumento_peso") {
+      const total = weightTarget.value - initialWeight.value;
+      const achieved = currentWeight.value - initialWeight.value;
+      percent = (achieved / total) * 100;
     }
-    if (obiettivo.value === "mantenimento") {
-      const tolleranza = 1; // kg
-      const maxDiff = 8;   // out-of-range threshold
+    if (weight.value === "mantenimento") {
+      const tollerance = 1;
+      const maxDiff = 8;   // Out-of-range threshold
+      const diff = Math.abs(currentWeight.value - initialWeight.value);
 
-      const diff = Math.abs(pesoAttuale.value - pesoIniziale.value);
-
-      if (diff <= tolleranza) {
+      if (diff <= tollerance) {
         percent = 100;
       } else {
-        percent = 100 - ((diff - tolleranza) / maxDiff) * 100;
+        percent = 100 - ((diff - tollerance) / maxDiff) * 100;
       }
-    }  // Progress decreases as the user moves away from the target weight: +2 kg ≈ 80%, +4 kg ≈ 40%...
-
+    }  // Progress decreases as the user moves away from the target weight: +2 kg ≈ 80%, +4 kg ≈ 40% ...
     return Math.min(Math.max(Math.round(percent), 0), 100);
 
   });
 
-  onMounted(() => {
-    const init = async () => {
-      await userStore.fetchUser(router);
-      await loadUserInfo();
-      await dietStore.fetchDiet(userStore.id);
-    };
-    init();
+  onMounted(async () => {
+    await userStore.fetchUser(router);
+    await loadUserInfo();
+    await dietStore.fetchDiet(userStore.id);
   });
 </script>
 
@@ -109,8 +101,8 @@
       <p v-if="loading">Caricamento...</p>
 
       <div v-else>
-        <p><strong>Peso attuale:</strong> {{ pesoAttuale }} kg</p>
-        <p class="obiettivo"><strong>Obiettivo:</strong> {{ obiettivoPeso }} kg</p>
+        <p><strong>Peso attuale:</strong> {{ currentWeight }} kg</p>
+        <p class="obiettivo"><strong>Obiettivo:</strong> {{ weightTarget }} kg</p>
 
         <div class="progress-bar-container">
           <div class="progress-bar">
@@ -131,7 +123,7 @@
         <div class="storico">
           <h3>Storico</h3>
 
-          <ul v-if="storicoPesi.length > 0">
+          <ul v-if="weightHistory.length > 0">
             <li v-for="(p, index) in pesiVisibili" :key="p.data" :class="{ 'current-weight': index === 0 }">
               <span class="date">{{ new Date(p.data).toLocaleDateString() }}</span>
               <span class="peso">{{ p.peso }} kg</span>
@@ -142,7 +134,7 @@
             Nessun peso registrato
           </p>
 
-          <button v-if="storicoPesi.length > 4" class="toggle-storico" @click="expanded = !expanded">
+          <button v-if="weightHistory.length > 4" class="toggle-storico" @click="expanded = !expanded">
             {{ expanded ? 'Mostra meno' : 'Mostra tutti' }}
           </button>
 

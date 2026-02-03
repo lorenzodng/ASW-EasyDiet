@@ -1,4 +1,4 @@
-import Welcome from "../user/pages/Welcome.vue"
+import Welcome from "../Welcome.vue"
 import Form from "../user/pages/Form.vue"
 import Login from "../user/pages/Login.vue"
 import Home from "../user/pages/Home.vue"

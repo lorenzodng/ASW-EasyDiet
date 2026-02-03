@@ -5,7 +5,7 @@
   <router-view />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
   #app {
     background-color: $green-light;
     min-height: 100vh;

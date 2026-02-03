@@ -4,12 +4,13 @@
     const props = defineProps({
         user: { type: Object, required: true }
     });
+
     const emit = defineEmits(["deleted"]);
 
+    // Delete the selected user
     const deleteUser = async () => {
-        const conferma = confirm(`Sei sicuro di eliminare l'utente ${props.user.nome}?`);
-        if (!conferma) return;
-
+        const conf = confirm(`Sei sicuro di eliminare l'utente ${props.user.nome}?`);
+        if (!conf) return;
         try {
             const { data } = await axios.delete(`http://localhost:5000/admin/users/${props.user._id}`);
             if (data.status) {

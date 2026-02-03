@@ -1,6 +1,6 @@
 <script setup>
-  import NavBar from './NavBar.vue';
-  import logo from '../../assets/images/logo-easydiet.png'
+  import NavBar from "./NavBar.vue";
+  import logo from "../../assets/images/logo-easydiet.png";
 
   const props = defineProps({
     userName: {

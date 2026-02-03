@@ -1,20 +1,30 @@
 <script setup>
   import { reactive, ref, onMounted, computed } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../../stores/user';
+  import { useUserStore } from "../../stores/user";
   import axios from "axios";
-  import HeaderHome from "../components/HeaderHome.vue"
+  import HeaderHome from "../components/HeaderHome.vue";
 
   const router = useRouter();
   const userStore = useUserStore();
   const days = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
   const kcalUser = ref(0);
-  const userDiet = reactive({}); // diet built by the user, organized by day
-  const selectedDayIndex = ref(0); // index of the currently selected day 
-  const currentDay = computed(() => days[selectedDayIndex.value]); // current day labe
+  const userDiet = reactive({}); // Diet built by the user
+  const selectedDayIndex = ref(0);
+  const currentDay = computed(() => days[selectedDayIndex.value]);
   const openDishes = ref(new Set());
 
-  // contains all dishes fetched from the database, grouped by meal type
+  // Initialize the user's diet object with empty meals for each day of the week
+  days.forEach((day) => {
+    userDiet[day] = {
+      colazione: { dish: null, time: "" },
+      pranzo: { dish: null, time: "" },
+      merenda: { dish: null, time: "" },
+      cena: { dish: null, time: "" }
+    };
+  });
+
+  // Contains all dishes fetched from the database, grouped by meal type
   const mealsByType = reactive({
     colazione: [],
     pranzo: [],
@@ -27,15 +37,7 @@
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  days.forEach((day) => { // for each day of the week
-    userDiet[day] = { // creates a key-value pair with the weekday as key and meal categories as value
-      colazione: { dish: null, time: "" },
-      pranzo: { dish: null, time: "" },
-      merenda: { dish: null, time: "" },
-      cena: { dish: null, time: "" }
-    };
-  });
-
+  // Loads the user's daily calories
   const getKcal = async () => {
     try {
       const resProfile = await axios.get(`http://localhost:5000/users/${userStore.id}/profile`);
@@ -46,24 +48,24 @@
     }
   }
 
+  // Load all the dishes and categorize them by meal type
   const getDishes = async () => {
     try {
       const res = await axios.get("http://localhost:5000/dishes");
       res.data.dishes.forEach((piatto) => {
         const piattoScalato = scaleDish(piatto, piatto.categoria);
-        mealsByType[piatto.categoria].push(piattoScalato); // insert the dish into the correct category array
+        mealsByType[piatto.categoria].push(piattoScalato); // Insert the dish into the correct category array
       });
     } catch (error) {
       console.error("Errore caricamento piatti:", error);
     }
   }
 
-  // returns the user's calorie target based on meal category
+  // Returns the user's calorie target based on meal category
   const getTargetKcal = (categoria) => {
     if (!kcalUser.value) {
       return 0;
     }
-
     switch (categoria) {
       case "colazione": return Math.round(kcalUser.value * 0.25);
       case "pranzo": return Math.round(kcalUser.value * 0.35);
@@ -73,13 +75,13 @@
     }
   };
 
+  //Save the created diet
   const saveDiet = async () => {
     try {
       const { data } = await axios.post("http://localhost:5000/diets", {
         userId: userStore.id,
         settimana: userDiet
       });
-
       if (data.status) {
         router.push({ name: "Home" });
       }
@@ -89,44 +91,41 @@
     }
   };
 
-  // collapsible menu for dish details
+  // Collapsible menu for dish details
   const toggleDish = (id) => {
-    if (openDishes.value.has(id)) { // if the dish is already open
-      openDishes.value.delete(id); // close that dish's details
-    } else { // otherwise open the dish details
+    if (openDishes.value.has(id)) {
+      openDishes.value.delete(id);
+    } else {
       openDishes.value.add(id);
     }
   };
 
+  // Scale the dish ingredients and calories according to the target kcal for the meal category
   const scaleDish = (piatto, categoria) => {
     const targetKcal = getTargetKcal(categoria);
-    if (!targetKcal || !piatto.kcal) return { ...piatto, kcalTotali: piatto.kcal };
-
+    if (!targetKcal || !piatto.kcal)
+      return { ...piatto, kcalTotali: piatto.kcal };
     const fattore = targetKcal / piatto.kcal;
-
     const ingredientiScalati = piatto.ingredienti.map(ing => ({
       ...ing,
       peso: Math.round(ing.peso * fattore),
       kcal: Math.round(ing.kcal * fattore)
     }));
-
     const kcalTotali = ingredientiScalati.reduce((acc, ing) => acc + ing.kcal, 0);
-
     return {
       ...piatto,
       ingredienti: ingredientiScalati,
-      kcalTotali // add the kcalTotali property
+      kcalTotali
     };
   };
 
+  // Return a textual description of the dish based on how its calories compare to the target
   const descrizioneKcal = (piatto) => {
     if (!piatto.kcalTotali || !piatto.categoria) {
       return '';
     }
-
     const target = getTargetKcal(piatto.categoria);
     const percentuale = ((piatto.kcalTotali - target) / target) * 100;
-
     if (percentuale < -10) return "Opzione leggera";
     if (percentuale <= 10) return "Opzione equilibrata";
     if (percentuale > 10) return "Opzione abbondante";
@@ -152,14 +151,10 @@
     return imageName ? `/images/dishes/${imageName}` : '';
   };
 
-
-  onMounted(() => {
-    const init = async () => {
-      await userStore.fetchUser(router);
-      await getKcal();
-      await getDishes();
-    };
-    init();
+  onMounted(async () => {
+    await userStore.fetchUser(router);
+    await getKcal();
+    await getDishes();
   });
 </script>
 
@@ -168,6 +163,7 @@
   <div class="componi-dieta">
     <div class="day-block">
       <h2 class="day-title">{{ capitalizeFirst(currentDay) }}</h2>
+
       <!-- updates automatically when selectedDayIndex changes -->
       <div class="legend">
         <div class="legend-item">
@@ -187,7 +183,7 @@
         :class="mealCategory">
 
         <!-- Vue generates 4 blocks, one for each meal category -->
-        <h3>{{ mealCategory }}</h3> <!-- displays the current meal name -->
+        <h3>{{ mealCategory }}</h3>
 
         <h3>Target calorico: {{ getTargetKcal(mealCategory) }} kcal</h3>
 
@@ -198,17 +194,17 @@
 
 
         <div v-for="piatto in mealsByType[mealCategory]" :key="piatto._id" class="dish-option">
-          <!--Radio buttons allow a single choice per meal.
+
+          <!-- Radio buttons allow a single choice per meal.
           :name creates a unique group per day and meal.
           :value binds the selected dish.
-          v-model saves the dish for the selected day and meal.-->
+          v-model saves the dish for the selected day and meal. -->
           <div class="dish-header">
             <label class="dish-label">
               <input type="radio" :name="`${currentDay}-${mealCategory}`" :value="piatto"
                 v-model="userDiet[currentDay][mealCategory].dish" />
 
               <img class="dish-img" :src="getDishImage(piatto.immagine)" :alt="piatto.nome" />
-
 
               {{ piatto.nome }}
             </label>

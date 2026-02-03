@@ -12,9 +12,9 @@
         showForm.value = !showForm.value;
     };
 
-    const submitUser = async () => {
+    // Save the new user created
+    const saveUser = async () => {
         error.value = "";
-
         try {
             const { data } = await axios.post("http://localhost:5000/admin/users", newUser.value);
             if (data.status) {
@@ -33,7 +33,7 @@
 <template>
     <button class="add" @click="toggleForm">➕ Aggiungi utente</button>
 
-    <form v-if="showForm" class="user-form" @submit.prevent="submitUser">
+    <form v-if="showForm" class="user-form" @submit.prevent="saveUser">
         <input type="text" placeholder="Nome" v-model="newUser.nome" required />
         <input type="email" placeholder="Email" v-model="newUser.email" required />
         <input type="password" placeholder="Password" v-model="newUser.password" required />
@@ -42,6 +42,7 @@
 
     <p v-if="error" class="error">{{ error }}</p>
 </template>
+
 <style scoped lang="scss">
 
     .add {

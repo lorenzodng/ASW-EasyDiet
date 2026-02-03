@@ -1,6 +1,8 @@
 <script setup>
     import { ref, watch } from "vue";
 
+    /* Reusable dish form */
+
     const props = defineProps({
         modelValue: {
             type: Object,
@@ -21,26 +23,21 @@
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-    //Updates the forms when modelValue changes (modify plate)
-    watch(
-        () => props.modelValue,
-        (val) => {
-            const copy = JSON.parse(JSON.stringify(val));
-
-            if (Array.isArray(copy.ingredienti)) {
-                copy.ingredienti = copy.ingredienti.map((ing) => ({
-                    ...ing,
-                    nome: capitalizeFirst(ing.nome)
-                }));
-            }
-
-            form.value = copy;
-        },
+    // Update the forms when modelValue changes
+    watch(() => props.modelValue, (val) => {
+        const copy = JSON.parse(JSON.stringify(val));
+        if (Array.isArray(copy.ingredienti)) {
+            copy.ingredienti = copy.ingredienti.map((ing) => ({
+                ...ing,
+                nome: capitalizeFirst(ing.nome)
+            }));
+        }
+        form.value = copy;
+    },
         { immediate: true }
     );
 
-
-    //Adds a new empty ingredient row to the dish form
+    // Add a new empty ingredient row to the dish form
     const addIngredient = () => {
         form.value.ingredienti.push({
             nome: "",
@@ -49,6 +46,7 @@
         });
     };
 
+    // Remove an ingredient row from the dish form
     const removeIngredient = (index) => {
         form.value.ingredienti.splice(index, 1);
     };

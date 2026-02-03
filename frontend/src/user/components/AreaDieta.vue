@@ -5,7 +5,7 @@
 
   const userStore = useUserStore();
   const dietStore = useDietStore();
-  const dietaPulita = computed(() => dietStore.dieta?.data ?? null);
+  const diet = computed(() => dietStore.dieta?.data ?? null);
   const loading = ref(true);
   const error = ref("");
   const currentDayIndex = ref(0);
@@ -61,15 +61,15 @@
             {{ meal }}
           </span>
 
-          <div v-if="dietaPulita && dietaPulita.settimana[days[currentDayIndex]][meal].dish">
+          <div v-if="diet && diet.settimana[days[currentDayIndex]][meal].dish">
             <p>
               <strong>
-                {{ dietaPulita.settimana[days[currentDayIndex]][meal].dish.nome }}
+                {{ diet.settimana[days[currentDayIndex]][meal].dish.nome }}
               </strong>
             </p>
 
             <ul>
-              <li v-for="(ing, i) in dietaPulita.settimana[days[currentDayIndex]][meal].dish.ingredienti" :key="i"> {{
+              <li v-for="(ing, i) in diet.settimana[days[currentDayIndex]][meal].dish.ingredienti" :key="i"> {{
                 capitalizeFirst(ing.nome) }} – {{ ing.peso }} g </li>
             </ul>
           </div>
@@ -118,7 +118,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 14px $gray-shadow;
+      box-shadow: 0 14px 28px $gray-shadow;
     }
 
     .meal-badge {

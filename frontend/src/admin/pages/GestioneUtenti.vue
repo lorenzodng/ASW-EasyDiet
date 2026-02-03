@@ -15,6 +15,7 @@
     users.value = users.value.filter(u => u._id !== id);
   };
 
+  // Load all the users
   const loadUsers = async () => {
     try {
       const { data } = await axios.get("http://localhost:5000/admin/users");
@@ -80,8 +81,8 @@
 </template>
 
 <style scoped lang="scss">
-  $gray-empty: #777;
 
+  $gray-empty: #777;
   $box-shadow-topbar: 0 6px 16px $gray-shadow;
 
   .admin-page {

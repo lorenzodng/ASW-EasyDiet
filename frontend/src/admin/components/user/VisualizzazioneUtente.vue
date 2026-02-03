@@ -2,13 +2,17 @@
     import { ref } from "vue";
     import axios from "axios";
 
-    const props = defineProps({ user: { type: Object, required: true } });
+    const props = defineProps({
+        user: { type: Object, required: true }
+    });
+
     const emit = defineEmits([]);
 
     const showUserModal = ref(false);
     const userInfo = ref(null);
     const loadingInfo = ref(false);
 
+    // Loads the user's profile information into a modal
     const openUserModal = async () => {
         showUserModal.value = true;
         loadingInfo.value = true;
@@ -70,7 +74,9 @@
         </div>
     </div>
 </template>
+
 <style scoped lang="scss">
+
     $green-strong: #38973d;
 
     .modal-overlay {

@@ -1,14 +1,13 @@
 <script setup>
   import { ref, reactive } from "vue";
   import { useRouter } from "vue-router";
-  import { useUserStore } from '../../stores/user';
+  import { useUserStore } from "../../stores/user";
   import axios from "axios";
 
-  const router = useRouter(); // Vue Router instance used to navigate after login page
-  const userStore = useUserStore() /// Pinia store
+  const router = useRouter();
+  const userStore = useUserStore();
   const errorMsg = ref("");
 
-  // Reactive object
   const user = reactive({
     email: "",
     password: ""
@@ -19,16 +18,21 @@
     password: false
   });
 
-  const loginData = async () => {
+  const goToAdmin = () => {
+    router.push({ name: "AdminLogin" });
+  };
+
+  // Log in the user
+  const loginUser = async () => {
     try {
-      const { data } = await axios.post("http://localhost:5000/login", user); // Send login request to the backend with user credentials
+      const { data } = await axios.post("http://localhost:5000/login", user);
       if (data.status) {
-        userStore.setUser(data.user) // Save user data in the store and token in localStorage
-        localStorage.setItem("token", data.token);
-        if (data.hasProfileInfo) { // Redirect based on profile
+        userStore.setUser(data.user) // Save user data in the store
+        localStorage.setItem("token", data.token); // Store the user JWT in localStorage to keep the session
+        if (data.hasProfileInfo) {
           router.push({ name: "Home" });
         } else {
-          router.push({ name: "Form" });// Redirect to profile form if information is missing 
+          router.push({ name: "Form" });
         }
       } else {
         errors.email = true;
@@ -42,24 +46,19 @@
     }
   };
 
-  const goToAdmin = () => {
-    router.push({ name: "AdminLogin" });
-  };
-
 </script>
 
 <template>
   <div class="login-container">
     <div class="login-box">
       <h2>Login</h2>
-      <form @submit.prevent="loginData">
+      <form @submit.prevent="loginUser">
 
         <div class="form-group">
           <label for="email">Email</label>
           <input id="email" type="email" v-model="user.email" :class="['form-control', { 'error': errors.email }]"
             placeholder="Email">
         </div>
-
 
         <div class="form-group">
           <label for="password">Password</label>

@@ -1,4 +1,5 @@
 <script setup>
+
     const props = defineProps({
         show: Boolean,
         dish: Object

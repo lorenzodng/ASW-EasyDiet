@@ -5,6 +5,7 @@
     const props = defineProps({
         user: { type: Object, required: true }
     });
+
     const emit = defineEmits(["updated"]);
 
     const isEditing = ref(false);
@@ -20,7 +21,8 @@
         editEmail.value = "";
     };
 
-    const saveUser = async () => {
+    // Update an existing user
+    const modifyUser = async () => {
         try {
             const { data } = await axios.put(`http://localhost:5000/admin/users/${props.user._id}`, { email: editEmail.value });
             if (data.status) {
@@ -46,7 +48,7 @@
 
         <template v-else>
             <input type="email" v-model="editEmail" class="edit-input" />
-            <button class="icon" data-label="Salva" @click="saveUser">✔️</button>
+            <button class="icon" data-label="Salva" @click="modifyUser">✔️</button>
             <button class="icon" data-label="Annulla" @click="cancelEdit">❌</button>
         </template>
     </div>

@@ -1,8 +1,8 @@
 <script setup>
-  import { ref, onMounted, onBeforeUnmount } from "vue"
-  import { useRouter } from "vue-router"
-  import { useUserStore } from "../../stores/user"
-  import { useDietStore } from "../../stores/diet"
+  import { ref, onMounted, onBeforeUnmount } from "vue";
+  import { useRouter } from "vue-router";
+  import { useUserStore } from "../../stores/user";
+  import { useDietStore } from "../../stores/diet";
 
   const router = useRouter();
   const isOpen = ref(false);
@@ -61,14 +61,15 @@
     router.replace({ name: "Login" });
   };
 
+  // Remove the global click listener before the component is unmounted
   onBeforeUnmount(() => {
     document.removeEventListener("click", handleClickOutside);
   });
 
+  // Add a global click listener when the component is mounted
   onMounted(() => {
     document.addEventListener("click", handleClickOutside);
   });
-
 </script>
 
 <template>
@@ -78,6 +79,7 @@
     </button>
 
     <div v-if="isOpen" class="menu">
+
       <!-- Show all links when onlyLogout is false -->
       <template v-if="!props.onlyLogout">
         <router-link to="/home" @click="menu">🏠 Home</router-link>
@@ -110,7 +112,6 @@
 
   </div>
 </template>
-
 
 <style scoped lang="scss">
 

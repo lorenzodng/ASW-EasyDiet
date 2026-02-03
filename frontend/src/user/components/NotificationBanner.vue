@@ -1,24 +1,22 @@
 <script setup>
     import { ref, onMounted } from "vue"
-    import { useUserStore } from '../../stores/user'
-    import axios from "axios"
+    import { useUserStore } from "../../stores/user";
+    import axios from "axios";
 
-    const publicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY
-    const userStore = useUserStore()
-    const loading = ref(false) // Subscription process in progress
-    const error = ref(null) // Error message 
-    const success = ref(false) // Subscription completed successfully
-    const visible = ref(false) // Controls notification banner visibility
+    const publicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY; // VAPID public key
+    const userStore = useUserStore();
+    const loading = ref(false);
+    const error = ref(null);
+    const success = ref(false);
+    const visible = ref(false);
 
     // Checks whether notifications are already enabled for the user
     const checkNotifications = async () => {
         if (localStorage.getItem("notificationBannerDismissed")) {
             return;
         }
-
         try {
             const res = await axios.get(`http://localhost:5000/status-notification/${userStore.id}`);
-
             if (!res.data.notificationsEnabled) {
                 visible.value = true;
             }
@@ -35,14 +33,14 @@
                 error.value = null
 
                 // Register the Service Worker
-                const registration = await navigator.serviceWorker.register('./service-worker.js')
-                console.log('Service Worker registrato', registration)
+                const registration = await navigator.serviceWorker.register('./service-worker.js');
+                console.log('Service Worker registrato', registration);
+
                 // Create push subscription using VAPID public key 
-                const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyConverter(publicKey) })
+                const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyConverter(publicKey) });
 
                 // Save the subscription on the backend
                 await axios.post(`http://localhost:5000/subscribe-notification/${userStore.id}`, { subscription, notificationsEnabled: true });
-
                 success.value = true
                 setTimeout(() => {
                     visible.value = false;
@@ -59,9 +57,10 @@
                 loading.value = false;
             }
         } else {
-            error.value = "Service Worker non supportato dal browser"
+            error.value = "Service Worker non supportato dal browser";
         }
     }
+
     // Converts VAPID public key from Base64 to Uint8Array (required by the browser)
     const keyConverter = (base64String) => {
         if (!base64String) {
@@ -78,16 +77,13 @@
         visible.value = false;
         localStorage.setItem("notificationBannerDismissed", "true");
         try {
-            // Create the subscription document
             await axios.post(`http://localhost:5000/subscribe-notification/${userStore.id}`, { notificationsEnabled: false });
         } catch (err) {
             console.error("Errore nel backend per dismiss banner:", err);
         }
     }
 
-    onMounted(() => {
-        checkNotifications();
-    })
+    onMounted(checkNotifications);
 </script>
 
 <template>
